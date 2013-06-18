@@ -13,11 +13,11 @@ if __name__ == '__main__':
         plg_name = sys.argv[1]
     except IndexError:
         print "./generate_mo <plg_name>"
-        return
+        sys.exit()
 
     if not os.path.exists(plg_name):
         print "{} is not existed".format(plg_name)
-        return
+        sys.exit()
 
     for l in lang:
         os.system('mkdir -p %s/locale/mo/%s/LC_MESSAGES' % (plg_name, l))
