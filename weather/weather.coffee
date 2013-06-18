@@ -169,14 +169,18 @@ class Weather extends Widget
         @more_city_menu.display_none()
         @global_desktop.style.display = "none"
 
-    weathergui_update: ->
+    weathergui_update: =>
             @global_desktop.style.display = "none"
 
             cityid = localStorage.getObject("cityid_storage")
-            clearInterval(@auto_weathergui_refresh)
-            @auto_weathergui_refresh = setInterval(@weathergui_refresh(cityid),600000)# ten minites update once 1800000   60000--60s
+            that = @
+            clearInterval(auto_weathergui_refresh)
+            auto_weathergui_refresh = setInterval(->
+                that.weathergui_refresh(cityid)
+            ,600000)# ten minites
 
     weathergui_refresh: (cityid)->
+        echo "refresh"
         callback_now = ->
             weather_data_now = localStorage.getObject("weatherdata_now_storage")
             @update_weathernow(weather_data_now)
@@ -199,10 +203,10 @@ class Weather extends Widget
         @city_now.textContent = weather_data_now.weatherinfo.city
 
         if temp_now == "\u6682\u65e0\u5b9e\u51b5"
-            @temperature_now_number.style.fontSize = 18;
+            @temperature_now_number.style.fontSize = 18
             @temperature_now_number.textContent = _("None")
         else
-            @temperature_now_number.style.fontSize = 36;
+            @temperature_now_number.style.fontSize = 36
             if temp_now < -10
                 @temperature_now_minus.style.opacity = 0.8
                 @temperature_now_number.textContent = -temp_now
