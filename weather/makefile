@@ -1,13 +1,13 @@
 name = weather
 # com_dir = ../../..//common/js
-com_dir = /usr/share/dde/resources/common/js
+COM_DIR ?= /usr/share/dde/resources/common/js
 
-com_coffee = $(wildcard $(com_dir)/*.coffee)
+COM_COFFEE = $(wildcard $(COM_DIR)/*.coffee)
 
 all: compile generate_mo
 
 
-compile: ${com_coffee} $(wildcard ./*.coffee)
+compile: $(COM_COFFEE) $(wildcard ./*.coffee)
 	coffee -cj weather.js $^
 
 generate_mo:

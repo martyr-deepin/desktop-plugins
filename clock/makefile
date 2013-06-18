@@ -1,5 +1,5 @@
 # com_dir = ../../../common/js
-com_dir = /usr/share/dde/resources/common/js
+COM_DIR ?= /usr/share/dde/resources/common/js
 
-all: ${com_dir}/utils.coffee ${com_dir}/module.coffee ${com_dir}/widget.coffee  ${com_dir}/animation.coffee clock.coffee
+all: $(wildcard $(COM_DIR)/*.coffee) clock.coffee
 	coffee -cj clock.js $^
