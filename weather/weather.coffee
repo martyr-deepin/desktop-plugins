@@ -173,9 +173,11 @@ class Weather extends Widget
             @global_desktop.style.display = "none"
 
             cityid = localStorage.getObject("cityid_storage")
+            @weathergui_refresh(cityid)
             that = @
             clearInterval(auto_weathergui_refresh)
             auto_weathergui_refresh = setInterval(->
+                cityid = localStorage.getObject("cityid_storage")
                 that.weathergui_refresh(cityid)
             ,600000)# ten minites
 
