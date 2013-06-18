@@ -39,6 +39,9 @@ class ClientCityId
 
                                     cityid_client = allname.data[provin].city[ci].code
                                     # echo "cityid_client:"+ cityid_client
+                                    common_dists[0].name = cityname_client
+                                    common_dists[0].id = cityid_client
+                                    localStorage.setObject("common_dists_storage",common_dists)
                                     localStorage.setItem("cityid_storage",cityid_client)
                                     callback()
 

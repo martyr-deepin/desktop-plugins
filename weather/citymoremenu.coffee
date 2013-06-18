@@ -225,7 +225,7 @@ class CityMoreMenu extends Widget
                             return
 
                     times = localStorage.getObject("times_dist_choose_storage")
-                    times_dist_choose = if !times then 0 else times
+                    times_dist_choose = if times == null then 1 else times
 
                     common_dists[times_dist_choose].name = data[distvalue].name
                     common_dists[times_dist_choose].id = data[distvalue].data
