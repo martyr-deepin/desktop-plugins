@@ -14,16 +14,17 @@ if __name__ == '__main__':
         plg_name = sys.argv[1]
     except IndexError:
         print "./update_po <plg_name>"
-        return
+        sys.exit()
 
     if not os.path.exists(plg_name):
         print "{} is not existed".format(plg_name)
-        return
+        sys.exit()
 
     for l in lang:
         os.system("mkdir -p %s/locale/po/%s" % (plg_name, l))
         os.system("touch %s/locale/po/%s/%s.po" % (plg_name, l, name))
 
         cmd= "xgettext --from-code=utf-8 -L python -j -o %s/locale/po/%s/%s.po %s"\
-                % (plg_name, l, name, " ".join(glob.glob("*.coffee")))
+                % (plg_name, l, name, " ".join(glob.glob("{}/*.coffee".format(
+                    plg_name))))
         os.system(cmd)

@@ -1,4 +1,4 @@
-name = weahter
+name = weather
 # com_dir = ../../..//common/js
 com_dir = /usr/share/dde/resources/common/js
 
@@ -11,7 +11,7 @@ compile: ${com_coffee} $(wildcard ./*.coffee)
 	coffee -cj weather.js $^
 
 generate_mo:
-	python ../generate_mo $(name)
+	cd ../; python ./generate_mo $(name)
 
 update_po:
-	python ../update_po $(name)
+	cd ../; python ./update_po $(name)
