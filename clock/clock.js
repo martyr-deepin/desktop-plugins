@@ -418,7 +418,7 @@
 
   })(Widget);
 
-  plugin = PluginManager.get_plugin("clock");
+  plugin = window.PluginManager.get_plugin("clock");
 
   plugin.inject_css("clock");
 

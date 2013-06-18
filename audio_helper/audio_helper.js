@@ -436,7 +436,7 @@
       this.element.style.display = "block";
       if (n > this.current_value) {
         while (n > this.current_value) {
-          this.lines[this.current_value++].style.background = "#23fff8";
+          this.lines[this.current_value++].style.background = "#c6edff";
         }
       } else if (n < this.current_value) {
         while (n < this.current_value) {
@@ -533,7 +533,7 @@
 
   })(Widget);
 
-  plugin = PluginManager.get_plugin("audio_helper");
+  plugin = window.PluginManager.get_plugin("audio_helper");
 
   plugin.inject_css("audio_helper");
 
