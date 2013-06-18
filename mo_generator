@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+lang = ["zh_CN", "zh_TW"]
+
+name = 'weather'
+
+import os
+import sys
+
+if __name__ == '__main__':
+
+    try:
+        plg_name = sys.argv[1]
+    except IndexError:
+        print "./generate_mo <plg_name>"
+        return
+
+    if not os.path.exists(plg_name):
+        print "{} is not existed".format(plg_name)
+        return
+
+    for l in lang:
+        os.system('mkdir -p %s/locale/mo/%s/LC_MESSAGES' % (plg_name, l))
+        os.system('msgfmt {0}/locale/po/{1}/{2}.po -o {0}/locale/mo/{1}/LC_MESSAGES/{2}.mo'.format(plg_name, l, name))

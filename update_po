@@ -1,0 +1,29 @@
+#!/usr/bin/python
+
+lang = ["zh_CN", "zh_TW"]
+
+name = 'weather'
+
+import os
+import glob
+import sys
+
+if __name__ == '__main__':
+
+    try:
+        plg_name = sys.argv[1]
+    except IndexError:
+        print "./update_po <plg_name>"
+        return
+
+    if not os.path.exists(plg_name):
+        print "{} is not existed".format(plg_name)
+        return
+
+    for l in lang:
+        os.system("mkdir -p %s/locale/po/%s" % (plg_name, l))
+        os.system("touch %s/locale/po/%s/%s.po" % (plg_name, l, name))
+
+        cmd= "xgettext --from-code=utf-8 -L python -j -o %s/locale/po/%s/%s.po %s"\
+                % (plg_name, l, name, " ".join(glob.glob("*.coffee")))
+        os.system(cmd)

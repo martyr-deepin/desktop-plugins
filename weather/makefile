@@ -11,3 +11,6 @@ compile: ${com_coffee} $(wildcard ./*.coffee)
 
 generate_mo:
 	python ./mo_generator
+
+update_po:
+	python ./update_po
