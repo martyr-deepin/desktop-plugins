@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-09 17:16+0800\n"
+"POT-Creation-Date: 2013-06-24 10:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,53 +18,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: citymoremenu.coffee:168 citymoremenu.coffee:144
+#: weather/citymoremenu.coffee:144
 msgid "province"
 msgstr "省"
 
 #: citymoremenu.coffee:169 citymoremenu.coffee:145
+#: weather/citymoremenu.coffee:145
 msgid "city"
 msgstr "市"
 
 #: citymoremenu.coffee:170 citymoremenu.coffee:146
+#: weather/citymoremenu.coffee:146
 msgid "county"
 msgstr "縣"
 
-#: weather.coffee:94 weather.coffee:91
+#: weather.coffee:94 weather.coffee:91 weather/weather.coffee:91
 msgid "choose city"
 msgstr "請選擇城市"
 
-#: weather.coffee:97 weather.coffee:94
+#: weather.coffee:97 weather.coffee:94 weather/weather.coffee:94
 msgid "loading"
 msgstr "載入中"
 
 #: weather.coffee:147 weather.coffee:217 weather.coffee:149
+#: weather/weather.coffee:149 weather/weather.coffee:226
 msgid "Sun"
 msgstr "星期日"
 
-#: weather.coffee:202 weather.coffee:203
+#: weather.coffee:202 weather.coffee:203 weather/weather.coffee:210
 msgid "None"
 msgstr "暫無"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Mon"
 msgstr "星期一"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Tue"
 msgstr "星期二"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Wed"
 msgstr "星期三"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Thu"
 msgstr "星期四"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Fri"
 msgstr "星期五"
 
-#: weather.coffee:217
+#: weather.coffee:217 weather/weather.coffee:226
 msgid "Sat"
 msgstr "星期六"
+
+#: weather/weather.coffee:208
+msgid ""
+" sorry, \n"
+" China Meteorological Administration \n"
+" don't provide the live weather data."
+msgstr ""

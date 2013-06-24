@@ -205,8 +205,11 @@ class Weather extends Widget
         @city_now.textContent = weather_data_now.weatherinfo.city
 
         if temp_now == "\u6682\u65e0\u5b9e\u51b5"
+            temp_str = _(" sorry, \n China Meteorological Administration \n don't provide the live weather data for this city.")
             @temperature_now_number.style.fontSize = 18
             @temperature_now_number.textContent = _("None")
+            @temperature_now_number.title = temp_str
+            # new ToolTip(@temperature_now_number,temp_str)
         else
             @temperature_now_number.style.fontSize = 36
             if temp_now < -10
