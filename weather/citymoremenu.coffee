@@ -118,9 +118,24 @@ class CityMoreMenu extends Widget
     more_city_build:(selectsize,bottom_distance,x1,y1,x2,y2,callback)->
         @add_common_city.addEventListener("click",=>
             @common_menu.style.display = "none"
-            @more_city_create(selectsize)
-            @set_menu_position(@lable_choose,bottom_distance,x1,y1,x2,y2,"block")
-            @change_chooseprov(callback)
+            # @more_city_create(selectsize)
+            # @set_menu_position(@lable_choose,bottom_distance,x1,y1,x2,y2,"block")
+            # @change_chooseprov(callback)
+
+            @search_city_build()
+            )
+    search_city_build:->
+        remove_element(@search) if @search
+        @search = create_element("div","search",@element)
+        @search.style.display = "block"
+
+        search_input = create_element("input","search_input",@search)
+        search_finish = create_element("button","search_finish",@search)
+        search_finish.value = "yes"
+
+        search_finish.addEventListener("click",=>
+            
+
             )
 
     more_city_create: (selectsize)->
