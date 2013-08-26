@@ -198,7 +198,7 @@ class CityMoreMenu extends Widget
 
     read_data_from_json: (id,callback) ->
         url = "#{plugin.path}/city/" + id + ".json"
-        ajax(url,(xhr)=>
+        ajax(url,true,(xhr)=>
             if xhr.responseText
                 data = JSON.parse(xhr.responseText)
                 @cityadd(data[id].data,callback)

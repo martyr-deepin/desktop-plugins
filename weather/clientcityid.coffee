@@ -23,7 +23,7 @@ class ClientCityId
         @url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
 
     Get_client_cityid: (callback)->
-        ajax(@url_clientcity_json, (xhr)=>
+        ajax(@url_clientcity_json,true, (xhr)=>
             try
                 client_cityjsonstr = xhr.responseText
                 remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
