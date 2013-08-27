@@ -53,9 +53,13 @@ class Weather extends Widget
         if 1
             place_name = "wuhan"
             yahooservice = new YahooService() 
-            yahooservice.get_woeid_by_place_name(place_name)
-            woeid = localStorage.getObject("woeid")
-            yahooservice.get_weather_data_by_woeid("123456789")
+            update = ->
+                echo "update"
+            callback = ->
+                woeid = localStorage.getObject("woeid")
+                yahooservice.get_weather_data_by_woeid(woeid,update.bind(@))
+            yahooservice.get_woeid_by_place_name(place_name,callback.bind(@))
+            
 
     testInternet_connect:=>
         cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")

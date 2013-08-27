@@ -21,36 +21,34 @@
 class YahooService
     APPID = "YiXRYM74"
     DEG = 'c'
-    # latitude = 37.42
-    # longitude = -122.12
-
-    # http://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places%20where%20text%20=%20%22wuhan%22&format=json
-    # woeid_url = "http://where.yahooapis.com/geocode?location= " + latitude + "," + longitude + "&flags=J&gflags=R&appid=" +  APPID
 
     constructor: ->
 
-    get_woeid_by_place_name:(place_name)->
+    get_woeid_by_place_name:(place_name,callback)->
         yql = 'select woeid from geo.places where text = "' + place_name + '"'
         xml_str = "http://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json"
-        ajax(xml_str,false,(xhr)=>
+        ajax(xml_str,true,(xhr)=>
             respose = JSON.parse(xhr.responseText)
+            echo respose.query.count
+            if respose.query.count is 0
+                echo "the " + place_name + " for yahoo api return null! please retry the place_name . return!"
+                return
             woeid = respose.query.results.place.woeid
-            if woeid
-                # echo "woeid:" + woeid
+            if woeid?
                 localStorage.setItem("woeid",woeid)
-                return woeid
+                callback?()
             else
                 echo "get_woeid_by_place_name xhr.responseText is error"
                 return
         )
 
-    get_weather_data_by_woeid:(woeid)->
+    get_weather_data_by_woeid:(woeid,callback)->
         echo "woeid:" + woeid
         if !woeid
             echo "woeid :" + woeid + ",return!"
             return
-        xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=c"
-        ajax(xml_str,false,(xhr)=>
+        xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + DEG
+        ajax(xml_str,true,(xhr)=>
             xmlDoc =  xhr.responseXML
             # echo xmlDoc
             title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
@@ -88,5 +86,5 @@ class YahooService
                 high[i] = forecast[i].getAttribute("high")
                 text[i] = forecast[i].getAttribute("text")
                 code[i] = forecast[i].getAttribute("code")
-            return true
+            callback?()
         )
