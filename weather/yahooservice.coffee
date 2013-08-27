@@ -19,7 +19,7 @@
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 class YahooService
-    APPID = "YiXRYM74"
+    APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
 
     constructor: ->
@@ -27,6 +27,9 @@ class YahooService
     get_woeid_by_place_name:(place_name,callback)->
         yql = 'select woeid from geo.places where text = "' + place_name + '"'
         xml_str = "http://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json"
+
+        xml1 = "http://where.yahooapis.com/v1/places.q('" + place_name + "')?appid=" + APPID
+
         ajax(xml_str,true,(xhr)=>
             respose = JSON.parse(xhr.responseText)
             echo respose.query.count

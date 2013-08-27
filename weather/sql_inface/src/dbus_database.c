@@ -68,7 +68,7 @@ void dbus_pinyin()
 	retry_reg_timeout_id = 0;
 	_retry_registration(NULL);
 
-    g_timeout_add_seconds( 15, do_exit, NULL );
+    /*g_timeout_add_seconds( 15, do_exit, NULL );*/
 	g_main_loop_run(loop);
 	g_main_loop_unref(loop);
 
