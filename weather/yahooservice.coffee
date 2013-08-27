@@ -36,7 +36,7 @@ class YahooService
             respose = JSON.parse(xhr.responseText)
             woeid = respose.query.results.place.woeid
             if woeid
-                echo "woeid:" + woeid
+                # echo "woeid:" + woeid
                 localStorage.setItem("woeid",woeid)
                 return woeid
             else
@@ -45,48 +45,48 @@ class YahooService
         )
 
     get_weather_data_by_woeid:(woeid)->
+        echo "woeid:" + woeid
+        if !woeid
+            echo "woeid :" + woeid + ",return!"
+            return
         xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=c"
         ajax(xml_str,false,(xhr)=>
-            xml =  xhr.responseXML
+            xmlDoc =  xhr.responseXML
+            # echo xmlDoc
+            title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
+            echo title
+            if title is "City not found"
+                echo "title:" + title + ",the return data is error ,return!"
+                return
+            location = xmlDoc.getElementsByTagNameNS("*","location")
+            city = location[0].getAttribute("city")
+            region = location[0].getAttribute("region")
+            country = location[0].getAttribute("country")
+            item  = xmlDoc.getElementsByTagName("title")
 
-            # selectNodeList()
-            condition = selectSingleNode('rss/channel/item/yweather:condition')
-            
-            weather_condition_ele = xml.getElementsByTagName("yweather:condition")[0].childNodes.getAttribute("code")
-            echo weather_condition_ele
-            # weather_condition = {}
-            # weather_condition["code"] = weather_condition_ele.childNodes.getAttribute("code")
+            units = xmlDoc.getElementsByTagNameNS("*","units")
+            temperature = units[0].getAttribute("temperature")
 
-            # weather_condition["text"] = code_icon_dict[int(weather_condition["code"])][1]
-            # weather_condition["temp"] = weather_condition_ele.getAttribute("temp") + "\u2103"
-            # weather_condition["pic"] = code_icon_dict[int(weather_condition["code"])][0]
-            # echo weather_condition["code"]
+            condition = xmlDoc.getElementsByTagNameNS("*","condition")
+            text_now = condition[0].getAttribute("text")
+            code_now = condition[0].getAttribute("code")
+            temp_now = condition[0].getAttribute("temp")
+            date_now = condition[0].getAttribute("date")
 
-
-            # weather_forecast = xml.getElementsByTagName("yweather:forecast")
-            # # echo weather_forecast.toString()
-            # # weather_condition = []
-            # location = xml.getElementsByTagName("yweather:location")
-            # echo location.nodeName
-            # lat = xml.getElementsByTagName("geo:lat")
-            # echo lat
-            # # city = location.getAttribute("city")
-            # # echo city
-
-            # for element,i of weather_forecast
-            #     ele = weather_forecast.item[i]
-            #     day = ele.getAttribute("day")
-            #     date = ele.getAttribute("date")
-            #     low = ele.getAttribute("low")
-            #     high = ele.getAttribute("high")
-            #     text = ele.getAttribute("text")
-            #     code = ele.getAttribute("code")
-            #     echo day + "," + date + "," + low + "," + high + "," + text + ","  + code + "."
-            #     weather_condition["forecast" + index] = {}
-            #     weather_condition["forecast" + index]["low"] = ele.getAttribute("low") + "~"
-            #     weather_condition["forecast" + index]["high"] = ele.getAttribute("high") + u"\u2103"
-            #     weather_condition["forecast" + index]["code"] = ele.getAttribute("code")
-            #     weather_condition["forecast" + index]["day"] = ele.getAttribute("day")
-            #     weather_condition["forecast" + index]["text"] = code_icon_dict[int(ele.getAttribute("code"))][1]
-            #     weather_condition["forecast" + index]["pic"] = code_icon_dict[int(ele.getAttribute("code"))][0]
+            forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
+            day = []
+            date = []
+            low = []
+            high = []
+            text = []
+            code = []
+            for i in [0..forecast.length-1]
+                # echo forecast[i]
+                day[i] = forecast[i].getAttribute("day")
+                date[i] = forecast[i].getAttribute("date")
+                low[i] = forecast[i].getAttribute("low")
+                high[i] = forecast[i].getAttribute("high")
+                text[i] = forecast[i].getAttribute("text")
+                code[i] = forecast[i].getAttribute("code")
+            return true
         )
