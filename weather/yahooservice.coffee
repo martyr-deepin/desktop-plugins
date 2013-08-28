@@ -26,23 +26,22 @@ class YahooService
 
     get_woeid_by_place_name:(place_name,callback)->
         yql = 'select woeid from geo.places where text = "' + place_name + '"'
-        xml_str = "http://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json"
-
-        xml1 = "http://where.yahooapis.com/v1/places.q('" + place_name + "')?appid=" + APPID
-
+        xml_str = "http://query.yahooapis.com/v1/public/yql?q=" + yql
+        # xml1 = "http://where.yahooapis.com/v1/places.q('" + place_name + "')?appid=" + APPID
         ajax(xml_str,true,(xhr)=>
-            respose = JSON.parse(xhr.responseText)
-            echo respose.query.count
-            if respose.query.count is 0
-                echo "the " + place_name + " for yahoo api return null! please retry the place_name . return!"
-                return
-            woeid = respose.query.results.place.woeid
-            if woeid?
-                localStorage.setItem("woeid",woeid)
-                callback?()
-            else
+            xmlDoc = xhr.responseXML
+            woeid_ele_list = xmlDoc.getElementsByTagName("woeid")
+            echo woeid_ele_list.length
+            if woeid_ele_list.length is 0
                 echo "get_woeid_by_place_name xhr.responseText is error"
                 return
+            else if woeid_ele_list.length is 1
+                woeid = woeid_ele_list[0].childNodes[0].nodeValue
+            else
+                woeid = woeid_ele.childNodes[0].nodeValue for woeid_ele in woeid_ele_list
+            echo woeid
+            localStorage.setItem("woeid",woeid)
+            callback?()
         )
 
     get_weather_data_by_woeid:(woeid,callback)->
