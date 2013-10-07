@@ -48,7 +48,7 @@ class Weather extends Widget
         super(null)
         @weather_style_build()
         @more_weather_build()
-        ajax(testInternet_url,@testInternet_connect(),@testInternet_noconnect)
+        ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
 
     testInternet_connect:=>
         cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")
@@ -62,7 +62,6 @@ class Weather extends Widget
         else @weathergui_update()
 
     testInternet_noconnect:=>
-        @weatherdata = new WeatherData()
         weather_data_now = localStorage.getObject("weatherdata_now_storage")
         @update_weathernow(weather_data_now) if weather_data_now
         weather_data_more = localStorage.getObject("weatherdata_more_storage")
@@ -187,7 +186,6 @@ class Weather extends Widget
         callback_now = ->
             weather_data_now = localStorage.getObject("weatherdata_now_storage")
             @update_weathernow(weather_data_now)
-            @temperature_now_number.style.opacity = 1.0
         callback_more = ->
             weather_data_more = localStorage.getObject("weatherdata_more_storage")
             @update_weathermore(weather_data_more)
@@ -219,6 +217,7 @@ class Weather extends Widget
                 @temperature_now_number.textContent = -temp_now
             else
                 @temperature_now_minus.style.opacity = 0
+                @temperature_now_number.style.opacity = 1.0
                 @temperature_now_number.textContent = temp_now
 
     update_weathermore: (weather_data_more)->

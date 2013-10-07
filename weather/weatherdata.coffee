@@ -31,7 +31,7 @@ class WeatherData
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
-            ajax(@url_nowweather_str,(xhr)=>
+            ajax(@url_nowweather_str,true,(xhr)=>
                 try
                     localStorage.setItem("weatherdata_now_storage",xhr.responseText)
                     callback()
@@ -43,7 +43,7 @@ class WeatherData
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
-            ajax(@url_moreweather_str,(xhr)=>
+            ajax(@url_moreweather_str,true,(xhr)=>
                 try
                     localStorage.setItem("weatherdata_more_storage",xhr.responseText)
                     callback()
