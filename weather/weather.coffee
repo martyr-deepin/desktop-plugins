@@ -50,7 +50,7 @@ class Weather extends Widget
         @more_weather_build()
         ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
 
-        if 1
+        if 0
             place_name = "wuhan"
             yahooservice = new YahooService() 
             update = ->
