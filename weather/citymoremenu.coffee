@@ -23,7 +23,8 @@ class CityMoreMenu extends Widget
     BOTTOM_DISTANCE_CHOOSECITY_MINI = 200
     BOTTOM_DISTANCE_COMMONCITY_MINI = 200
     times_dist_choose = 0
-
+    YAHOO = false
+    
     constructor: (zIndex)->
         super(null)
         @element.style.display = "none"
@@ -118,11 +119,12 @@ class CityMoreMenu extends Widget
     more_city_build:(selectsize,bottom_distance,x1,y1,x2,y2,callback)->
         @add_common_city.addEventListener("click",=>
             @common_menu.style.display = "none"
-            # @more_city_create(selectsize)
-            # @set_menu_position(@lable_choose,bottom_distance,x1,y1,x2,y2,"block")
-            # @change_chooseprov(callback)
-
-            @search_city_build()
+            if YAHOO
+                @search_city_build()
+            else
+                @more_city_create(selectsize)
+                @set_menu_position(@lable_choose,bottom_distance,x1,y1,x2,y2,"block")
+                @change_chooseprov(callback)
             )
     search_city_build:->
         remove_element(@search) if @search

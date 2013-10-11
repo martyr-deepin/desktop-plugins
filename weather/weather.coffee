@@ -43,14 +43,14 @@ class Weather extends Widget
     SELECT_SIZE = 13
 
     testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
-
+    YAHOO = false
     constructor: ->
         super(null)
         @weather_style_build()
         @more_weather_build()
         ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
 
-        if 0
+        if YAHOO
             place_name = "wuhan"
             yahooservice = new YahooService() 
             update = ->
