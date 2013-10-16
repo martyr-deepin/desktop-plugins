@@ -41,7 +41,7 @@ class Clock extends Widget
                 if backgroud is "clockface_circle.png" then backgroud = "clockface_rect.png"
                 else if backgroud is "clockface_rect.png" then backgroud = "clockface_circle.png"
                 else
-                    backgroud = "clockface_circle.png" 
+                    backgroud = "clockface_circle.png"
                 localStorage.setItem("clock_backgroud",backgroud)
                 @face.src = "#{plugin.path}/#{backgroud}"
 
