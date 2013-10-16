@@ -32,7 +32,7 @@ class Clock extends Widget
     do_rightclick:(evt) ->
         evt.stopPropagation()
         menu = []
-        menu.push([1,_("Change clock backgroud")])
+        menu.push([1,_("Change clock skin")])
         @face.parentElement.contextMenu = build_menu(menu)
     
     do_itemselected:(evt) =>
