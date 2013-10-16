@@ -43,12 +43,23 @@ class Weather extends Widget
     SELECT_SIZE = 13
 
     testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
-
+    YAHOO = false
     constructor: ->
         super(null)
         @weather_style_build()
         @more_weather_build()
         ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
+
+        if YAHOO
+            place_name = "wuhan"
+            yahooservice = new YahooService() 
+            update = ->
+                echo "update"
+            callback = ->
+                woeid = localStorage.getObject("woeid")
+                yahooservice.get_weather_data_by_woeid(woeid,update.bind(@))
+            yahooservice.get_woeid_by_place_name(place_name,callback.bind(@))
+            
 
     testInternet_connect:=>
         cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")
