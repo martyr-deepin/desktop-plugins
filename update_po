@@ -2,7 +2,7 @@
 
 lang = ["zh_CN", "zh_TW"]
 
-name = 'weather'
+name = 'clock'
 
 import os
 import glob
