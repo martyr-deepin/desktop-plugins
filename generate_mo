@@ -2,8 +2,6 @@
 
 lang = ["zh_CN", "zh_TW"]
 
-name = 'clock'
-
 import os
 import sys
 
@@ -21,4 +19,5 @@ if __name__ == '__main__':
 
     for l in lang:
         os.system('mkdir -p %s/locale/mo/%s/LC_MESSAGES' % (plg_name, l))
+        name = plg_name
         os.system('msgfmt {0}/locale/po/{1}/{2}.po -o {0}/locale/mo/{1}/LC_MESSAGES/{2}.mo'.format(plg_name, l, name))

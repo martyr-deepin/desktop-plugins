@@ -2,8 +2,6 @@
 
 lang = ["zh_CN", "zh_TW"]
 
-name = 'clock'
-
 import os
 import glob
 import sys
@@ -22,6 +20,7 @@ if __name__ == '__main__':
 
     for l in lang:
         os.system("mkdir -p %s/locale/po/%s" % (plg_name, l))
+        name = plg_name
         os.system("touch %s/locale/po/%s/%s.po" % (plg_name, l, name))
 
         cmd= "xgettext --from-code=utf-8 -L python -j -o %s/locale/po/%s/%s.po %s"\

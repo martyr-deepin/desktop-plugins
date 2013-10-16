@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-16 17:25+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: weather/citymoremenu.coffee:161
+msgid "province"
+msgstr ""
+
+#: weather/citymoremenu.coffee:162
+msgid "city"
+msgstr ""
+
+#: weather/citymoremenu.coffee:163
+msgid "county"
+msgstr ""
+
+#: weather/weather.coffee:102
+msgid "choose city"
+msgstr ""
+
+#: weather/weather.coffee:105
+msgid "loading"
+msgstr ""
+
+#: weather/weather.coffee:160 weather/weather.coffee:238
+msgid "Sun"
+msgstr ""
+
+#: weather/weather.coffee:219
+msgid ""
+" sorry, \n"
+" China Meteorological Administration \n"
+" don't provide the live weather data for this city."
+msgstr ""
+
+#: weather/weather.coffee:221
+msgid "None"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Mon"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Tue"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Wed"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Thu"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Fri"
+msgstr ""
+
+#: weather/weather.coffee:238
+msgid "Sat"
+msgstr ""
