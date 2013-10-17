@@ -1,3 +1,6 @@
+_ = (s) ->
+    DCore.dgettext('clock', s)
+
 class Clock extends Widget
     backgroud = null
     
@@ -32,7 +35,7 @@ class Clock extends Widget
     do_rightclick:(evt) ->
         evt.stopPropagation()
         menu = []
-        menu.push([1,_("Change clock skin")])
+        menu.push([1,_("Change appearance")])
         @face.parentElement.contextMenu = build_menu(menu)
     
     do_itemselected:(evt) =>
