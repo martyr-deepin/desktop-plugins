@@ -18,4 +18,4 @@ msgstr ""
 
 #: clock/clock.coffee:38
 msgid "Change appearance"
-msgstr "更改时钟外观"
+msgstr "更改外观"
