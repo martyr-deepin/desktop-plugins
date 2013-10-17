@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -19,4 +18,4 @@ msgstr ""
 
 #: clock/clock.coffee:38
 msgid "Change appearance"
-msgstr ""
+msgstr "更改时钟外观"
