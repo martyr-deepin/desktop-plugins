@@ -43,7 +43,7 @@ class Weather extends Widget
     SELECT_SIZE = 13
 
     testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
-    YAHOO = false
+    YAHOO = true
     constructor: ->
         super(null)
         @weather_style_build()
@@ -52,7 +52,7 @@ class Weather extends Widget
 
         if YAHOO
             place_name = "wuhan"
-            yahooservice = new YahooService() 
+            yahooservice = new YahooService()
             update = ->
                 echo "update"
             callback = ->

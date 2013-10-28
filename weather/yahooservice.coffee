@@ -19,26 +19,38 @@
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 class YahooService
+    
+    #language = ["zh-Hans","zh-Hant","en-US"]
+    
     APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
 
     constructor: ->
 
     get_woeid_by_place_name:(place_name,callback)->
-        yql = 'select woeid from geo.places where text = "' + place_name + '"'
-        xml_str = "http://query.yahooapis.com/v1/public/yql?q=" + yql
-        # xml1 = "http://where.yahooapis.com/v1/places.q('" + place_name + "')?appid=" + APPID
-        ajax(xml_str,true,(xhr)=>
-            xmlDoc = xhr.responseXML
-            woeid_ele_list = xmlDoc.getElementsByTagName("woeid")
-            echo woeid_ele_list.length
-            if woeid_ele_list.length is 0
-                echo "get_woeid_by_place_name xhr.responseText is error"
+        woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
+        ajax(woeid_url,true,(xhr)=>
+            xml_str = xhr.responseText
+            localStorage.setItem("yahoo_woeid_xml_str",xml_str)
+            woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
+            echo woeid_xml
+            echo woeid_xml.q
+            if woeid_xml.q isnt place_name
+                echo "get_woeid_by_place_name xml_str  wrong!"
                 return
-            else if woeid_ele_list.length is 1
-                woeid = woeid_ele_list[0].childNodes[0].nodeValue
-            else
-                woeid = woeid_ele.childNodes[0].nodeValue for woeid_ele in woeid_ele_list
+            r = woeid_xml.r
+            echo r.length
+            echo r
+            for dk in r
+                String (d)
+                d = dk.d
+                k = dk.k
+                #d = JSON.parse(d)
+                e = JSON.stringify(d)
+                echo e
+                echo d
+                echo k
+            woeid = null
             echo woeid
             localStorage.setItem("woeid",woeid)
             callback?()
