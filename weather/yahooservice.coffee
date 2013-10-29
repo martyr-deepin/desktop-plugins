@@ -29,30 +29,33 @@ class YahooService
 
     get_woeid_by_place_name:(place_name,callback)->
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
+        woeid_data = new Array()
         ajax(woeid_url,true,(xhr)=>
             xml_str = xhr.responseText
             localStorage.setItem("yahoo_woeid_xml_str",xml_str)
             woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
-            echo woeid_xml
-            echo woeid_xml.q
+            #echo woeid_xml
+            #echo woeid_xml.q
             if woeid_xml.q isnt place_name
                 echo "get_woeid_by_place_name xml_str  wrong!"
                 return
             r = woeid_xml.r
-            echo r.length
-            echo r
-            for dk in r
-                String (d)
+            for dk,index in r
+                value = new Array()
+                value.splice(0,value.length)
                 d = dk.d
                 k = dk.k
-                #d = JSON.parse(d)
-                e = JSON.stringify(d)
-                echo e
-                echo d
-                echo k
-            woeid = null
-            echo woeid
-            localStorage.setItem("woeid",woeid)
+                #echo k
+                t = d.substring(d.indexOf(":") + 1)
+                t_arr = t.split("&")
+                #echo t_arr
+                for pt,i in t_arr
+                    value.push(pt.slice(pt.indexOf("=") + 1))
+                
+                arr = {index:index,k:k,iso:value[0],woeid:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
+                woeid_data.push(arr)
+             
+            localStorage.setObject("woeid_data",woeid_data)
             callback?()
         )
 
@@ -62,11 +65,13 @@ class YahooService
             echo "woeid :" + woeid + ",return!"
             return
         xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + DEG
+        yahoo_weather_data_now = new Array()
+        yahoo_weather_data_more = new Array()
         ajax(xml_str,true,(xhr)=>
             xmlDoc =  xhr.responseXML
             # echo xmlDoc
             title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
-            echo title
+            #echo title
             if title is "City not found"
                 echo "title:" + title + ",the return data is error ,return!"
                 return
@@ -84,21 +89,20 @@ class YahooService
             code_now = condition[0].getAttribute("code")
             temp_now = condition[0].getAttribute("temp")
             date_now = condition[0].getAttribute("date")
+            yahoo_weather_data_now.push({city:city,region:region,country:country,temperature:temperature,text_now:text_now,code_now:code_now,temp_now:temp_now,date_now:date_now})
+            localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
             forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
-            day = []
-            date = []
-            low = []
-            high = []
-            text = []
-            code = []
             for i in [0..forecast.length-1]
-                # echo forecast[i]
-                day[i] = forecast[i].getAttribute("day")
-                date[i] = forecast[i].getAttribute("date")
-                low[i] = forecast[i].getAttribute("low")
-                high[i] = forecast[i].getAttribute("high")
-                text[i] = forecast[i].getAttribute("text")
-                code[i] = forecast[i].getAttribute("code")
+                #echo forecast[i]
+                day = forecast[i].getAttribute("day")
+                date = forecast[i].getAttribute("date")
+                low = forecast[i].getAttribute("low")
+                high = forecast[i].getAttribute("high")
+                text = forecast[i].getAttribute("text")
+                code = forecast[i].getAttribute("code")
+                yahoo_weather_data_more.push({index:i,day:day,date:date,low:low,high:high,text:text,code:code})
+            
+            localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
             callback?()
         )
