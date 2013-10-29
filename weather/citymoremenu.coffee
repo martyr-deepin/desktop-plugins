@@ -188,12 +188,12 @@ class CityMoreMenu extends Widget
         remove_element(@search_result) if @search_result
         @search_result = create_element("div","search_result",@search)
         @search_result_select = create_element("select","search_result_select",@search_result)
-        #@search_result_choose.style.textAlign = "center"
         @clearOptions(@search_result_select,0)
         for data in woeid_data
             show_result_text =  data.index + ":" + data.c + "," + data.s + "," + data.k + "," + data.pn
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
+        if @search_result_select.options.length < 1 then return
         @search_result_select.options[0].selected = "false"
         @search_result_select.autofocus = "false"
         @setMaxSize(@search_result_select,woeid_data.length)
