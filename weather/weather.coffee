@@ -43,7 +43,7 @@ class Weather extends Widget
     SELECT_SIZE = 13
 
     testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
-    YAHOO = true
+    YAHOO = false
     constructor: ->
         super(null)
         @weather_style_build()
@@ -56,13 +56,13 @@ class Weather extends Widget
             update = ->
                 echo "get yahoo weather data:"
                 yahoo_weather_data_now = localStorage.getObject("yahoo_weather_data_now")
-                echo yahoo_weather_data_now
+                #echo yahoo_weather_data_now
                 yahoo_weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-                echo yahoo_weather_data_more
+                #echo yahoo_weather_data_more
 
             callback = ->
                 woeid_data = localStorage.getObject("woeid_data")
-                echo woeid_data
+                #echo woeid_data
                 woeid = woeid_data[0].woeid
                 yahooservice.get_weather_data_by_woeid(woeid,update.bind(@))
             yahooservice.get_woeid_by_place_name(place_name,callback.bind(@))
