@@ -7,7 +7,7 @@ COM_COFFEE = $(COM_DIR)/animation.coffee $(COM_DIR)/utils.coffee $(COM_DIR)/modu
 all: compile generate_mo
 
 
-compile: $(COM_COFFEE) yahooservice.coffee weatherdata.coffee data.coffee clientcityid.coffee citymoremenu.coffee weather.coffee
+compile: $(COM_COFFEE) utils.coffee yahooservice.coffee clientcityid.coffee weatherdata.coffee weather.coffee
 	coffee -cj weather.js $^
 
 generate_mo:

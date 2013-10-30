@@ -140,3 +140,65 @@
     position: absolute;
     right: 7px;
 }
+
+
+
+
+
+.common_menu{
+    min-width: 80px;
+    position: absolute;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border:1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.75);
+}
+.common_city{
+    height: 30px;
+    line-height: 30px;
+    display: -webkit-box;
+    -webkit-box-pack:end;
+}
+.common_city:hover > .minus{
+    background-color: #24b8ff;
+    opacity: 1.0;
+}
+.common_city:hover > .common_city_text{
+    background-color: #24b8ff;
+}
+.common_city_text{
+    text-align: left;
+    text-indent:6px;
+    width: 75%;
+}
+.minus{
+    text-align:center;
+    min-width: 20px;
+    font-size: 25px;
+    opacity: 0.0;
+    display: block;
+}
+.common_city:hover > .minus:hover{
+    background:#999;
+    color: #fff;
+}
+.add_common_city{
+    height: 30px;
+    line-height: 30px;
+}
+.plus{
+    font-size: 25px;
+    text-align:center;
+}
+
+.add_common_city:hover{
+    background-color: #24b8ff;
+}
+
+
+.search{
+    opacity:0.5;
+}
+
+.search_input{
+}
