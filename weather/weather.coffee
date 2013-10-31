@@ -28,7 +28,7 @@ class Weather extends Widget
     BOTTOM_DISTANCE_MINI = 215
 
     TOP_MORE_WEATHER_MENU1 = 91
-    TOP_MORE_WEATHER_MENU2 = -155
+    TOP_MORE_WEATHER_MENU2 = -160
 
     LEFT_COMMON_CITY_MENU1 = 160
     TOP_COMMON_CITY_MENU1 = 57
@@ -347,7 +347,7 @@ class Weather extends Widget
         # new ToolTip(@weather_now_pic,weather_data_now.text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
-        echo @city_now.textContent + ":" + weather_data_now.code + "," + @weather_now_pic.title + "."
+        echo @city_now.textContent + ":" + weather_data_now.temp + temp_danwei + "," + @weather_now_pic.title + "."
 
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
