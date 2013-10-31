@@ -129,7 +129,6 @@ class Weather extends Widget
 
 
     more_weather_build: ->
-
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
         img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + ".gif"
         week_init = _("Sun")
@@ -142,7 +141,7 @@ class Weather extends Widget
         @week = []
         @pic = []
         @temperature = []
-        for i in [0...6]
+        for i in [0...4]
             @weather_data[i] = create_element("div", "weather_data", @more_weather_menu)
             @week[i] = create_element("a", "week", @weather_data[i])
             @week[i].textContent = week_init
@@ -227,7 +226,6 @@ class Weather extends Widget
         @search_input.addEventListener("keypress", @search_input_keypress)
         @search_input.addEventListener("keyup", @search_input_keyup)
 
-
     search_input_keypress: (evt) =>
         evt.stopPropagation()
         switch evt.keyCode
@@ -240,8 +238,6 @@ class Weather extends Widget
             when 47   # /
                 evt.preventDefault()
         return
-
-
     
     search_input_keyup: (evt) =>
         evt.stopPropagation()
@@ -255,8 +251,6 @@ class Weather extends Widget
         yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name,get_woeid_callback.bind(@))
   
-        
-            
     search_result_build: (callback) =>
         # echo "search_result_build"
         woeid_data = localStorage.getObject("woeid_data")
@@ -297,15 +291,6 @@ class Weather extends Widget
     
 
 
-
-
-
-
-
-
-
-
-
     weathergui_update: =>
             @global_desktop.style.display = "none"
 
@@ -340,6 +325,7 @@ class Weather extends Widget
         @city_now.textContent = weather_data_now.city
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
+        # new ToolTip(@weather_now_pic,weather_data_now.text)
         str_data = weather_data_more.weatherinfo.date_y
         @date.textContent = weather_data_now.date
 
@@ -353,21 +339,12 @@ class Weather extends Widget
             @temperature_now_number.textContent = temp_now + weather_data_now.temp_danwei
 
     update_weathermore: (weather_data_more)->
-
-        @week_n = @weatherdata.weather_more_week()
-        @img_front = @weatherdata.weather_more_img_front()
-        @img_behind = @weatherdata.weather_more_img_behind()
-        week_show = [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat")]
-
-        # new ToolTip(@weather_now_pic,weather_data_more.weatherinfo['weather' + 1])
-
-        for i in [0...6]
-            j = i + 1
-            @weather_data[i].title = weather_data_more.weatherinfo['weather' + j]
-            # new ToolTip(@weather_data[i],weather_data_more.weatherinfo['weather' + j])
-            @week[i].textContent = week_show[(@week_n + i) % 7]
-            @pic[i].src = @weather_more_pic_src(j)
-            @temperature[i].textContent = weather_data_more.weatherinfo['temp' + j]
+        for data , i in weather_data_more
+            @weather_data[i].title = data.text
+            # new ToolTip(@weather_data[i],data.text)
+            @week[i].textContent = day_en_zh(data.day)
+            @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + ".gif"
+            @temperature[i].textContent = data.low + " ~ " + data.high
 
 
 plugin = PluginManager.get_plugin("weather")
