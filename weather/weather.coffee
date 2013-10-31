@@ -31,7 +31,6 @@ class Weather extends Widget
 
         @weather_now_build()
         @weather_more_build()
-        @city_more_build()
 
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
@@ -51,12 +50,6 @@ class Weather extends Widget
 
     do_buildmenu:->
         []
-    
-    item_blur:->
-        echo "item_blur"
-        @more_weather_menu.style.display = "none"
-        @more_city_menu.style.display = "none"
-        @global_desktop.style.display = "none"
     
     weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
@@ -82,6 +75,14 @@ class Weather extends Widget
         @date = create_element("div", "date", city_and_date)
         @date.textContent =  _("loading") + ".........."
 
+        remove_element(@more_weather_menu) if @more_weather_menu
+        @more_weather_menu = create_element("div", "more_weather_menu", @element)
+        @more_weather_menu.style.display = "none"
+        
+        remove_element(@more_city_menu) if @more_city_menu
+        @more_city_menu = create_element("div","more_city_menu",@element)
+        @more_city_menu.style.display = "none"
+
         @global_desktop = create_element("div","global_desktop",@element)
         @global_desktop.style.display = "none"
         @global_desktop.style.height = window.screen.height
@@ -90,7 +91,7 @@ class Weather extends Widget
         city.addEventListener("click", =>
             remove_element(@search) if @search
             @more_weather_menu.style.display = "none"
-
+            @city_more_build()
             if @more_city_menu.style.display == "none"
                 
                 @more_city_menu.style.display = "block"
@@ -145,16 +146,14 @@ class Weather extends Widget
         week_init = _("Sun")
         temp_init = "00~00℃"
 
-        remove_element(@more_weather_menu) if @more_weather_menu
-        @more_weather_menu = create_element("div", "more_weather_menu", @element)
-        @more_weather_menu.style.display = "none"
-
+        remove_element(@weather_more_tmp) if @weather_more_tmp
+        @weather_more_tmp = create_element("div","weather_more_tmp",@more_weather_menu)
         @weather_data = []
         @week = []
         @pic = []
         @temperature = []
         for i in [0...5]
-            @weather_data[i] = create_element("div", "weather_data", @more_weather_menu)
+            @weather_data[i] = create_element("div", "weather_data", @weather_more_tmp)
             @week[i] = create_element("a", "week", @weather_data[i])
             @week[i].textContent = week_init
             @pic[i] = create_img("pic", img_more_url_init, @weather_data[i])
@@ -162,13 +161,10 @@ class Weather extends Widget
             @temperature[i].textContent = temp_init
     
     city_more_build:->
-        echo "city_more_build"
-
         remove_element(@search) if @search
-        remove_element(@more_city_menu) if @more_city_menu
-        @more_city_menu = create_element("div","more_city_menu",@element)
-        @more_city_menu.style.display = "none"
-        
+
+        remove_element(@city_more_tmp) if @city_more_tmp
+        @city_more_tmp = create_element("div","city_more_tmp",@more_city_menu)
         common_dists = localStorage.getObject("common_dists")
         i = 0
         common_city = []
@@ -177,7 +173,7 @@ class Weather extends Widget
         for dist,j in common_dists
             if not dist? then continue
             i++
-            common_city[i] = create_element("div","common_city",@more_city_menu)
+            common_city[i] = create_element("div","common_city",@city_more_tmp)
             common_city[i].value = dist.name
 
             common_city_text[i] = create_element("div","common_city_text",common_city[i])
@@ -193,7 +189,7 @@ class Weather extends Widget
                 echo "click"
                 that.more_city_menu.style.display = "none"
                 localStorage.setItem("cityid_storage",this.value)
-
+                that.weathergui_refresh_Interval()
                 that = null
                 )
 
@@ -209,14 +205,13 @@ class Weather extends Widget
                         break
                 )
 
-        @add_common_city = create_element("div","add_common_city",@more_city_menu)
+        @add_common_city = create_element("div","add_common_city",@city_more_tmp)
         plus =  create_element("div","plus",@add_common_city)
         plus.innerText = "+"
         @add_common_city.addEventListener("click",=>
             @more_city_menu.style.display = "none"
             @search_city_build()
         )
-        echo "2 more_city_build over:" + @more_city_menu.style.display
 
 
     search_city_build:->
@@ -232,7 +227,6 @@ class Weather extends Widget
         height = 200
         @search.style.display = "none"
         bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-        echo bottom_distance
       
         if bottom_distance < height
             @search.style.top = -10
@@ -251,7 +245,6 @@ class Weather extends Widget
                 woeid_data = localStorage.getObject("woeid_data")
                 i = 0
                 woeid_choose = woeid_data[i].woeid
-                echo woeid_data[i].index
                 localStorage.setItem("cityid_storage",woeid_choose)
                 @global_desktop.style.display = "none"
                 remove_element(@search) if @search
@@ -260,10 +253,11 @@ class Weather extends Widget
                     if not tmp? then continue
                     if woeid_choose == tmp.id then return
                 arr = {name:woeid_data[i].k,id:woeid_data[i].woeid}
-                echo arr
                 common_dists.push(arr)
+                echo woeid_data[i].index + "": + arr.name + "," + arr.woeid
                 if common_dists.length > 5 then common_dists.splice(0,1)
                 localStorage.setObject("common_dists",common_dists)
+                
                 @weathergui_refresh_Interval()
             when 27   # esc
                 evt.preventDefault()
@@ -277,12 +271,8 @@ class Weather extends Widget
         evt.stopPropagation()
         place_name = @search_input.value
         
-        get_woeid_callback = =>
-            echo "get_woeid_callback finsh"
-            @search_result_build()
-        
         yahooservice = new YahooService()
-        yahooservice.get_woeid_by_place_name(place_name,get_woeid_callback.bind(@))
+        yahooservice.get_woeid_by_place_name(place_name,@search_result_build.bind(@))
   
     search_result_build: () =>
         # echo "search_result_build"
@@ -313,7 +303,7 @@ class Weather extends Widget
                 if not tmp? then continue
                 if woeid_choose == tmp.id then return
             arr = {name:woeid_data[i].k,id:woeid_data[i].woeid}
-            echo arr
+            echo woeid_data[i].index + "": + arr
             common_dists.push(arr)
             if common_dists.length > 5 then common_dists.splice(0,1)
             localStorage.setObject("common_dists",common_dists)
@@ -331,7 +321,7 @@ class Weather extends Widget
 
 
     weathergui_refresh: =>
-        echo "refresh"
+        echo "weathergui_refresh"
         @global_desktop.style.display = "none"
         cityid = localStorage.getObject("cityid_storage")
         if cityid < 100
@@ -356,7 +346,7 @@ class Weather extends Widget
         # new ToolTip(@weather_now_pic,weather_data_now.text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
-        echo @city_now.textContent + ":" + weather_data_now.temp + temp_danwei + "," + @weather_now_pic.title + "."
+        echo @city_now.textContent + ":" + weather_data_now.temp + temp_danwei + "," + @weather_now_pic.title + ",code:" + weather_data_now.code
 
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
@@ -367,7 +357,9 @@ class Weather extends Widget
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_danwei
 
+        if @weather_data is undefined then return
         for data , i in weather_data_more
+            if not @weather_data[i] then continue
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
             @week[i].textContent = yahooservice.day_en_zh(data.day)

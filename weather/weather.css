@@ -101,13 +101,14 @@
     font-weight: bold;
     text-shadow: 0 0 2px #808080;
 }
-.more_weather_menu>div:hover{
+.weather_more_tmp>div:hover{
     background-color: #24b8ff;
 }
 .weather_data {
     height: 35px;
     line-height: 35px;
 }
+
 .weather_data:nth-child(odd) {
     background-color:rgba(255,255,255,0.35);
     display:-webkit-box; 
