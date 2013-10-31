@@ -54,7 +54,7 @@ class Weather extends Widget
     weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
-        temp_now_init = "00°C"
+        temp_now_init = "00°"
 
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
@@ -353,11 +353,11 @@ class Weather extends Widget
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
-            @temperature_now_number.textContent = -temp_now + temp_danwei
+            @temperature_now_number.textContent = -temp_now + "°"
         else
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
-            @temperature_now_number.textContent = temp_now + temp_danwei
+            @temperature_now_number.textContent = temp_now + "°"
 
         if @weather_data is undefined then return
         for data , i in weather_data_more
