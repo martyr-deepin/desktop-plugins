@@ -21,33 +21,18 @@ _ = (s) ->
     DCore.dgettext('weather', s)
 
 class Weather extends Widget
-    ZINDEX_MENU = 65530
-    ZINDEX_GLOBAL_DESKTOP = 5000
-    ZINDEX_DOWNEST = 0
-
-    BOTTOM_DISTANCE_MINI = 215
-
-    TOP_MORE_WEATHER_MENU1 = 91
-    TOP_MORE_WEATHER_MENU2 = -160
-
-    LEFT_COMMON_CITY_MENU1 = 160
-    TOP_COMMON_CITY_MENU1 = 57
-    LEFT_COMMON_CITY_MENU2 = 160
-    BOTTOM_COMMON_CITY_MENU2 = -35
-
-    LEFT_MORE_CITY_MENU1 = 10
-    TOP_MORE_CITY_MENU1 = 90
-    LEFT_MORE_CITY_MENU2 = 10
-    BOTTOM_MORE_CITY_MENU2 = -22
     common_dists = new Array()
     testInternet_url = "http://weather.yahooapis.com/forecastrss?w=2151330&u=c"
+
     constructor: ->
         super(null)
-        @weather_style_build()
-        @more_weather_build()
         dist = localStorage.getObject("common_dists")
         if not dist? then localStorage.setObject("common_dists",common_dists)
-        
+
+        @weather_now_build()
+        @weather_more_build()
+        @city_more_build()
+
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
@@ -67,7 +52,13 @@ class Weather extends Widget
     do_buildmenu:->
         []
     
-    weather_style_build: ->
+    item_blur:->
+        echo "item_blur"
+        @more_weather_menu.style.display = "none"
+        @more_city_menu.style.display = "none"
+        @global_desktop.style.display = "none"
+    
+    weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
         temp_now_init = "00°C"
@@ -81,7 +72,7 @@ class Weather extends Widget
         @temperature_now_minus.textContent = "-"
         @temperature_now_number = create_element("div", "temperature_now_number", temperature_now)
         @temperature_now_number.textContent = temp_now_init
-        @temperature_now_number.style.opacity = 0.0
+        # @temperature_now_number.style.opacity = 0.0
 
         city_and_date = create_element("div","city_and_date",right_div)
         city = create_element("div","city",city_and_date)
@@ -91,61 +82,70 @@ class Weather extends Widget
         @date = create_element("div", "date", city_and_date)
         @date.textContent =  _("loading") + ".........."
 
-        @more_city_menu = create_element("div","more_city_menu",@element)
-        @more_city_menu.style.display = "none"
-        @more_city_menu.style.zIndex = ZINDEX_MENU
         @global_desktop = create_element("div","global_desktop",@element)
         @global_desktop.style.display = "none"
         @global_desktop.style.height = window.screen.height
         @global_desktop.style.width = window.screen.width
-        @global_desktop.style.zIndex = ZINDEX_GLOBAL_DESKTOP
 
         city.addEventListener("click", =>
+            remove_element(@search) if @search
             @more_weather_menu.style.display = "none"
 
             if @more_city_menu.style.display == "none"
+                
                 @more_city_menu.style.display = "block"
+                height = @more_city_menu.clientHeight
+                @more_city_menu.style.display = "none"
+                bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+                if bottom_distance < height
+                    @more_city_menu.style.left = 160
+                    @more_city_menu.style.bottom = -35
+                else
+                    @more_city_menu.style.left = 160
+                    @more_city_menu.style.top = 57
+                @more_city_menu.style.display = "block"
+
                 @global_desktop.style.display = "block"
             else
                 @more_city_menu.style.display = "none"
                 @global_desktop.style.display = "none"
-
-            @common_city_build()
             )
         @date.addEventListener("click", =>
             @more_city_menu.style.display = "none"
 
             if @more_weather_menu.style.display == "none"
-                @global_desktop.style.display = "block"
-
-                bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+                
                 @more_weather_menu.style.display = "block"
                 height = @more_weather_menu.clientHeight
                 @more_weather_menu.style.display = "none"
+                bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
                 if bottom_distance < height
-                    @more_weather_menu.style.top = TOP_MORE_WEATHER_MENU2
+                    @more_weather_menu.style.top = -160
                     @more_weather_menu.style.borderRadius = "6px 6px 0 0"
                 else
-                    @more_weather_menu.style.top = TOP_MORE_WEATHER_MENU1
+                    @more_weather_menu.style.top = 91
                     @more_weather_menu.style.borderRadius = "0 0 6px 6px"
                 @more_weather_menu.style.display = "block"
 
+                @global_desktop.style.display = "block"
             else
                 @global_desktop.style.display = "none"
                 @more_weather_menu.style.display = "none"
             )
         @global_desktop.addEventListener("click",=>
-            @more_weather_menu.style.display = "none"
-            @more_city_menu.style.display = "none"
+            @more_weather_menu.style.display = "none" if @more_weather_menu
+            @more_city_menu.style.display = "none" if @more_city_menu
+            @search.style.display = "none" if @search
             @global_desktop.style.display = "none"
             )
 
-    more_weather_build: ->
+    weather_more_build: ->
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
         img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + "n.png"
         week_init = _("Sun")
         temp_init = "00~00℃"
 
+        remove_element(@more_weather_menu) if @more_weather_menu
         @more_weather_menu = create_element("div", "more_weather_menu", @element)
         @more_weather_menu.style.display = "none"
 
@@ -160,21 +160,15 @@ class Weather extends Widget
             @pic[i] = create_img("pic", img_more_url_init, @weather_data[i])
             @temperature[i] = create_element("a", "temperature", @weather_data[i])
             @temperature[i].textContent = temp_init
+    
+    city_more_build:->
+        echo "city_more_build"
 
-    lost_focus:->
-        @more_weather_menu.style.display = "none"
-        @more_city_menu.style.display = "none"
-        @global_desktop.style.display = "none"
-
-
-
-    common_city_build:->
-        echo "common_city_build"
-        remove_element(@common_menu) if @common_menu
         remove_element(@search) if @search
-
-        @common_menu = create_element("div","common_menu",@more_city_menu)
-        @common_menu.style.display = "none"
+        remove_element(@more_city_menu) if @more_city_menu
+        @more_city_menu = create_element("div","more_city_menu",@element)
+        @more_city_menu.style.display = "none"
+        
         common_dists = localStorage.getObject("common_dists")
         i = 0
         common_city = []
@@ -183,7 +177,7 @@ class Weather extends Widget
         for dist,j in common_dists
             if not dist? then continue
             i++
-            common_city[i] = create_element("div","common_city",@common_menu)
+            common_city[i] = create_element("div","common_city",@more_city_menu)
             common_city[i].value = dist.name
 
             common_city_text[i] = create_element("div","common_city_text",common_city[i])
@@ -215,39 +209,39 @@ class Weather extends Widget
                         break
                 )
 
-        @add_common_city = create_element("div","add_common_city",@common_menu)
+        @add_common_city = create_element("div","add_common_city",@more_city_menu)
         plus =  create_element("div","plus",@add_common_city)
         plus.innerText = "+"
         @add_common_city.addEventListener("click",=>
-            echo "add_common_city"
-            @common_menu.style.display = "none"
+            @more_city_menu.style.display = "none"
             @search_city_build()
         )
-
-        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-        @common_menu.style.display = "block"
-        height = @common_menu.clientHeight
-        @common_menu.style.display = "none"
-        if bottom_distance < height
-            @common_menu.style.left = LEFT_COMMON_CITY_MENU2
-            @common_menu.style.bottom = BOTTOM_COMMON_CITY_MENU2
-        else
-            @common_menu.style.left = LEFT_COMMON_CITY_MENU1
-            @common_menu.style.top = TOP_COMMON_CITY_MENU1
-        @common_menu.style.display = "block"
-
+        echo "2 more_city_build over:" + @more_city_menu.style.display
 
 
     search_city_build:->
-        echo "search_city_build"
         remove_element(@search) if @search
-        @search = create_element("div","search",@more_city_menu)
+        @search = create_element("div","search",@element)
         @search_input = create_element("input","search_input",@search)
-        @search.style.display = "block"
         @search_input.type = "text"
-        @search_input.focus()
         @search_input.addEventListener("keypress", @search_input_keypress)
         @search_input.addEventListener("keyup", @search_input_keyup)
+
+        @global_desktop.style.display = "block"
+        # more_weather_menu height = 175
+        height = 200
+        @search.style.display = "none"
+        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+        echo bottom_distance
+      
+        if bottom_distance < height
+            @search.style.top = -10
+            @search.style.borderRadius = "6px 6px 0 0"
+        else
+            @search.style.top = 91
+            @search.style.borderRadius = "0 0 6px 6px"
+        @search.style.display = "block"
+        @search_input.focus()
 
     search_input_keypress: (evt) =>
         evt.stopPropagation()
@@ -257,6 +251,7 @@ class Weather extends Widget
                 #@search_input_complete()
             when 27   # esc
                 evt.preventDefault()
+                @global_desktop.style.display = "none"
                 remove_element(@search) if @search
             when 47   # /
                 evt.preventDefault()
@@ -297,6 +292,7 @@ class Weather extends Widget
             woeid_choose = woeid_data[i].woeid
             echo woeid_data[i].index
             localStorage.setItem("cityid_storage",woeid_choose)
+            @global_desktop.style.display = "none"
             remove_element(@search) if @search
 
             #if not (localStorage.getObject("common_dists"))? then common_dists = localStorage.getObject("common_dists")

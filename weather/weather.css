@@ -1,9 +1,10 @@
 .global_desktop{
-    background-color:rgba(255,255,255,0.6);
+    background-color:rgba(255,255,255,0.0);
     position: fixed;
     display: none;
     top:0px;
     left:0px;
+    z-index:5000;
 }
 
 .CityMoreMenu{
@@ -84,6 +85,7 @@
 }
 
 
+
 .more_weather_menu{
     position:absolute;
     left: 83px;
@@ -149,16 +151,17 @@
 
 
 
-
-
-.common_menu{
-    min-width: 80px;
+.more_city_menu{
     position: absolute;
+    z-index:5001;
+    display:none;
+    min-width: 80px;
     box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
     overflow: hidden;
     border:1px solid rgba(255,255,255,0.6);
     background: rgba(255,255,255,0.75);
 }
+
 .common_city{
     height: 30px;
     line-height: 30px;
@@ -203,7 +206,16 @@
 
 
 .search{
+    position: absolute;
     opacity:0.5;
+    left: 83px;
+    /*top set in coffee*/
+    width: 162px;
+    border:1px solid rgba(255,255,255,0.6);
+    overflow: hidden;
+    z-index: 5001;
+    display: none;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
 }
 
 .search_input{
