@@ -248,7 +248,23 @@ class Weather extends Widget
         switch evt.keyCode
             when 13   # enter
                 evt.preventDefault()
-                #@search_input_complete()
+                woeid_data = localStorage.getObject("woeid_data")
+                i = 0
+                woeid_choose = woeid_data[i].woeid
+                echo woeid_data[i].index
+                localStorage.setItem("cityid_storage",woeid_choose)
+                @global_desktop.style.display = "none"
+                remove_element(@search) if @search
+
+                for tmp in common_dists
+                    if not tmp? then continue
+                    if woeid_choose == tmp.id then return
+                arr = {name:woeid_data[i].k,id:woeid_data[i].woeid}
+                echo arr
+                common_dists.push(arr)
+                if common_dists.length > 5 then common_dists.splice(0,1)
+                localStorage.setObject("common_dists",common_dists)
+                @weathergui_refresh_Interval()
             when 27   # esc
                 evt.preventDefault()
                 @global_desktop.style.display = "none"
@@ -260,7 +276,6 @@ class Weather extends Widget
     search_input_keyup: (evt) =>
         evt.stopPropagation()
         place_name = @search_input.value
-        echo place_name
         
         get_woeid_callback = =>
             echo "get_woeid_callback finsh"
@@ -290,12 +305,10 @@ class Weather extends Widget
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
             woeid_choose = woeid_data[i].woeid
-            echo woeid_data[i].index
             localStorage.setItem("cityid_storage",woeid_choose)
             @global_desktop.style.display = "none"
             remove_element(@search) if @search
 
-            #if not (localStorage.getObject("common_dists"))? then common_dists = localStorage.getObject("common_dists")
             for tmp in common_dists
                 if not tmp? then continue
                 if woeid_choose == tmp.id then return
@@ -354,14 +367,12 @@ class Weather extends Widget
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_danwei
 
-        # echo weather_data_more
         for data , i in weather_data_more
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
-
 
 plugin = PluginManager.get_plugin("weather")
 plugin.inject_css("weather")
