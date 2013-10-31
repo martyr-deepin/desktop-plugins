@@ -23,17 +23,13 @@
 .left_div{
     width: 83px;
     height: 70px;
-    display: -webkit-box;
-    -webkit-box-pack:center;
-    -webkit-box-align:center;
+    vertical-align:middle;
+    display:table-cell;
+    text-align:center;
 }
-
 .weather_now_pic{
-    margin-top:10px;
-    margin-left: 15px;
-    background-color:rgba(255,0,255,0.1);
-    width: 65px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
 }
 
 .right_div{
@@ -53,9 +49,9 @@
 }
 .temperature_now_number{
 }
-/*.temperature_now_number:after{*/
-    /*content: "°";*/
-/*}*/
+/*.temperature_now_number:after{
+    content: "°";
+}*/
 
 .city_and_date{
     display: -webkit-box;

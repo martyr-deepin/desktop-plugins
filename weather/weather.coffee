@@ -342,7 +342,7 @@ class Weather extends Widget
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
             @week[i].textContent = day_en_zh(data.day)
-            @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + ".gif"
+            @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
 
