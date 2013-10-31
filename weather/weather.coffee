@@ -287,8 +287,6 @@ class Weather extends Widget
             
             callback()?
         )
-    
-
 
     weathergui_update: =>
             @global_desktop.style.display = "none"
@@ -313,19 +311,19 @@ class Weather extends Widget
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
-            @yahooservice = new YahooService()
-            @yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
+            yahooservice = new YahooService()
+            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
         else
             echo "cityid isnt ready"
 
     update_weather_now_more: (weather_data_now,weather_data_more)->
         # echo weather_data_now
-
+        yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
         @city_now.textContent = weather_data_now.city_name
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
-        @weather_now_pic.title = @yahooservice.yahoo_img_code_to_en(weather_data_now.code)
+        @weather_now_pic.title = yahooservice.yahoo_img_code_to_en(weather_data_now.code)
         # new ToolTip(@weather_now_pic,weather_data_now.text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
@@ -344,7 +342,7 @@ class Weather extends Widget
         for data , i in weather_data_more
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
-            @week[i].textContent = @yahooservice.day_en_zh(data.day)
+            @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 

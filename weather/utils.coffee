@@ -53,13 +53,4 @@ create_option = (obj,data)->
     for i of data
         obj.options.add(new Option(data[i].name, i))
 
-day_en_zh = (day) ->
-    switch(day)
-        when "Sun" then return _("Sun")
-        when "Mon" then return _("Mon")
-        when "Tue" then return _("Tue")
-        when "Wed" then return _("Wed")
-        when "Thu" then return _("Thu")
-        when "Fri" then return _("Fri")
-        when "Sat" then return _("Sat")
-        else echo "no this day:" + day
+

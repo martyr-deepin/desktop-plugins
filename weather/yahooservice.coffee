@@ -108,7 +108,7 @@ class YahooService
             callback?()
         )
 
-    day_en_zh = (day) ->
+    day_en_zh: (day) ->
         switch(day)
             when "Sun" then return _("Sun")
             when "Mon" then return _("Mon")
@@ -120,7 +120,7 @@ class YahooService
             else echo "no this day:" + day
 
 
-    yahoo_img_code_to_en = (code) ->
+    yahoo_img_code_to_en: (code) ->
         switch(code)
             when "0" then  return _("tornado")
             when "1" then  return _("tropical storm")
@@ -173,7 +173,7 @@ class YahooService
             else return _("3200 not available")
 
 
-    yahoo_img_code_to_zh = (code) ->
+    yahoo_img_code_to_zh: (code) ->
         #small_img_url = "http://l.yimg.com/a/i/us/we/52/11.gif"
         #big_img_url = "http://l.yimg.com/a/i/us/nws/weather/gr/11n.png"
         switch(code)
