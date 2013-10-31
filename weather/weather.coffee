@@ -337,6 +337,8 @@ class Weather extends Widget
     weathergui_refresh_by_localStorage : =>
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
+        echo weather_data_now
+        echo weather_data_more
         yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei

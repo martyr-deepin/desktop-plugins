@@ -90,8 +90,14 @@ class YahooService
             date_now = condition[0].getAttribute("date")
             woeid_data = localStorage.getObject("woeid_data")
             if not woeid_data? then return
-            city_name = woeid_data[0].k
-            yahoo_weather_data_now = {city:city,city_name:city_name,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
+            city_name = _("choose city")
+            echo woeid
+            echo woeid_data
+            for tmp in woeid_data
+                if tmp.id is woeid
+                    city_name = tmp.k
+            
+            yahoo_weather_data_now = {city:city,city_name:city_name,woeid:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
             localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
             forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
