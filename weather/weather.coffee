@@ -336,9 +336,9 @@ class Weather extends Widget
             echo "cityid isnt ready"
 
     update_weathernow: (weather_data_now)->
-        temp_now = weather_data_now.weatherinfo.temp
-        @time_update = weather_data_now.weatherinfo.time
-        @city_now.textContent = weather_data_now.weatherinfo.city
+        temp_now = weather_data_now.temp
+        @time_update = weather_data_now.date
+        @city_now.textContent = weather_data_now.city
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
 
