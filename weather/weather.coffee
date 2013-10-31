@@ -94,7 +94,6 @@ class Weather extends Widget
         @temperature_now_minus.textContent = "-"
         @temperature_now_number = create_element("div", "temperature_now_number", temperature_now)
         @temperature_now_number.textContent = temp_now_init
-        @temperature_now_number.style.opacity = 0.0
 
         city_and_date = create_element("div","city_and_date",right_div)
         city = create_element("div","city",city_and_date)
