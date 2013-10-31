@@ -285,7 +285,7 @@ class Weather extends Widget
         @search_result_select = create_element("select","search_result_select",@search_result)
         clearOptions(@search_result_select,0)
         for data in woeid_data
-            show_result_text =  data.index + ":" + data.c + "," + data.s + "," + data.k + "," + data.pn
+            show_result_text =  data.index + ":" + data.c + "," + data.s + "," + data.k
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
         if @search_result_select.options.length < 1 then return

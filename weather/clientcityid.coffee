@@ -27,24 +27,29 @@ class ClientCityId
             try
                 client_cityjsonstr = xhr.responseText
                 remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
-                # echo "remote_ip_info.ret:" + remote_ip_info.ret
-                # echo "remote_ip_info.city:" + remote_ip_info.city
                 if remote_ip_info.ret == 1
-                    for provin of allname.data
-                        if allname.data[provin].prov == remote_ip_info.province
-                            for ci of allname.data[provin].city
-                                if allname.data[provin].city[ci].cityname == remote_ip_info.city
-                                    cityname_client = remote_ip_info.city
-                                    localStorage.setItem("cityname_client_storage",cityname_client)
+                    yahoo = new YahooService()
+                    cityname_client = remote_ip_info.city
+                    yahoo.get_woeid_by_place_name(cityname_client,=>
+                        woeid_data = localStorage.getObject("woeid_data")
+                        if not woeid_data? then return
+                        cityid_client = woeid_data[0].woeid
+                        localStorage.setItem("cityid_storage",cityid_client)
+                        localStorage.setItem("cityname_client_storage",woeid_data[0].k)
 
-                                    cityid_client = allname.data[provin].city[ci].code
-                                    # echo "cityid_client:"+ cityid_client
-                                    common_dists[0].name = cityname_client
-                                    common_dists[0].id = cityid_client
-                                    localStorage.setObject("common_dists_storage",common_dists)
-                                    localStorage.setItem("cityid_storage",cityid_client)
-                                    callback()
+                        common_dists = localStorage.getObject("common_dists")
+                        for tmp in common_dists
+                            if not tmp? then continue
+                            if woeid_choose == tmp.id then return
+                        arr = {name:woeid_data[0].k,id:woeid_data[0].woeid}
+                        echo arr
+                        common_dists.push(arr)
+                        if common_dists.length > 5 then common_dists.splice(0,1)
+                        localStorage.setObject("common_dists",common_dists)
+                        
+                        callback()
 
+                    )
                 else
                     echo "Get_client_cityid can't find the matched location right json by ip"
                     return 0
