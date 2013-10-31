@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-24 10:23+0800\n"
+"POT-Creation-Date: 2013-10-31 16:56+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,15 +33,19 @@ msgid "county"
 msgstr "县"
 
 #: weather.coffee:94 weather.coffee:91 weather/weather.coffee:91
+#: weather/weather.coffee:88
 msgid "choose city"
 msgstr "城市选择"
 
 #: weather.coffee:97 weather.coffee:94 weather/weather.coffee:94
+#: weather/weather.coffee:91
 msgid "loading"
 msgstr "加载中"
 
 #: weather.coffee:147 weather.coffee:217 weather.coffee:149
 #: weather/weather.coffee:149 weather/weather.coffee:226
+#: weather/utils.coffee:58 weather/yahooservice.coffee:113
+#: weather/weather.coffee:134
 msgid "Sun"
 msgstr "星期日"
 
@@ -49,27 +53,33 @@ msgstr "星期日"
 msgid "None"
 msgstr "暂无"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:59
+#: weather/yahooservice.coffee:114
 msgid "Mon"
 msgstr "星期一"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:60
+#: weather/yahooservice.coffee:115
 msgid "Tue"
 msgstr "星期二"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:61
+#: weather/yahooservice.coffee:116
 msgid "Wed"
 msgstr "星期三"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:62
+#: weather/yahooservice.coffee:117
 msgid "Thu"
 msgstr "星期四"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:63
+#: weather/yahooservice.coffee:118
 msgid "Fri"
 msgstr "星期五"
 
-#: weather.coffee:217 weather/weather.coffee:226
+#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:64
+#: weather/yahooservice.coffee:119
 msgid "Sat"
 msgstr "星期六"
 
@@ -82,3 +92,191 @@ msgstr ""
 " 抱歉, \n"
 " 中国气象局 \n"
 " 没有提供此城市的实时天气数据。"
+
+#: weather/yahooservice.coffee:125
+msgid "tornado"
+msgstr "龙卷风"
+
+#: weather/yahooservice.coffee:126
+msgid "tropical storm"
+msgstr "热带风暴"
+
+#: weather/yahooservice.coffee:127
+msgid "hurricane"
+msgstr "飓风"
+
+#: weather/yahooservice.coffee:128
+msgid "severe thunderstorms"
+msgstr "严重的雷暴"
+
+#: weather/yahooservice.coffee:129
+msgid "thunderstorms"
+msgstr "雷暴"
+
+#: weather/yahooservice.coffee:130
+msgid "mixed rain and snow"
+msgstr "混合雨雪"
+
+#: weather/yahooservice.coffee:131
+msgid "mixed rain and sleet"
+msgstr "混合降雨和冰雹"
+
+#: weather/yahooservice.coffee:132
+msgid "mixed snow and sleet"
+msgstr "混合雪和雨夹雪"
+
+#: weather/yahooservice.coffee:133
+msgid "freezing drizzle"
+msgstr "冻结小雨"
+
+#: weather/yahooservice.coffee:134
+msgid "drizzle"
+msgstr "小雨"
+
+#: weather/yahooservice.coffee:135
+msgid "freezing rain"
+msgstr "冻雨"
+
+#: weather/yahooservice.coffee:136 weather/yahooservice.coffee:137
+msgid "showers"
+msgstr "阵雨"
+
+#: weather/yahooservice.coffee:138
+msgid "snow flurries"
+msgstr "雪飘雪"
+
+#: weather/yahooservice.coffee:139
+msgid "light snow showers"
+msgstr "小雪阵雨"
+
+#: weather/yahooservice.coffee:140
+msgid "blowing snow"
+msgstr "吹雪"
+
+#: weather/yahooservice.coffee:141
+msgid "snow"
+msgstr "雪"
+
+#: weather/yahooservice.coffee:142
+msgid "hail"
+msgstr "冰雹"
+
+#: weather/yahooservice.coffee:143
+msgid "sleet"
+msgstr "雨夹雪"
+
+#: weather/yahooservice.coffee:144
+msgid "dust"
+msgstr "尘埃"
+
+#: weather/yahooservice.coffee:145
+msgid "foggy"
+msgstr "雾"
+
+#: weather/yahooservice.coffee:146
+msgid "haze"
+msgstr "霾"
+
+#: weather/yahooservice.coffee:147
+msgid "smoky"
+msgstr "黑烟"
+
+#: weather/yahooservice.coffee:148
+msgid "blustery"
+msgstr "大风"
+
+#: weather/yahooservice.coffee:149
+msgid "windy"
+msgstr "风"
+
+#: weather/yahooservice.coffee:150
+msgid "cold"
+msgstr "低温"
+
+#: weather/yahooservice.coffee:151
+msgid "cloudy"
+msgstr "多云"
+
+#: weather/yahooservice.coffee:152
+msgid "mostly cloudy (night)"
+msgstr "多云（晚上）"
+
+#: weather/yahooservice.coffee:153
+msgid "mostly cloudy (day)"
+msgstr "多云（白天）"
+
+#: weather/yahooservice.coffee:154
+msgid "partly cloudy (night)"
+msgstr "局部多云（晚上）"
+
+#: weather/yahooservice.coffee:155
+msgid "partly cloudy (day)"
+msgstr "局部多云（白天）"
+
+#: weather/yahooservice.coffee:156
+msgid "clear (night)"
+msgstr "清爽（晚）"
+
+#: weather/yahooservice.coffee:157
+msgid "sunny"
+msgstr "晴天"
+
+#: weather/yahooservice.coffee:158
+msgid "fair (night)"
+msgstr "晴朗（晚）"
+
+#: weather/yahooservice.coffee:159
+msgid "fair (day)"
+msgstr "晴朗（白天）"
+
+#: weather/yahooservice.coffee:160
+msgid "mixed rain and hail"
+msgstr "混合雨和冰雹"
+
+#: weather/yahooservice.coffee:161
+msgid "hot"
+msgstr "热"
+
+#: weather/yahooservice.coffee:162
+msgid "isolated thunderstorms"
+msgstr "局部地区性雷暴"
+
+#: weather/yahooservice.coffee:163
+msgid "scattered thunderstorms"
+msgstr "零星雷暴"
+
+#: weather/yahooservice.coffee:164
+msgid "scattered thunderstorm"
+msgstr "零星雷暴"
+
+#: weather/yahooservice.coffee:165
+msgid "scattered showers"
+msgstr "零星阵雨"
+
+#: weather/yahooservice.coffee:166 weather/yahooservice.coffee:168
+msgid "heavy snow"
+msgstr "大雪"
+
+#: weather/yahooservice.coffee:167
+msgid "scattered snow showers"
+msgstr "零星阵雪"
+
+#: weather/yahooservice.coffee:169
+msgid "partly cloudy"
+msgstr "多云"
+
+#: weather/yahooservice.coffee:170
+msgid "thundershowers"
+msgstr "雷阵雨"
+
+#: weather/yahooservice.coffee:171
+msgid "snow showers"
+msgstr "阵雪"
+
+#: weather/yahooservice.coffee:172
+msgid "isolated thundershowers"
+msgstr "局部雷阵雨"
+
+#: weather/yahooservice.coffee:173
+msgid "3200 not available"
+msgstr "3200无法使用"
