@@ -250,28 +250,12 @@ class Weather extends Widget
         evt.stopPropagation()
         place_name = @search_input.value
         echo place_name
-        yahooservice = new YahooService()
-
-        get_yahoo_data_callback = =>
-            echo "get yahoo weather data"
-            yahoo_weather_data_now = localStorage.getObject("yahoo_weather_data_now")
-            #echo yahoo_weather_data_now
-            yahoo_weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-            #echo yahoo_weather_data_more
-            echo "update weather ui!"
-            #update_ui_callback()
-         
-        selected_callback = =>
-            echo "selected_callback finsh"
-            # yahooservice = new YahooService()
-            woeid_choose = localStorage.getObject("woeid_choose")
-            yahooservice.get_weather_data_by_woeid(woeid_choose,get_yahoo_data_callback.bind(@))
-
-
+        
         get_woeid_callback = =>
             echo "get_woeid_callback finsh"
-            @search_result_build(selected_callback.bind(@))
-
+            @search_result_build(@weathergui_update.bind(@))
+        
+        yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name,get_woeid_callback.bind(@))
   
         
@@ -339,19 +323,17 @@ class Weather extends Widget
 
     weathergui_refresh: (cityid)->
         echo "refresh"
-        callback_now = ->
-            weather_data_now = localStorage.getObject("weatherdata_now_storage")
+        get_yahoo_data_callback = ->
+            weather_data_now = localStorage.getObject("yahoo_weather_data_now")
             @update_weathernow(weather_data_now)
-        callback_more = ->
-            weather_data_more = localStorage.getObject("weatherdata_more_storage")
+            weather_data_more = localStorage.getObject("yahoo_weather_data_more")
             @update_weathermore(weather_data_more)
-        if cityid < 1000
+        if cityid < 100
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
-            @weatherdata = new WeatherData(cityid)
-            @weatherdata.Get_weatherdata_now(callback_now.bind(@))
-            @weatherdata.Get_weatherdata_more(callback_more.bind(@))
+            yahooservice = new YahooService()
+            yahooservice.get_weather_data_by_woeid(cityid,get_yahoo_data_callback.bind(@))
         else
             echo "cityid isnt ready"
 
