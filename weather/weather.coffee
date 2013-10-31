@@ -193,7 +193,7 @@ class Weather extends Widget
                 echo "click"
                 that.more_city_menu.style.display = "none"
                 localStorage.setItem("cityid_storage",this.value)
-                # that.selected_callback()
+
                 that = null
                 )
 
@@ -279,12 +279,12 @@ class Weather extends Widget
         
         get_woeid_callback = =>
             echo "get_woeid_callback finsh"
-            @search_result_build(@weathergui_refresh_Interval.bind(@))
+            @search_result_build()
         
         yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name,get_woeid_callback.bind(@))
   
-    search_result_build: (callback) =>
+    search_result_build: () =>
         # echo "search_result_build"
         woeid_data = localStorage.getObject("woeid_data")
         if not woeid_data? then return
@@ -318,7 +318,7 @@ class Weather extends Widget
             if common_dists.length > 5 then common_dists.splice(0,1)
             localStorage.setObject("common_dists",common_dists)
             
-            callback()?
+            @weathergui_refresh_Interval()
         )
 
     weathergui_refresh_Interval: =>
@@ -330,7 +330,7 @@ class Weather extends Widget
             ,600000)# ten minites
 
 
-    weathergui_refresh: (cityid)=>
+    weathergui_refresh: =>
         echo "refresh"
         @global_desktop.style.display = "none"
         cityid = localStorage.getObject("cityid_storage")
