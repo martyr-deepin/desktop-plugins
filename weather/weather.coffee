@@ -130,7 +130,7 @@ class Weather extends Widget
 
     more_weather_build: ->
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
-        img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + ".gif"
+        img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + "n.png"
         week_init = _("Sun")
         temp_init = "00~00℃"
 
