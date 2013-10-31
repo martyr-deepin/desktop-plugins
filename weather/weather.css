@@ -29,10 +29,11 @@
 }
 
 .weather_now_pic{
-    margin-left: 20px;
-    background-color:rgba(255,0,255,0.6);
-/*    width: 65px;
-    height: 65px;*/
+    margin-top:10px;
+    margin-left: 15px;
+    background-color:rgba(255,0,255,0.1);
+    width: 65px;
+    height: 45px;
 }
 
 .right_div{
@@ -52,9 +53,9 @@
 }
 .temperature_now_number{
 }
-/*.temperature_now_number:after{
-    content: "°";
-}*/
+/*.temperature_now_number:after{*/
+    /*content: "°";*/
+/*}*/
 
 .city_and_date{
     display: -webkit-box;
@@ -124,7 +125,7 @@
     font-weight: bolder;
 }
 .pic:lang(zh){
-    margin-left: 10px;
+    margin-left: 17px;
     margin-bottom: 5px;
     width: 24px;
     height: 24px;
@@ -140,7 +141,7 @@
 }
 .pic:lang(en){
     position: absolute;
-    left: 50px;
+    left: 57px;
     margin-top: 5px;
     width: 24px;
     height: 24px;

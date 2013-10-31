@@ -69,7 +69,7 @@ class Weather extends Widget
     weather_style_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
-        temp_now_init = "00"
+        temp_now_init = "00°C"
 
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
@@ -132,7 +132,7 @@ class Weather extends Widget
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
         img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + ".gif"
         week_init = _("Sun")
-        temp_init = "00℃~00℃"
+        temp_init = "00~00℃"
 
         @more_weather_menu = create_element("div", "more_weather_menu", @element)
         @more_weather_menu.style.display = "none"
@@ -305,9 +305,8 @@ class Weather extends Widget
 
     weathergui_refresh_by_localStorage : =>
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
-        @update_weathernow(weather_data_now)
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-        @update_weathermore(weather_data_more)
+        @update_weather_now_more(weather_data_now,weather_data_more)
 
     weathergui_refresh: (cityid)=>
         echo "refresh"
@@ -320,32 +319,31 @@ class Weather extends Widget
         else
             echo "cityid isnt ready"
 
-    update_weathernow: (weather_data_now)->
+    update_weather_now_more: (weather_data_now,weather_data_more)->
         # echo weather_data_now
         temp_now = weather_data_now.temp
+        temp_danwei = "°" + weather_data_now.temp_danwei
         @city_now.textContent = weather_data_now.city
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
         # new ToolTip(@weather_now_pic,weather_data_now.text)
         @date.textContent = weather_data_now.date
-
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
-            @temperature_now_number.textContent = -temp_now + weather_data_now.temp_danwei
+            @temperature_now_number.textContent = -temp_now + temp_danwei
         else
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
-            @temperature_now_number.textContent = temp_now + weather_data_now.temp_danwei
+            @temperature_now_number.textContent = temp_now + temp_danwei
 
-    update_weathermore: (weather_data_more)->
         # echo weather_data_more
         for data , i in weather_data_more
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
             @week[i].textContent = day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + ".gif"
-            @temperature[i].textContent = data.low + " ~ " + data.high
+            @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
 
 plugin = PluginManager.get_plugin("weather")
