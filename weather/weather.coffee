@@ -40,7 +40,7 @@ class Weather extends Widget
     LEFT_MORE_CITY_MENU2 = 10
     BOTTOM_MORE_CITY_MENU2 = -22
     common_dists = new Array()
-    testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
+    testInternet_url = "http://weather.yahooapis.com/forecastrss?w=2151330&u=c"
     constructor: ->
         super(null)
         @weather_style_build()
@@ -48,7 +48,7 @@ class Weather extends Widget
         dist = localStorage.getObject("common_dists")
         if not dist? then localStorage.setObject("common_dists",common_dists)
         
-        ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
+        ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
         cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")
@@ -62,10 +62,7 @@ class Weather extends Widget
         else @weathergui_update()
 
     testInternet_noconnect:=>
-        weather_data_now = localStorage.getObject("weatherdata_now_storage")
-        @update_weathernow(weather_data_now) if weather_data_now
-        weather_data_more = localStorage.getObject("weatherdata_more_storage")
-        @update_weathermore(weather_data_more) if weather_data_more
+        @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->
         []
@@ -321,19 +318,20 @@ class Weather extends Widget
                 that.weathergui_refresh(cityid)
             ,600000)# ten minites
 
-    weathergui_refresh: (cityid)->
+    weathergui_refresh_by_localStorage : =>
+        weather_data_now = localStorage.getObject("yahoo_weather_data_now")
+        @update_weathernow(weather_data_now)
+        weather_data_more = localStorage.getObject("yahoo_weather_data_more")
+        @update_weathermore(weather_data_more)
+
+    weathergui_refresh: (cityid)=>
         echo "refresh"
-        get_yahoo_data_callback = ->
-            weather_data_now = localStorage.getObject("yahoo_weather_data_now")
-            @update_weathernow(weather_data_now)
-            weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-            @update_weathermore(weather_data_more)
         if cityid < 100
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
             yahooservice = new YahooService()
-            yahooservice.get_weather_data_by_woeid(cityid,get_yahoo_data_callback.bind(@))
+            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
         else
             echo "cityid isnt ready"
 
@@ -377,21 +375,6 @@ class Weather extends Widget
             @week[i].textContent = week_show[(@week_n + i) % 7]
             @pic[i].src = @weather_more_pic_src(j)
             @temperature[i].textContent = weather_data_more.weatherinfo['temp' + j]
-
-    weather_more_pic_src:(i) ->
-        i = i*2 - 1
-        src = null
-        time = new Date()
-        hours_now = time.getHours()
-
-        if @img_front[i+1] == "99"
-            @img_front[i+1] = @img_front[i]
-        if hours_now < 12
-            src = @img_url_first + "24/T" + @img_front[i] + @img_behind[i] + ".png"
-        else src = @img_url_first + "24/T" + @img_front[i+1] + @img_behind[i+1] + ".png"
-        return src
-
-
 
 
 plugin = PluginManager.get_plugin("weather")
