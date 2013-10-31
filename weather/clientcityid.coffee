@@ -30,10 +30,12 @@ class ClientCityId
                 if remote_ip_info.ret == 1
                     yahoo = new YahooService()
                     cityname_client = remote_ip_info.city
+                    echo "cityname_client:" + cityname_client
                     yahoo.get_woeid_by_place_name(cityname_client,=>
                         woeid_data = localStorage.getObject("woeid_data")
                         if not woeid_data? then return
                         cityid_client = woeid_data[0].woeid
+                        echo "cityid_client:#{cityid_client},cityname_client:#{cityname_client};"
                         localStorage.setItem("cityid_client_storage",cityid_client)
                         localStorage.setItem("cityid_storage",cityid_client)
                         localStorage.setItem("cityname_client_storage",woeid_data[0].k)
@@ -43,7 +45,6 @@ class ClientCityId
                             if not tmp? then continue
                             if woeid_choose == tmp.id then return
                         arr = {name:woeid_data[0].k,id:woeid_data[0].woeid}
-                        echo arr
                         common_dists.push(arr)
                         if common_dists.length > 5 then common_dists.splice(0,1)
                         localStorage.setObject("common_dists",common_dists)

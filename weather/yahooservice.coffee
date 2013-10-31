@@ -65,7 +65,6 @@ class YahooService
             echo "woeid :" + woeid + ",return!"
             return
         xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + DEG
-        yahoo_weather_data_now = new Array()
         yahoo_weather_data_more = new Array()
         ajax(xml_str,true,(xhr)=>
             xmlDoc =  xhr.responseXML
@@ -89,12 +88,11 @@ class YahooService
             code_now = condition[0].getAttribute("code")
             temp_now = condition[0].getAttribute("temp")
             date_now = condition[0].getAttribute("date")
-            yahoo_weather_data_now.push({city:city,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now})
+            yahoo_weather_data_now = {city:city,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
             localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
             forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
             for i in [0..forecast.length-1]
-                #echo forecast[i]
                 day = forecast[i].getAttribute("day")
                 date = forecast[i].getAttribute("date")
                 low = forecast[i].getAttribute("low")

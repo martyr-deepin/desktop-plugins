@@ -141,7 +141,7 @@ class Weather extends Widget
         @week = []
         @pic = []
         @temperature = []
-        for i in [0...4]
+        for i in [0...5]
             @weather_data[i] = create_element("div", "weather_data", @more_weather_menu)
             @week[i] = create_element("a", "week", @weather_data[i])
             @week[i].textContent = week_init
@@ -321,12 +321,12 @@ class Weather extends Widget
             echo "cityid isnt ready"
 
     update_weathernow: (weather_data_now)->
+        # echo weather_data_now
         temp_now = weather_data_now.temp
         @city_now.textContent = weather_data_now.city
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
         # new ToolTip(@weather_now_pic,weather_data_now.text)
-        str_data = weather_data_more.weatherinfo.date_y
         @date.textContent = weather_data_now.date
 
         @temperature_now_number.style.fontSize = 36
@@ -339,6 +339,7 @@ class Weather extends Widget
             @temperature_now_number.textContent = temp_now + weather_data_now.temp_danwei
 
     update_weathermore: (weather_data_more)->
+        # echo weather_data_more
         for data , i in weather_data_more
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
