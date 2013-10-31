@@ -21,7 +21,7 @@ _ = (s) ->
     DCore.dgettext('weather', s)
 
 class Weather extends Widget
-    ZINDEX_MENU = 5001
+    ZINDEX_MENU = 65530
     ZINDEX_GLOBAL_DESKTOP = 5000
     ZINDEX_DOWNEST = 0
 
@@ -92,8 +92,10 @@ class Weather extends Widget
         @date.textContent =  _("loading") + ".........."
 
         @more_city_menu = create_element("div","more_city_menu",@element)
+        @more_city_menu.style.display = "none"
         @more_city_menu.style.zIndex = ZINDEX_MENU
         @global_desktop = create_element("div","global_desktop",@element)
+        @global_desktop.style.display = "none"
         @global_desktop.style.height = window.screen.height
         @global_desktop.style.width = window.screen.width
         @global_desktop.style.zIndex = ZINDEX_GLOBAL_DESKTOP
@@ -172,6 +174,7 @@ class Weather extends Widget
         remove_element(@search) if @search
 
         @common_menu = create_element("div","common_menu",@more_city_menu)
+        @common_menu.style.display = "none"
         common_dists = localStorage.getObject("common_dists")
         i = 0
         common_city = []
