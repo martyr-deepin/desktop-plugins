@@ -18,30 +18,6 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-set_menu_position2 = (obj,bottom_distance,x1,y1,x2,y2,show = "block")->
-    obj.style.display = "block"
-    height = obj.clientHeight
-    obj.style.display = "none"
-    if bottom_distance < height
-        obj.style.left = x2
-        obj.style.bottom = y2
-    else
-        obj.style.left = x1
-        obj.style.top = y1
-    obj.style.display = show
-
-set_menu_position = (obj,bottom_distance,y1,y2,show = "block")->
-    obj.style.display = "block"
-    height = obj.clientHeight
-    obj.style.display = "none"
-    if bottom_distance < height
-        obj.style.top = y2
-        obj.style.borderRadius = "6px 6px 0 0"
-    else
-        obj.style.top = y1
-        obj.style.borderRadius = "0 0 6px 6px"
-    obj.style.display = show
-
 clearOptions = (colls,first=0)->
     i = first
     colls.options.length = i

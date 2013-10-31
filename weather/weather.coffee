@@ -58,14 +58,15 @@ class Weather extends Widget
 
         if !cityid
             Clientcityid = new ClientCityId()
-            Clientcityid.Get_client_cityid(@weathergui_update.bind(@))
-        else @weathergui_update()
+            Clientcityid.Get_client_cityid(@weathergui_refresh_Interval.bind(@))
+        else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
         @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->
         []
+    
     weather_style_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
@@ -114,8 +115,19 @@ class Weather extends Widget
 
             if @more_weather_menu.style.display == "none"
                 @global_desktop.style.display = "block"
+
                 bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-                set_menu_position(@more_weather_menu,bottom_distance,TOP_MORE_WEATHER_MENU1,TOP_MORE_WEATHER_MENU2,"block")
+                @more_weather_menu.style.display = "block"
+                height = @more_weather_menu.clientHeight
+                @more_weather_menu.style.display = "none"
+                if bottom_distance < height
+                    @more_weather_menu.style.top = TOP_MORE_WEATHER_MENU2
+                    @more_weather_menu.style.borderRadius = "6px 6px 0 0"
+                else
+                    @more_weather_menu.style.top = TOP_MORE_WEATHER_MENU1
+                    @more_weather_menu.style.borderRadius = "0 0 6px 6px"
+                @more_weather_menu.style.display = "block"
+
             else
                 @global_desktop.style.display = "none"
                 @more_weather_menu.style.display = "none"
@@ -125,8 +137,6 @@ class Weather extends Widget
             @more_city_menu.style.display = "none"
             @global_desktop.style.display = "none"
             )
-
-
 
     more_weather_build: ->
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
@@ -205,14 +215,25 @@ class Weather extends Widget
         @add_common_city = create_element("div","add_common_city",@common_menu)
         plus =  create_element("div","plus",@add_common_city)
         plus.innerText = "+"
-        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-        # set_menu_position(@common_menu,bottom_distance,LEFT_COMMON_CITY_MENU1,TOP_COMMON_CITY_MENU1,LEFT_COMMON_CITY_MENU2,BOTTOM_COMMON_CITY_MENU2,"block")
-        @common_menu.style.display = "block"
         @add_common_city.addEventListener("click",=>
             echo "add_common_city"
             @common_menu.style.display = "none"
             @search_city_build()
-            )
+        )
+
+        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+        @common_menu.style.display = "block"
+        height = @common_menu.clientHeight
+        @common_menu.style.display = "none"
+        if bottom_distance < height
+            @common_menu.style.left = LEFT_COMMON_CITY_MENU2
+            @common_menu.style.bottom = BOTTOM_COMMON_CITY_MENU2
+        else
+            @common_menu.style.left = LEFT_COMMON_CITY_MENU1
+            @common_menu.style.top = TOP_COMMON_CITY_MENU1
+        @common_menu.style.display = "block"
+
+
 
     search_city_build:->
         echo "search_city_build"
@@ -245,7 +266,7 @@ class Weather extends Widget
         
         get_woeid_callback = =>
             echo "get_woeid_callback finsh"
-            @search_result_build(@weathergui_update.bind(@))
+            @search_result_build(@weathergui_refresh_Interval.bind(@))
         
         yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name,get_woeid_callback.bind(@))
@@ -288,25 +309,19 @@ class Weather extends Widget
             callback()?
         )
 
-    weathergui_update: =>
-            @global_desktop.style.display = "none"
-
-            cityid = localStorage.getObject("cityid_storage")
-            @weathergui_refresh(cityid)
+    weathergui_refresh_Interval: =>
+            @weathergui_refresh()
             that = @
             clearInterval(auto_weathergui_refresh)
             auto_weathergui_refresh = setInterval(->
-                cityid = localStorage.getObject("cityid_storage")
-                that.weathergui_refresh(cityid)
+                that.weathergui_refresh()
             ,600000)# ten minites
 
-    weathergui_refresh_by_localStorage : =>
-        weather_data_now = localStorage.getObject("yahoo_weather_data_now")
-        weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-        @update_weather_now_more(weather_data_now,weather_data_more)
 
     weathergui_refresh: (cityid)=>
         echo "refresh"
+        @global_desktop.style.display = "none"
+        cityid = localStorage.getObject("cityid_storage")
         if cityid < 100
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
@@ -316,8 +331,10 @@ class Weather extends Widget
         else
             echo "cityid isnt ready"
 
-    update_weather_now_more: (weather_data_now,weather_data_more)->
-        # echo weather_data_now
+
+    weathergui_refresh_by_localStorage : =>
+        weather_data_now = localStorage.getObject("yahoo_weather_data_now")
+        weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
