@@ -88,7 +88,10 @@ class YahooService
             code_now = condition[0].getAttribute("code")
             temp_now = condition[0].getAttribute("temp")
             date_now = condition[0].getAttribute("date")
-            yahoo_weather_data_now = {city:city,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
+            woeid_data = localStorage.getObject("woeid_data")
+            if not woeid_data? then return
+            city_name = woeid_data[0].k
+            yahoo_weather_data_now = {city:city,city_name:city_name,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
             localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
             forecast = xmlDoc.getElementsByTagNameNS("*","forecast")

@@ -35,7 +35,7 @@ class ClientCityId
                         woeid_data = localStorage.getObject("woeid_data")
                         if not woeid_data? then return
                         cityid_client = woeid_data[0].woeid
-                        echo "cityid_client:#{cityid_client},cityname_client:#{cityname_client};"
+                        echo "cityid_client:#{cityid_client},cityname_client:#{woeid_data[0].k};"
                         localStorage.setItem("cityid_client_storage",cityid_client)
                         localStorage.setItem("cityid_storage",cityid_client)
                         localStorage.setItem("cityname_client_storage",woeid_data[0].k)

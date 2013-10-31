@@ -323,7 +323,7 @@ class Weather extends Widget
         # echo weather_data_now
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
-        @city_now.textContent = weather_data_now.city
+        @city_now.textContent = weather_data_now.city_name
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
         # new ToolTip(@weather_now_pic,weather_data_now.text)
