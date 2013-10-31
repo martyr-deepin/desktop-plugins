@@ -337,10 +337,11 @@ class Weather extends Widget
 
     update_weathernow: (weather_data_now)->
         temp_now = weather_data_now.temp
-        @time_update = weather_data_now.date
         @city_now.textContent = weather_data_now.city
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
         @weather_now_pic.title = weather_data_now.text
+        str_data = weather_data_more.weatherinfo.date_y
+        @date.textContent = weather_data_now.date
 
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
@@ -352,12 +353,11 @@ class Weather extends Widget
             @temperature_now_number.textContent = temp_now + weather_data_now.temp_danwei
 
     update_weathermore: (weather_data_more)->
+
         @week_n = @weatherdata.weather_more_week()
         @img_front = @weatherdata.weather_more_img_front()
         @img_behind = @weatherdata.weather_more_img_behind()
         week_show = [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat")]
-        str_data = weather_data_more.weatherinfo.date_y
-        @date.textContent = str_data.substring(0,str_data.indexOf("\u5e74")) + "." + str_data.substring(str_data.indexOf("\u5e74")+1,str_data.indexOf("\u6708"))+ "." + str_data.substring(str_data.indexOf("\u6708") + 1,str_data.indexOf("\u65e5")) + " " + week_show[@week_n%7]
 
         # new ToolTip(@weather_now_pic,weather_data_more.weatherinfo['weather' + 1])
 
