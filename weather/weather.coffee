@@ -68,7 +68,7 @@ class Weather extends Widget
         []
     weather_style_build: ->
         @img_url_first = "#{plugin.path}/img/"
-        img_now_url_init = @img_url_first + "48/T" + "0\u6674" + ".png"
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
         temp_now_init = "00"
 
         left_div = create_element("div", "left_div", @element)
@@ -130,8 +130,8 @@ class Weather extends Widget
 
     more_weather_build: ->
 
-        img_now_url_init = @img_url_first + "48/T" + "0\u6674" + ".png"
-        img_more_url_init = @img_url_first + "24/T" + "0\u6674" + ".png"
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
+        img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + ".gif"
         week_init = _("Sun")
         temp_init = "00℃~00℃"
 
@@ -339,22 +339,17 @@ class Weather extends Widget
         temp_now = weather_data_now.weatherinfo.temp
         @time_update = weather_data_now.weatherinfo.time
         @city_now.textContent = weather_data_now.weatherinfo.city
+        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
+        @weather_now_pic.title = weather_data_now.text
 
-        if temp_now == "\u6682\u65e0\u5b9e\u51b5"
-            temp_str = _(" sorry, \n China Meteorological Administration \n don't provide the live weather data for this city.")
-            @temperature_now_number.style.fontSize = 18
-            @temperature_now_number.textContent = _("None")
-            @temperature_now_number.title = temp_str
-            # new ToolTip(@temperature_now_number,temp_str)
+        @temperature_now_number.style.fontSize = 36
+        if temp_now < -10
+            @temperature_now_minus.style.opacity = 0.8
+            @temperature_now_number.textContent = -temp_now + weather_data_now.temp_danwei
         else
-            @temperature_now_number.style.fontSize = 36
-            if temp_now < -10
-                @temperature_now_minus.style.opacity = 0.8
-                @temperature_now_number.textContent = -temp_now
-            else
-                @temperature_now_minus.style.opacity = 0
-                @temperature_now_number.style.opacity = 1.0
-                @temperature_now_number.textContent = temp_now
+            @temperature_now_minus.style.opacity = 0
+            @temperature_now_number.style.opacity = 1.0
+            @temperature_now_number.textContent = temp_now + weather_data_now.temp_danwei
 
     update_weathermore: (weather_data_more)->
         @week_n = @weatherdata.weather_more_week()
@@ -363,9 +358,7 @@ class Weather extends Widget
         week_show = [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat")]
         str_data = weather_data_more.weatherinfo.date_y
         @date.textContent = str_data.substring(0,str_data.indexOf("\u5e74")) + "." + str_data.substring(str_data.indexOf("\u5e74")+1,str_data.indexOf("\u6708"))+ "." + str_data.substring(str_data.indexOf("\u6708") + 1,str_data.indexOf("\u65e5")) + " " + week_show[@week_n%7]
-        @weather_now_pic.src = @img_url_first + "48/T" + weather_data_more.weatherinfo.img_single + weather_data_more.weatherinfo.img_title_single + ".png"
 
-        @weather_now_pic.title = weather_data_more.weatherinfo['weather' + 1]
         # new ToolTip(@weather_now_pic,weather_data_more.weatherinfo['weather' + 1])
 
         for i in [0...6]
