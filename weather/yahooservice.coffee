@@ -108,112 +108,121 @@ class YahooService
             callback?()
         )
 
+    day_en_zh = (day) ->
+        switch(day)
+            when "Sun" then return _("Sun")
+            when "Mon" then return _("Mon")
+            when "Tue" then return _("Tue")
+            when "Wed" then return _("Wed")
+            when "Thu" then return _("Thu")
+            when "Fri" then return _("Fri")
+            when "Sat" then return _("Sat")
+            else echo "no this day:" + day
+
+
+    yahoo_img_code_to_en = (code) ->
+        switch(code)
+            when "0" then  return _("tornado")
+            when "1" then  return _("tropical storm")
+            when "2" then  return _("hurricane")
+            when "3" then  return _("severe thunderstorms")
+            when "4" then  return _("thunderstorms")
+            when "5" then  return _("mixed rain and snow")
+            when "6" then  return _("mixed rain and sleet")
+            when "7" then  return _("mixed snow and sleet")
+            when "8" then  return _("freezing drizzle")
+            when "9" then  return _("drizzle")
+            when "10" then return _("freezing rain")
+            when "11" then return _("showers")
+            when "12" then return _("showers")
+            when "13" then return _("snow flurries")
+            when "14" then return _("light snow showers")
+            when "15" then return _("blowing snow")
+            when "16" then return _("snow")
+            when "17" then return _("hail")
+            when "18" then return _("sleet")
+            when "19" then return _("dust")
+            when "20" then return _("foggy")
+            when "21" then return _("haze")
+            when "22" then return _("smoky")
+            when "23" then return _("blustery")
+            when "24" then return _("windy")
+            when "25" then return _("cold")
+            when "26" then return _("cloudy")
+            when "27" then return _("mostly cloudy (night)")
+            when "28" then return _("mostly cloudy (day)")
+            when "29" then return _("partly cloudy (night)")
+            when "30" then return _("partly cloudy (day)")
+            when "31" then return _("clear (night)")
+            when "32" then return _("sunny")
+            when "33" then return _("fair (night)")
+            when "34" then return _("fair (day)")
+            when "35" then return _("mixed rain and hail")
+            when "36" then return _("hot")
+            when "37" then return _("isolated thunderstorms")
+            when "38" then return _("scattered thunderstorms")
+            when "39" then return _("scattered thunderstorm")
+            when "40" then return _("scattered showers")
+            when "41" then return _("heavy snow")
+            when "42" then return _("scattered snow showers")
+            when "43" then return _("heavy snow")
+            when "44" then return _("partly cloudy")
+            when "45" then return _("thundershowers")
+            when "46" then return _("snow showers")
+            when "47" then return _("isolated thundershowers")
+            else return _("3200 not available")
+
 
     yahoo_img_code_to_zh = (code) ->
         #small_img_url = "http://l.yimg.com/a/i/us/we/52/11.gif"
         #big_img_url = "http://l.yimg.com/a/i/us/nws/weather/gr/11n.png"
         switch(code)
-            when 0 then  return "龙卷风"
-            when 1 then  return "热带风暴"
-            when 2 then  return "飓风"
-            when 3 then  return "严重的雷暴"
-            when 4 then  return "雷暴"
-            when 5 then  return "混合雨雪"
-            when 6 then  return "混合降雨和冰雹"
-            when 7 then  return "混合雪和雨夹雪"
-            when 8 then  return "冻结小雨"
-            when 9 then  return "小雨"
-            when 10 then return "冻雨"
-            when 11 then return  "阵雨"
-            when 12 then return "阵雨"
-            when 13 then return "雪飘雪"
-            when 14 then return "小雪阵雨"
-            when 15 then return "吹雪"
-            when 16 then return "雪"
-            when 17 then return "冰雹"
-            when 18 then return "雨夹雪"
-            when 19 then return "尘埃"
-            when 20 then return "雾"
-            when 21 then return "霾"
-            when 22 then return "黑烟"
-            when 23 then return "大风"
-            when 24 then return "风"
-            when 25 then return "低温"
-            when 26 then return "多云"
-            when 27 then return "多云（晚上）"
-            when 28 then return "多云（白天）"
-            when 29 then return "局部多云（晚上）"
-            when 30 then return "局部多云（天）"
-            when 31 then return "清爽（晚）"
-            when 32 then return "晴天"
-            when 33 then return "晴朗（晚）"
-            when 34 then return "晴朗（天）"
-            when 35 then return "混合雨和冰雹"
-            when 36 then return "热"
-            when 37 then return "局部地区性雷暴"
-            when 38 then return "零星雷暴"
-            when 39 then return "零星雷暴"
-            when 40 then return "零星阵雨"
-            when 41 then return "大雪"
-            when 42 then return "零星阵雪"
-            when 43 then return "大雪"
-            when 44 then return "多云"
-            when 45 then return "雷阵雨"
-            when 46 then return "阵雪"
-            when 47 then return "局部雷阵雨"
+            when "0" then  return "龙卷风"
+            when "1" then  return "热带风暴"
+            when "2" then  return "飓风"
+            when "3" then  return "严重的雷暴"
+            when "4" then  return "雷暴"
+            when "5" then  return "混合雨雪"
+            when "6" then  return "混合降雨和冰雹"
+            when "7" then  return "混合雪和雨夹雪"
+            when "8" then  return "冻结小雨"
+            when "9" then  return "小雨"
+            when "10" then return "冻雨"
+            when "11" then return  "阵雨"
+            when "12" then return "阵雨"
+            when "13" then return "雪飘雪"
+            when "14" then return "小雪阵雨"
+            when "15" then return "吹雪"
+            when "16" then return "雪"
+            when "17" then return "冰雹"
+            when "18" then return "雨夹雪"
+            when "19" then return "尘埃"
+            when "20" then return "雾"
+            when "21" then return "霾"
+            when "22" then return "黑烟"
+            when "23" then return "大风"
+            when "24" then return "风"
+            when "25" then return "低温"
+            when "26" then return "多云"
+            when "27" then return "多云（晚上）"
+            when "28" then return "多云（白天）"
+            when "29" then return "局部多云（晚上）"
+            when "30" then return "局部多云（天）"
+            when "31" then return "清爽（晚）"
+            when "32" then return "晴天"
+            when "33" then return "晴朗（晚）"
+            when "34" then return "晴朗（天）"
+            when "35" then return "混合雨和冰雹"
+            when "36" then return "热"
+            when "37" then return "局部地区性雷暴"
+            when "38" then return "零星雷暴"
+            when "39" then return "零星雷暴"
+            when "40" then return "零星阵雨"
+            when "41" then return "大雪"
+            when "42" then return "零星阵雪"
+            when "43" then return "大雪"
+            when "44" then return "多云"
+            when "45" then return "雷阵雨"
+            when "46" then return "阵雪"
+            when "47" then return "局部雷阵雨"
             else return "3200无法使用"
-
-
-    yahoo_img_code_to_en = (code) ->
-        switch(code)
-            when 0 then  return "tornado"
-            when 1 then  return "tropical storm"
-            when 2 then  return "hurricane"
-            when 3 then  return "severe thunderstorms"
-            when 4 then  return "thunderstorms"
-            when 5 then  return "mixed rain and snow"
-            when 6 then  return "mixed rain and sleet"
-            when 7 then  return "mixed snow and sleet"
-            when 8 then  return "freezing drizzle"
-            when 9 then  return "drizzle"
-            when 10 then return "freezing rain"
-            when 11 then return "showers"
-            when 12 then return "showers"
-            when 13 then return "snow flurries"
-            when 14 then return "light snow showers"
-            when 15 then return "blowing snow"
-            when 16 then return "snow"
-            when 17 then return "hail"
-            when 18 then return "sleet"
-            when 19 then return "dust"
-            when 20 then return "foggy"
-            when 21 then return "haze"
-            when 22 then return "smoky"
-            when 23 then return "blustery"
-            when 24 then return "windy"
-            when 25 then return "cold"
-            when 26 then return "cloudy"
-            when 27 then return "mostly cloudy (night)"
-            when 28 then return "mostly cloudy (day)"
-            when 29 then return "partly cloudy (night)"
-            when 30 then return "partly cloudy (day)"
-            when 31 then return "clear (night)"
-            when 32 then return "sunny"
-            when 33 then return "fair (night)"
-            when 34 then return "fair (day)"
-            when 35 then return "mixed rain and hail"
-            when 36 then return "hot"
-            when 37 then return "isolated thunderstorms"
-            when 38 then return "scattered thunderstorms"
-            when 39 then return "scattered thunderstorm"
-            when 40 then return "scattered showers"
-            when 41 then return "heavy snow"
-            when 42 then return "scattered snow showers"
-            when 43 then return "heavy snow"
-            when 44 then return "partly cloudy"
-            when 45 then return "thundershowers"
-            when 46 then return "snow showers"
-            when 47 then return "isolated thundershowers"
-            else return "3200 not available"
-
-

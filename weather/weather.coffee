@@ -28,7 +28,7 @@ class Weather extends Widget
     BOTTOM_DISTANCE_MINI = 215
 
     TOP_MORE_WEATHER_MENU1 = 91
-    TOP_MORE_WEATHER_MENU2 = -191
+    TOP_MORE_WEATHER_MENU2 = -155
 
     LEFT_COMMON_CITY_MENU1 = 160
     TOP_COMMON_CITY_MENU1 = 57
@@ -205,15 +205,14 @@ class Weather extends Widget
         @add_common_city = create_element("div","add_common_city",@common_menu)
         plus =  create_element("div","plus",@add_common_city)
         plus.innerText = "+"
+        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+        # set_menu_position(@common_menu,bottom_distance,LEFT_COMMON_CITY_MENU1,TOP_COMMON_CITY_MENU1,LEFT_COMMON_CITY_MENU2,BOTTOM_COMMON_CITY_MENU2,"block")
+        @common_menu.style.display = "block"
         @add_common_city.addEventListener("click",=>
             echo "add_common_city"
             @common_menu.style.display = "none"
             @search_city_build()
             )
-        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-        # set_menu_position(@common_menu,bottom_distance,LEFT_COMMON_CITY_MENU1,TOP_COMMON_CITY_MENU1,LEFT_COMMON_CITY_MENU2,BOTTOM_COMMON_CITY_MENU2,"block")
-        @common_menu.style.display = "block"
-
 
     search_city_build:->
         echo "search_city_build"
@@ -314,20 +313,24 @@ class Weather extends Widget
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
         if cityid
-            yahooservice = new YahooService()
-            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
+            @yahooservice = new YahooService()
+            @yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
         else
             echo "cityid isnt ready"
 
     update_weather_now_more: (weather_data_now,weather_data_more)->
         # echo weather_data_now
+
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
         @city_now.textContent = weather_data_now.city_name
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
-        @weather_now_pic.title = weather_data_now.text
+        @weather_now_pic.title = @yahooservice.yahoo_img_code_to_en(weather_data_now.code)
         # new ToolTip(@weather_now_pic,weather_data_now.text)
-        @date.textContent = weather_data_now.date
+        str = weather_data_now.date
+        @date.textContent = str.substring(0,str.indexOf("201"))
+        echo @city_now.textContent + ":" + weather_data_now.code + "," + @weather_now_pic.title + "."
+
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
@@ -341,7 +344,7 @@ class Weather extends Widget
         for data , i in weather_data_more
             @weather_data[i].title = data.text
             # new ToolTip(@weather_data[i],data.text)
-            @week[i].textContent = day_en_zh(data.day)
+            @week[i].textContent = @yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
