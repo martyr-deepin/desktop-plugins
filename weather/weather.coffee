@@ -170,9 +170,8 @@ class Weather extends Widget
         common_city = []
         common_city_text = []
         minus = []
-        for dist,j in common_dists
+        for dist,i in common_dists
             if not dist? then continue
-            i++
             common_city[i] = create_element("div","common_city",@city_more_tmp)
             common_city[i].value = dist.name
 
@@ -187,8 +186,8 @@ class Weather extends Widget
             that = @
             common_city_text[i].addEventListener("click",->
                 that.more_city_menu.style.display = "none"
-                echo this.value
-                localStorage.setItem("cityid_storage",common_dists[i].id)
+                id =  this.value
+                localStorage.setItem("cityid_storage",JSON.parse(this.value))
                 that.weathergui_refresh_Interval()
                 that = null
                 )

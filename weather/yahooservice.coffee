@@ -24,7 +24,7 @@ class YahooService
     
     APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
-
+    
     constructor: ->
 
     get_woeid_by_place_name:(place_name,callback)->
@@ -84,14 +84,14 @@ class YahooService
             code_now = condition[0].getAttribute("code")
             temp_now = condition[0].getAttribute("temp")
             date_now = condition[0].getAttribute("date")
-            woeid_data = localStorage.getObject("woeid_data")
-            if not woeid_data? then return
+            common_dists = localStorage.getObject("common_dists")
             city_name = _("choose city")
-            for tmp in woeid_data
+            if not common_dists? then return
+            for tmp in common_dists
                 if woeid == tmp.id
-                    city_name = tmp.k
+                    city_name = tmp.name
             
-            yahoo_weather_data_now = {city:city,city_name:city_name,woeid:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
+            yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
             localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
             forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
@@ -102,7 +102,7 @@ class YahooService
                 high = forecast[i].getAttribute("high")
                 text = forecast[i].getAttribute("text")
                 code = forecast[i].getAttribute("code")
-                yahoo_weather_data_more.push({index:i,day:day,date:date,low:low,high:high,text:text,code:code})
+                yahoo_weather_data_more.push({index:i,id:woeid,day:day,date:date,low:low,high:high,text:text,code:code})
             
             localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
             callback?()
