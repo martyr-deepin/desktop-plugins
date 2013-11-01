@@ -98,12 +98,11 @@ class Weather extends Widget
                 height = @more_city_menu.clientHeight
                 @more_city_menu.style.display = "none"
                 bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+                @more_city_menu.style.left = 160
                 if bottom_distance < height
-                    @more_city_menu.style.left = 160
-                    @more_city_menu.style.bottom = -35
+                    @more_city_menu.style.top = -145
                 else
-                    @more_city_menu.style.left = 160
-                    @more_city_menu.style.top = 57
+                    @more_city_menu.style.top = 60
                 @more_city_menu.style.display = "block"
 
                 @global_desktop.style.display = "block"
