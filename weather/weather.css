@@ -167,6 +167,7 @@
     height: 30px;
     line-height: 30px;
     display: -webkit-box;
+    overflow: hidden;
     -webkit-box-pack:end;
 }
 .common_city:hover > .minus{

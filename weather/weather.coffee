@@ -174,6 +174,7 @@ class Weather extends Widget
             if not dist? then continue
             common_city[i] = create_element("div","common_city",@city_more_tmp)
             common_city[i].value = dist.name
+            common_city[i].title = dist.name
 
             common_city_text[i] = create_element("div","common_city_text",common_city[i])
             common_city_text[i].innerText = dist.name
@@ -333,7 +334,6 @@ class Weather extends Widget
         )
 
     weathergui_refresh_Interval: =>
-            echo "weathergui_refresh_Interval"
             @weathergui_refresh()
             that = @
             clearInterval(auto_weathergui_refresh)
