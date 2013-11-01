@@ -30,7 +30,6 @@ class ClientCityId
                 if remote_ip_info.ret == 1
                     yahoo = new YahooService()
                     cityname_client = remote_ip_info.city
-                    echo "cityname_client:" + cityname_client
                     yahoo.get_woeid_by_place_name(cityname_client,=>
                         woeid_data = localStorage.getObject("woeid_data")
                         if not woeid_data? then return

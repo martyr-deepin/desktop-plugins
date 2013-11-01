@@ -34,7 +34,6 @@ class YahooService
         ajax(woeid_url,true,(xhr)=>
             xml_str = xhr.responseText
             localStorage.setItem("yahoo_woeid_xml_str",xml_str)
-            echo "woeid_xml"
             woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
             if woeid_xml.q isnt place_name
                 echo "get_woeid_by_place_name xml_str  wrong!"
@@ -58,7 +57,7 @@ class YahooService
         )
 
     get_weather_data_by_woeid:(woeid,callback)->
-        echo "woeid:" + woeid
+        #echo "woeid:" + woeid
         if !woeid
             echo "woeid :" + woeid + ",return!"
             return
@@ -89,10 +88,7 @@ class YahooService
             if not woeid_data? then return
             city_name = _("choose city")
             for tmp in woeid_data
-                echo tmp.id
-                echo "woeid:" + woeid
                 if woeid == tmp.id
-                    echo tmp.k
                     city_name = tmp.k
             
             yahoo_weather_data_now = {city:city,city_name:city_name,woeid:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}

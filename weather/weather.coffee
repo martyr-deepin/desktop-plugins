@@ -35,7 +35,7 @@ class Weather extends Widget
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
-        cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")
+        cityid = localStorage.getItem("cityid_storage") if localStorage.getItem("cityid_storage")
         if cityid < 1000
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
@@ -187,7 +187,8 @@ class Weather extends Widget
             that = @
             common_city_text[i].addEventListener("click",->
                 that.more_city_menu.style.display = "none"
-                localStorage.setItem("cityid_storage",this.value)
+                echo this.value
+                localStorage.setItem("cityid_storage",common_dists[i].id)
                 that.weathergui_refresh_Interval()
                 that = null
                 )
@@ -244,7 +245,7 @@ class Weather extends Widget
                 woeid_data = localStorage.getObject("woeid_data")
                 i = 0
                 woeid_choose = woeid_data[i].id
-                localStorage.setItem("cityid_storage",woeid_choose)
+                localStorage.setItem("cityid_storage",woeid_data[i].id)
                 @global_desktop.style.display = "none"
                 remove_element(@search) if @search
 
@@ -333,6 +334,7 @@ class Weather extends Widget
         )
 
     weathergui_refresh_Interval: =>
+            echo "weathergui_refresh_Interval"
             @weathergui_refresh()
             that = @
             clearInterval(auto_weathergui_refresh)
@@ -344,7 +346,7 @@ class Weather extends Widget
     weathergui_refresh: =>
         echo "weathergui_refresh"
         @global_desktop.style.display = "none"
-        cityid = localStorage.getObject("cityid_storage")
+        cityid = localStorage.getItem("cityid_storage")
         if cityid < 100
             cityid = 0
             localStorage.setItem("cityid_storage",cityid)
@@ -369,7 +371,7 @@ class Weather extends Widget
         # new ToolTip(@weather_now_pic,weather_data_now.text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
-        echo @city_now.textContent + ":" + weather_data_now.temp + temp_danwei + "," + @weather_now_pic.title + ",code:" + weather_data_now.code
+        echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + @weather_now_pic.title + ",code:" + weather_data_now.code
 
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
