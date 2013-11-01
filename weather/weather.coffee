@@ -290,7 +290,7 @@ class Weather extends Widget
         if @search_result_select.options.length < 1 then return
         setMaxSize(@search_result_select,woeid_data.length)
         @search_input.focus()
-        
+        @search_result_select.options[0].selected = "true"
         @search_result_select.options[0].addEventListener("click",=>
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
