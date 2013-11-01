@@ -29,4 +29,5 @@ create_option = (obj,data)->
     for i of data
         obj.options.add(new Option(data[i].name, i))
 
-
+array_clear = (arr) ->
+    arr.splice(0,arr.length)

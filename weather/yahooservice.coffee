@@ -30,29 +30,27 @@ class YahooService
     get_woeid_by_place_name:(place_name,callback)->
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
+        array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
             xml_str = xhr.responseText
             localStorage.setItem("yahoo_woeid_xml_str",xml_str)
+            echo "woeid_xml"
             woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
-            #echo woeid_xml
-            #echo woeid_xml.q
             if woeid_xml.q isnt place_name
                 echo "get_woeid_by_place_name xml_str  wrong!"
                 return
             r = woeid_xml.r
             for dk,index in r
                 value = new Array()
-                value.splice(0,value.length)
+                array_clear(value)
                 d = dk.d
                 k = dk.k
-                #echo k
                 t = d.substring(d.indexOf(":") + 1)
                 t_arr = t.split("&")
-                #echo t_arr
                 for pt,i in t_arr
                     value.push(pt.slice(pt.indexOf("=") + 1))
                 
-                arr = {index:index,k:k,iso:value[0],woeid:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
+                arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
                 woeid_data.push(arr)
              
             localStorage.setObject("woeid_data",woeid_data)
@@ -66,11 +64,10 @@ class YahooService
             return
         xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + DEG
         yahoo_weather_data_more = new Array()
+        array_clear(yahoo_weather_data_more)
         ajax(xml_str,true,(xhr)=>
             xmlDoc =  xhr.responseXML
-            # echo xmlDoc
             title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
-            #echo title
             if title is "City not found"
                 echo "title:" + title + ",the return data is error ,return!"
                 return
@@ -91,10 +88,11 @@ class YahooService
             woeid_data = localStorage.getObject("woeid_data")
             if not woeid_data? then return
             city_name = _("choose city")
-            echo woeid
-            echo woeid_data
             for tmp in woeid_data
-                if tmp.id is woeid
+                echo tmp.id
+                echo "woeid:" + woeid
+                if woeid == tmp.id
+                    echo tmp.k
                     city_name = tmp.k
             
             yahoo_weather_data_now = {city:city,city_name:city_name,woeid:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}

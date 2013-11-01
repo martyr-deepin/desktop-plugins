@@ -186,7 +186,6 @@ class Weather extends Widget
 
             that = @
             common_city_text[i].addEventListener("click",->
-                echo "click"
                 that.more_city_menu.style.display = "none"
                 localStorage.setItem("cityid_storage",this.value)
                 that.weathergui_refresh_Interval()
@@ -244,7 +243,7 @@ class Weather extends Widget
                 evt.preventDefault()
                 woeid_data = localStorage.getObject("woeid_data")
                 i = 0
-                woeid_choose = woeid_data[i].woeid
+                woeid_choose = woeid_data[i].id
                 localStorage.setItem("cityid_storage",woeid_choose)
                 @global_desktop.style.display = "none"
                 remove_element(@search) if @search
@@ -252,9 +251,10 @@ class Weather extends Widget
                 for tmp in common_dists
                     if not tmp? then continue
                     if woeid_choose == tmp.id then return
-                arr = {name:woeid_data[i].k,id:woeid_data[i].woeid}
+                arr = {name:woeid_data[i].k,id:woeid_data[i].id}
                 common_dists.push(arr)
-                echo woeid_data[i].index + "": + arr.name + "," + arr.woeid
+                echo woeid_data[i].index + "choosed:"
+                echo arr
                 if common_dists.length > 5 then common_dists.splice(0,1)
                 localStorage.setObject("common_dists",common_dists)
                 
@@ -283,18 +283,17 @@ class Weather extends Widget
         @search_result_select = create_element("select","search_result_select",@search_result)
         clearOptions(@search_result_select,0)
         for data in woeid_data
-            show_result_text =  data.index + ":" + data.c + "," + data.s + "," + data.k
+            show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
         if @search_result_select.options.length < 1 then return
-        @search_result_select.options[0].selected = "false"
-        @search_result_select.autofocus = "false"
         setMaxSize(@search_result_select,woeid_data.length)
+        @search_input.focus()
         
-        @search_result_select.addEventListener("change", =>
+        @search_result_select.options[0].addEventListener("click",=>
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
-            woeid_choose = woeid_data[i].woeid
+            woeid_choose = woeid_data[i].id
             localStorage.setItem("cityid_storage",woeid_choose)
             @global_desktop.style.display = "none"
             remove_element(@search) if @search
@@ -302,8 +301,30 @@ class Weather extends Widget
             for tmp in common_dists
                 if not tmp? then continue
                 if woeid_choose == tmp.id then return
-            arr = {name:woeid_data[i].k,id:woeid_data[i].woeid}
-            echo woeid_data[i].index + "": + arr
+            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+            echo woeid_data[i].index + "choosed:"
+            echo arr
+            common_dists.push(arr)
+            if common_dists.length > 5 then common_dists.splice(0,1)
+            localStorage.setObject("common_dists",common_dists)
+            
+            @weathergui_refresh_Interval()
+        )
+
+        @search_result_select.addEventListener("change", =>
+            woeid_data = localStorage.getObject("woeid_data")
+            i = @search_result_select.selectedIndex
+            woeid_choose = woeid_data[i].id
+            localStorage.setItem("cityid_storage",woeid_choose)
+            @global_desktop.style.display = "none"
+            remove_element(@search) if @search
+
+            for tmp in common_dists
+                if not tmp? then continue
+                if woeid_choose == tmp.id then return
+            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+            echo woeid_data[i].index + "choosed:"
+            echo arr
             common_dists.push(arr)
             if common_dists.length > 5 then common_dists.splice(0,1)
             localStorage.setObject("common_dists",common_dists)
@@ -337,8 +358,8 @@ class Weather extends Widget
     weathergui_refresh_by_localStorage : =>
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-        echo weather_data_now
-        echo weather_data_more
+        #echo weather_data_now
+        #echo weather_data_more
         yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
