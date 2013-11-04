@@ -51,6 +51,13 @@ class Weather extends Widget
     do_buildmenu:->
         []
     
+    lost_focus:->
+        @more_weather_menu.style.display = "none" if @more_weather_menu
+        @more_city_menu.style.display = "none" if @more_city_menu
+        @global_desktop.style.display = "none" if @global_desktop
+        remove_element(@city_more_tmp) if @city_more_tmp
+        remove_element(@search) if @search
+
     weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
@@ -133,10 +140,7 @@ class Weather extends Widget
                 @more_weather_menu.style.display = "none"
             )
         @global_desktop.addEventListener("click",=>
-            @more_weather_menu.style.display = "none" if @more_weather_menu
-            @more_city_menu.style.display = "none" if @more_city_menu
-            @search.style.display = "none" if @search
-            @global_desktop.style.display = "none"
+            @lost_focus()
             )
 
     weather_more_build: ->
@@ -247,8 +251,6 @@ class Weather extends Widget
                 i = 0
                 woeid_choose = woeid_data[i].id
                 localStorage.setItem("cityid_storage",woeid_data[i].id)
-                @global_desktop.style.display = "none"
-                remove_element(@search) if @search
 
                 for tmp in common_dists
                     if not tmp? then continue
@@ -263,8 +265,7 @@ class Weather extends Widget
                 @weathergui_refresh_Interval()
             when 27   # esc
                 evt.preventDefault()
-                @global_desktop.style.display = "none"
-                remove_element(@search) if @search
+                @lost_focus()
             when 47   # /
                 evt.preventDefault()
         return
@@ -293,14 +294,12 @@ class Weather extends Widget
             #option.style.width = "162px"
         setMaxSize(@search_result_select,woeid_data.length)
         @search_input.focus()
-        @search_result_select.options[0].selected = "true"
+        @search_result_select.options[0].selected = "selected"
         @search_result_select.options[0].addEventListener("click",=>
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
             woeid_choose = woeid_data[i].id
             localStorage.setItem("cityid_storage",woeid_choose)
-            @global_desktop.style.display = "none"
-            remove_element(@search) if @search
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -320,8 +319,6 @@ class Weather extends Widget
             i = @search_result_select.selectedIndex
             woeid_choose = woeid_data[i].id
             localStorage.setItem("cityid_storage",woeid_choose)
-            @global_desktop.style.display = "none"
-            remove_element(@search) if @search
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -347,7 +344,7 @@ class Weather extends Widget
 
     weathergui_refresh: =>
         echo "weathergui_refresh"
-        @global_desktop.style.display = "none"
+        @lost_focus()
         cityid = localStorage.getItem("cityid_storage")
         if cityid < 100
             cityid = 0
