@@ -384,8 +384,8 @@ class Weather extends Widget
         if @weather_data is undefined then return
         for data , i in weather_data_more
             if not @weather_data[i] then continue
-            @weather_data[i].title = text
-            #new ToolTip(@weather_data[i],yahooservice.yahoo_img_code_to_en(data.code))
+            #@weather_data[i].title = text
+            new ToolTip(@weather_data[i],yahooservice.yahoo_img_code_to_en(data.code))
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
