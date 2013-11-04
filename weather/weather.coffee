@@ -371,9 +371,17 @@ class Weather extends Widget
         @weather_now_pic.title = text
         #new ToolTip(@weather_now_pic,text)
         str = weather_data_now.date
-        @date.textContent = str.substring(0,str.indexOf("201"))
-        echo str
-        echo @date.textContent
+        date_tmp = str.substring(0,str.indexOf("201") - 1)
+        day_tmp = date_tmp.substring(0,date_tmp.indexOf(","))
+        day = yahooservice.day_en_zh(day_tmp)
+        riqi = date_tmp.substring(date_tmp.indexOf(" ") + 1)
+        ri = riqi.substring(0,riqi.indexOf(" "))
+        month_tmp = riqi.substring(riqi.indexOf(" ") + 1)
+        month = yahooservice.month_en_num(month_tmp)
+        year = "2013"
+        date_text = year + "." + month + "." + ri + " " + day
+        echo date_text
+        @date.textContent = date_text
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
         @temperature_now_number.style.fontSize = 36

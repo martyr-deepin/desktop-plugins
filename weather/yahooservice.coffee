@@ -119,6 +119,21 @@ class YahooService
             when "Sat" then return _("Sat")
             else echo "no this day:" + day
 
+    month_en_num:(month) ->
+        switch(month)
+            when "Jan" then return "1"
+            when "Feb" then return "2"
+            when "Mar" then return "3"
+            when "Apr" then return "4"
+            when "May" then return "5"
+            when "Jun" then return "6"
+            when "Jul" then return "7"
+            when "Aug" then return "8"
+            when "Sep" then return "9"
+            when "Oct" then return "10"
+            when "Nov" then return "11"
+            when "Dec" then return "12"
+            else echo "no this month:" + month
 
     yahoo_img_code_to_en: (code) ->
         switch(code)
