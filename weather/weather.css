@@ -221,4 +221,8 @@
 }
 
 .search_input{
+    width:162px;
+}
+.search_result{
+    width:162px;
 }

@@ -366,8 +366,8 @@ class Weather extends Widget
         text = yahooservice.yahoo_img_code_to_en(weather_data_now.code)
         @city_now.textContent = weather_data_now.city_name
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
-        #@weather_now_pic.title = text
-        new ToolTip(@weather_now_pic,text)
+        @weather_now_pic.title = text
+        #new ToolTip(@weather_now_pic,text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
@@ -384,8 +384,8 @@ class Weather extends Widget
         if @weather_data is undefined then return
         for data , i in weather_data_more
             if not @weather_data[i] then continue
-            #@weather_data[i].title = text
-            new ToolTip(@weather_data[i],yahooservice.yahoo_img_code_to_en(weather_data_more.code))
+            @weather_data[i].title = text
+            #new ToolTip(@weather_data[i],yahooservice.yahoo_img_code_to_en(data.code))
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
