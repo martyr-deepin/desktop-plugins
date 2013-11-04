@@ -55,7 +55,7 @@ class Weather extends Widget
         @more_weather_menu.style.display = "none" if @more_weather_menu
         @more_city_menu.style.display = "none" if @more_city_menu
         @global_desktop.style.display = "none" if @global_desktop
-        remove_element(@city_more_tmp) if @city_more_tmp
+        remove_element(@more_city_tmp) if @more_city_tmp
         remove_element(@search) if @search
 
     weather_now_build: ->
@@ -168,8 +168,8 @@ class Weather extends Widget
     city_more_build:->
         remove_element(@search) if @search
 
-        remove_element(@city_more_tmp) if @city_more_tmp
-        @city_more_tmp = create_element("div","city_more_tmp",@more_city_menu)
+        remove_element(@more_city_tmp) if @more_city_tmp
+        @more_city_tmp = create_element("div","more_city_tmp",@more_city_menu)
         common_dists = localStorage.getObject("common_dists")
         i = 0
         common_city = []
@@ -177,7 +177,7 @@ class Weather extends Widget
         minus = []
         for dist,i in common_dists
             if not dist? then continue
-            common_city[i] = create_element("div","common_city",@city_more_tmp)
+            common_city[i] = create_element("div","common_city",@more_city_tmp)
             common_city[i].value = dist.name
             common_city[i].title = dist.name
 
@@ -210,7 +210,7 @@ class Weather extends Widget
                         break
                 )
 
-        @add_common_city = create_element("div","add_common_city",@city_more_tmp)
+        @add_common_city = create_element("div","add_common_city",@more_city_tmp)
         plus =  create_element("div","plus",@add_common_city)
         plus.innerText = "+"
         @add_common_city.addEventListener("click",=>
