@@ -148,11 +148,13 @@ class Weather extends Widget
         remove_element(@weather_more_tmp) if @weather_more_tmp
         @weather_more_tmp = create_element("div","weather_more_tmp",@more_weather_menu)
         @weather_data = []
+        @tooltip = []
         @week = []
         @pic = []
         @temperature = []
         for i in [0...5]
             @weather_data[i] = create_element("div", "weather_data", @weather_more_tmp)
+            @tooltip[i] = new ToolTip(@weather_data[i],"")
             @week[i] = create_element("a", "week", @weather_data[i])
             @week[i].textContent = week_init
             @pic[i] = create_img("pic", img_more_url_init, @weather_data[i])
@@ -370,6 +372,8 @@ class Weather extends Widget
         #new ToolTip(@weather_now_pic,text)
         str = weather_data_now.date
         @date.textContent = str.substring(0,str.indexOf("201"))
+        echo str
+        echo @date.textContent
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
         @temperature_now_number.style.fontSize = 36
@@ -384,8 +388,7 @@ class Weather extends Widget
         if @weather_data is undefined then return
         for data , i in weather_data_more
             if not @weather_data[i] then continue
-            #@weather_data[i].title = text
-            new ToolTip(@weather_data[i],yahooservice.yahoo_img_code_to_en(data.code))
+            @tooltip[i].text = yahooservice.yahoo_img_code_to_en(data.code)
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
