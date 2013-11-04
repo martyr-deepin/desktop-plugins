@@ -289,6 +289,8 @@ class Weather extends Widget
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
         if @search_result_select.options.length < 1 then return
+        #for option in @search_result_select.opitions
+            #option.style.width = "162px"
         setMaxSize(@search_result_select,woeid_data.length)
         @search_input.focus()
         @search_result_select.options[0].selected = "true"
@@ -360,14 +362,16 @@ class Weather extends Widget
     weathergui_refresh_by_localStorage : =>
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-        #echo weather_data_now
-        #echo weather_data_more
+        echo weather_data_now
+        echo weather_data_more
         yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
-        text = yahooservice.yahoo_img_code_to_en(weather_data_now.code)
         @city_now.textContent = weather_data_now.city_name
-        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + weather_data_now.code + "n.png"
+        code  = weather_data_now.code
+        if code is "3200" then code = weather_data_more[0].code
+        text = yahooservice.yahoo_img_code_to_en(code)
+        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
         @weather_now_pic.title = text
         #new ToolTip(@weather_now_pic,text)
         str = weather_data_now.date
@@ -380,7 +384,7 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        echo date_text
+        # echo date_text
         @date.textContent = date_text
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 

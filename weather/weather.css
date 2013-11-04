@@ -226,3 +226,6 @@
 .search_result{
     width:162px;
 }
+.search_result.opitions{
+    width:162px;
+}
