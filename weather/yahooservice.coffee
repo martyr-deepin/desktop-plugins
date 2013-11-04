@@ -20,14 +20,17 @@
 
 class YahooService
     
-    #language = ["zh-Hans","zh-Hant","en-US"]
-    
     APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
+    lc = 'zh-Hans'
     
     constructor: ->
-
+        
     get_woeid_by_place_name:(place_name,callback)->
+        lang = window.navigator.language
+        lc = lang_to_lc(lang)
+        echo lc
+        #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
@@ -70,7 +73,7 @@ class YahooService
         yahoo_weather_data_more = new Array()
         array_clear(yahoo_weather_data_more)
         ajax(xml_str,true,(xhr)=>
-            try
+            #try
                 # ...
                 xmlDoc =  xhr.responseXML
                 title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
@@ -113,10 +116,25 @@ class YahooService
                 
                 localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
                 callback?()
-            catch e
+            #catch e
                 # ...
                 echo "get_weather_data_by_woeid xhr.responseText error!"
         )
+
+    lang_to_lc:(lang) ->
+        switch(lang)
+            when "zh-tw" then return "zh-Hans"
+            when "zh-cn" then return "zh-Hant"
+            when "en-us" then return "en"
+            else return "en"
+
+    temperature_c_to_f:(c)->
+       f = c * 9 / 5 + 32
+       return f
+    
+   temperature_f_to_c:(f)->
+       c = (f - 32) * 5 / 9
+       return c
 
     day_en_zh: (day) ->
         switch(day)
