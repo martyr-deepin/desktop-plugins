@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-04 11:21+0800\n"
+"POT-Creation-Date: 2013-11-04 16:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,12 +34,14 @@ msgstr "縣"
 
 #: weather.coffee:94 weather.coffee:91 weather/weather.coffee:91
 #: weather/weather.coffee:88 weather/yahooservice.coffee:88
-#: weather/weather.coffee:73
+#: weather/weather.coffee:73 weather/yahooservice.coffee:95
+#: weather/weather.coffee:83
 msgid "choose city"
 msgstr "請選擇城市"
 
 #: weather.coffee:97 weather.coffee:94 weather/weather.coffee:94
 #: weather/weather.coffee:91 weather/weather.coffee:76
+#: weather/weather.coffee:86
 msgid "loading"
 msgstr "載入中"
 
@@ -47,6 +49,7 @@ msgstr "載入中"
 #: weather/weather.coffee:149 weather/weather.coffee:226
 #: weather/utils.coffee:58 weather/yahooservice.coffee:113
 #: weather/weather.coffee:134 weather/weather.coffee:145
+#: weather/yahooservice.coffee:120 weather/weather.coffee:152
 msgid "Sun"
 msgstr "星期日"
 
@@ -55,32 +58,32 @@ msgid "None"
 msgstr "暫無"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:59
-#: weather/yahooservice.coffee:114
+#: weather/yahooservice.coffee:114 weather/yahooservice.coffee:121
 msgid "Mon"
 msgstr "星期一"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:60
-#: weather/yahooservice.coffee:115
+#: weather/yahooservice.coffee:115 weather/yahooservice.coffee:122
 msgid "Tue"
 msgstr "星期二"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:61
-#: weather/yahooservice.coffee:116
+#: weather/yahooservice.coffee:116 weather/yahooservice.coffee:123
 msgid "Wed"
 msgstr "星期三"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:62
-#: weather/yahooservice.coffee:117
+#: weather/yahooservice.coffee:117 weather/yahooservice.coffee:124
 msgid "Thu"
 msgstr "星期四"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:63
-#: weather/yahooservice.coffee:118
+#: weather/yahooservice.coffee:118 weather/yahooservice.coffee:125
 msgid "Fri"
 msgstr "星期五"
 
 #: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:64
-#: weather/yahooservice.coffee:119
+#: weather/yahooservice.coffee:119 weather/yahooservice.coffee:126
 msgid "Sat"
 msgstr "星期六"
 
@@ -92,191 +95,242 @@ msgid ""
 msgstr ""
 
 #: weather/yahooservice.coffee:125 weather/yahooservice.coffee:140
+#: weather/yahooservice.coffee:147
 msgid "tornado"
 msgstr ""
 
 #: weather/yahooservice.coffee:126 weather/yahooservice.coffee:141
+#: weather/yahooservice.coffee:148
 msgid "tropical storm"
 msgstr ""
 
 #: weather/yahooservice.coffee:127 weather/yahooservice.coffee:142
+#: weather/yahooservice.coffee:149
 msgid "hurricane"
 msgstr ""
 
 #: weather/yahooservice.coffee:128 weather/yahooservice.coffee:143
+#: weather/yahooservice.coffee:150
 msgid "severe thunderstorms"
 msgstr ""
 
 #: weather/yahooservice.coffee:129 weather/yahooservice.coffee:144
+#: weather/yahooservice.coffee:151
 msgid "thunderstorms"
 msgstr ""
 
 #: weather/yahooservice.coffee:130 weather/yahooservice.coffee:145
+#: weather/yahooservice.coffee:152
 msgid "mixed rain and snow"
 msgstr ""
 
 #: weather/yahooservice.coffee:131 weather/yahooservice.coffee:146
+#: weather/yahooservice.coffee:153
 msgid "mixed rain and sleet"
 msgstr ""
 
 #: weather/yahooservice.coffee:132 weather/yahooservice.coffee:147
+#: weather/yahooservice.coffee:154
 msgid "mixed snow and sleet"
 msgstr ""
 
 #: weather/yahooservice.coffee:133 weather/yahooservice.coffee:148
+#: weather/yahooservice.coffee:155
 msgid "freezing drizzle"
 msgstr ""
 
 #: weather/yahooservice.coffee:134 weather/yahooservice.coffee:149
+#: weather/yahooservice.coffee:156
 msgid "drizzle"
 msgstr ""
 
 #: weather/yahooservice.coffee:135 weather/yahooservice.coffee:150
+#: weather/yahooservice.coffee:157
 msgid "freezing rain"
 msgstr ""
 
 #: weather/yahooservice.coffee:136 weather/yahooservice.coffee:137
 #: weather/yahooservice.coffee:151 weather/yahooservice.coffee:152
+#: weather/yahooservice.coffee:158 weather/yahooservice.coffee:159
 msgid "showers"
 msgstr ""
 
 #: weather/yahooservice.coffee:138 weather/yahooservice.coffee:153
+#: weather/yahooservice.coffee:160
 msgid "snow flurries"
 msgstr ""
 
 #: weather/yahooservice.coffee:139 weather/yahooservice.coffee:154
+#: weather/yahooservice.coffee:161
 msgid "light snow showers"
 msgstr ""
 
 #: weather/yahooservice.coffee:140 weather/yahooservice.coffee:155
+#: weather/yahooservice.coffee:162
 msgid "blowing snow"
 msgstr ""
 
 #: weather/yahooservice.coffee:141 weather/yahooservice.coffee:156
+#: weather/yahooservice.coffee:163
 msgid "snow"
 msgstr ""
 
 #: weather/yahooservice.coffee:142 weather/yahooservice.coffee:157
+#: weather/yahooservice.coffee:164
 msgid "hail"
 msgstr ""
 
 #: weather/yahooservice.coffee:143 weather/yahooservice.coffee:158
+#: weather/yahooservice.coffee:165
 msgid "sleet"
 msgstr ""
 
 #: weather/yahooservice.coffee:144 weather/yahooservice.coffee:159
+#: weather/yahooservice.coffee:166
 msgid "dust"
 msgstr ""
 
 #: weather/yahooservice.coffee:145 weather/yahooservice.coffee:160
+#: weather/yahooservice.coffee:167
 msgid "foggy"
 msgstr ""
 
 #: weather/yahooservice.coffee:146 weather/yahooservice.coffee:161
+#: weather/yahooservice.coffee:168
 msgid "haze"
 msgstr ""
 
 #: weather/yahooservice.coffee:147 weather/yahooservice.coffee:162
+#: weather/yahooservice.coffee:169
 msgid "smoky"
 msgstr ""
 
 #: weather/yahooservice.coffee:148 weather/yahooservice.coffee:163
+#: weather/yahooservice.coffee:170
 msgid "blustery"
 msgstr ""
 
 #: weather/yahooservice.coffee:149 weather/yahooservice.coffee:164
+#: weather/yahooservice.coffee:171
 msgid "windy"
 msgstr ""
 
 #: weather/yahooservice.coffee:150 weather/yahooservice.coffee:165
+#: weather/yahooservice.coffee:172
 msgid "cold"
 msgstr ""
 
 #: weather/yahooservice.coffee:151 weather/yahooservice.coffee:166
+#: weather/yahooservice.coffee:173
 msgid "cloudy"
 msgstr ""
 
 #: weather/yahooservice.coffee:152 weather/yahooservice.coffee:167
+#: weather/yahooservice.coffee:174
 msgid "mostly cloudy (night)"
 msgstr ""
 
 #: weather/yahooservice.coffee:153 weather/yahooservice.coffee:168
+#: weather/yahooservice.coffee:175
 msgid "mostly cloudy (day)"
 msgstr ""
 
 #: weather/yahooservice.coffee:154 weather/yahooservice.coffee:169
+#: weather/yahooservice.coffee:176
 msgid "partly cloudy (night)"
 msgstr ""
 
 #: weather/yahooservice.coffee:155 weather/yahooservice.coffee:170
+#: weather/yahooservice.coffee:177
 msgid "partly cloudy (day)"
 msgstr ""
 
 #: weather/yahooservice.coffee:156 weather/yahooservice.coffee:171
+#: weather/yahooservice.coffee:178
 msgid "clear (night)"
 msgstr ""
 
 #: weather/yahooservice.coffee:157 weather/yahooservice.coffee:172
+#: weather/yahooservice.coffee:179
 msgid "sunny"
 msgstr ""
 
 #: weather/yahooservice.coffee:158 weather/yahooservice.coffee:173
+#: weather/yahooservice.coffee:180
 msgid "fair (night)"
 msgstr ""
 
 #: weather/yahooservice.coffee:159 weather/yahooservice.coffee:174
+#: weather/yahooservice.coffee:181
 msgid "fair (day)"
 msgstr ""
 
 #: weather/yahooservice.coffee:160 weather/yahooservice.coffee:175
+#: weather/yahooservice.coffee:182
 msgid "mixed rain and hail"
 msgstr ""
 
 #: weather/yahooservice.coffee:161 weather/yahooservice.coffee:176
+#: weather/yahooservice.coffee:183
 msgid "hot"
 msgstr ""
 
 #: weather/yahooservice.coffee:162 weather/yahooservice.coffee:177
+#: weather/yahooservice.coffee:184
 msgid "isolated thunderstorms"
 msgstr ""
 
 #: weather/yahooservice.coffee:163 weather/yahooservice.coffee:178
+#: weather/yahooservice.coffee:185
 msgid "scattered thunderstorms"
 msgstr ""
 
 #: weather/yahooservice.coffee:164 weather/yahooservice.coffee:179
+#: weather/yahooservice.coffee:186
 msgid "scattered thunderstorm"
 msgstr ""
 
 #: weather/yahooservice.coffee:165 weather/yahooservice.coffee:180
+#: weather/yahooservice.coffee:187
 msgid "scattered showers"
 msgstr ""
 
 #: weather/yahooservice.coffee:166 weather/yahooservice.coffee:168
 #: weather/yahooservice.coffee:181 weather/yahooservice.coffee:183
+#: weather/yahooservice.coffee:188 weather/yahooservice.coffee:190
 msgid "heavy snow"
 msgstr ""
 
 #: weather/yahooservice.coffee:167 weather/yahooservice.coffee:182
+#: weather/yahooservice.coffee:189
 msgid "scattered snow showers"
 msgstr ""
 
 #: weather/yahooservice.coffee:169 weather/yahooservice.coffee:184
+#: weather/yahooservice.coffee:191
 msgid "partly cloudy"
 msgstr ""
 
 #: weather/yahooservice.coffee:170 weather/yahooservice.coffee:185
+#: weather/yahooservice.coffee:192
 msgid "thundershowers"
 msgstr ""
 
 #: weather/yahooservice.coffee:171 weather/yahooservice.coffee:186
+#: weather/yahooservice.coffee:193
 msgid "snow showers"
 msgstr ""
 
 #: weather/yahooservice.coffee:172 weather/yahooservice.coffee:187
+#: weather/yahooservice.coffee:194
 msgid "isolated thundershowers"
 msgstr ""
 
 #: weather/yahooservice.coffee:173 weather/yahooservice.coffee:188
+#: weather/yahooservice.coffee:195
 msgid "3200 not available"
+msgstr ""
+
+#: weather/weather.coffee:51
+msgid "No Network"
 msgstr ""

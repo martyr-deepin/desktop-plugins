@@ -32,28 +32,33 @@ class YahooService
         woeid_data = new Array()
         array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
-            xml_str = xhr.responseText
-            localStorage.setItem("yahoo_woeid_xml_str",xml_str)
-            woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
-            if woeid_xml.q isnt place_name
-                echo "get_woeid_by_place_name xml_str  wrong!"
-                return
-            r = woeid_xml.r
-            for dk,index in r
-                value = new Array()
-                array_clear(value)
-                d = dk.d
-                k = dk.k
-                t = d.substring(d.indexOf(":") + 1)
-                t_arr = t.split("&")
-                for pt,i in t_arr
-                    value.push(pt.slice(pt.indexOf("=") + 1))
-                
-                arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
-                woeid_data.push(arr)
-             
-            localStorage.setObject("woeid_data",woeid_data)
-            callback?()
+            try
+                # ...
+                xml_str = xhr.responseText
+                localStorage.setItem("yahoo_woeid_xml_str",xml_str)
+                woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
+                if woeid_xml.q isnt place_name
+                    echo "get_woeid_by_place_name xml_str  wrong!"
+                    return
+                r = woeid_xml.r
+                for dk,index in r
+                    value = new Array()
+                    array_clear(value)
+                    d = dk.d
+                    k = dk.k
+                    t = d.substring(d.indexOf(":") + 1)
+                    t_arr = t.split("&")
+                    for pt,i in t_arr
+                        value.push(pt.slice(pt.indexOf("=") + 1))
+                    
+                    arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
+                    woeid_data.push(arr)
+                 
+                localStorage.setObject("woeid_data",woeid_data)
+                callback?()
+            catch e
+                # ...
+                echo "get_woeid_by_place_name xhr.responseText error!"
         )
 
     get_weather_data_by_woeid:(woeid,callback)->
@@ -65,47 +70,52 @@ class YahooService
         yahoo_weather_data_more = new Array()
         array_clear(yahoo_weather_data_more)
         ajax(xml_str,true,(xhr)=>
-            xmlDoc =  xhr.responseXML
-            title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
-            if title is "City not found"
-                echo "title:" + title + ",the return data is error ,return!"
-                return
-            location = xmlDoc.getElementsByTagNameNS("*","location")
-            city = location[0].getAttribute("city")
-            region = location[0].getAttribute("region")
-            country = location[0].getAttribute("country")
-            item  = xmlDoc.getElementsByTagName("title")
+            try
+                # ...
+                xmlDoc =  xhr.responseXML
+                title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
+                if title is "City not found"
+                    echo "title:" + title + ",the return data is error ,return!"
+                    return
+                location = xmlDoc.getElementsByTagNameNS("*","location")
+                city = location[0].getAttribute("city")
+                region = location[0].getAttribute("region")
+                country = location[0].getAttribute("country")
+                item  = xmlDoc.getElementsByTagName("title")
 
-            units = xmlDoc.getElementsByTagNameNS("*","units")
-            temperature = units[0].getAttribute("temperature")
+                units = xmlDoc.getElementsByTagNameNS("*","units")
+                temperature = units[0].getAttribute("temperature")
 
-            condition = xmlDoc.getElementsByTagNameNS("*","condition")
-            text_now = condition[0].getAttribute("text")
-            code_now = condition[0].getAttribute("code")
-            temp_now = condition[0].getAttribute("temp")
-            date_now = condition[0].getAttribute("date")
-            common_dists = localStorage.getObject("common_dists")
-            city_name = _("choose city")
-            if not common_dists? then return
-            for tmp in common_dists
-                if woeid == tmp.id
-                    city_name = tmp.name
-            
-            yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
-            localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
+                condition = xmlDoc.getElementsByTagNameNS("*","condition")
+                text_now = condition[0].getAttribute("text")
+                code_now = condition[0].getAttribute("code")
+                temp_now = condition[0].getAttribute("temp")
+                date_now = condition[0].getAttribute("date")
+                common_dists = localStorage.getObject("common_dists")
+                city_name = _("choose city")
+                if not common_dists? then return
+                for tmp in common_dists
+                    if woeid == tmp.id
+                        city_name = tmp.name
+                
+                yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
+                localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
-            forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
-            for i in [0..forecast.length-1]
-                day = forecast[i].getAttribute("day")
-                date = forecast[i].getAttribute("date")
-                low = forecast[i].getAttribute("low")
-                high = forecast[i].getAttribute("high")
-                text = forecast[i].getAttribute("text")
-                code = forecast[i].getAttribute("code")
-                yahoo_weather_data_more.push({index:i,id:woeid,day:day,date:date,low:low,high:high,text:text,code:code})
-            
-            localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
-            callback?()
+                forecast = xmlDoc.getElementsByTagNameNS("*","forecast")
+                for i in [0..forecast.length-1]
+                    day = forecast[i].getAttribute("day")
+                    date = forecast[i].getAttribute("date")
+                    low = forecast[i].getAttribute("low")
+                    high = forecast[i].getAttribute("high")
+                    text = forecast[i].getAttribute("text")
+                    code = forecast[i].getAttribute("code")
+                    yahoo_weather_data_more.push({index:i,id:woeid,day:day,date:date,low:low,high:high,text:text,code:code})
+                
+                localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
+                callback?()
+            catch e
+                # ...
+                echo "get_weather_data_by_woeid xhr.responseText error!"
         )
 
     day_en_zh: (day) ->

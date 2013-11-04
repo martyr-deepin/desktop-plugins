@@ -35,6 +35,7 @@ class Weather extends Widget
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
+        echo "testInternet_connect ok"
         cityid = localStorage.getItem("cityid_storage") if localStorage.getItem("cityid_storage")
         if cityid < 1000
             cityid = 0
@@ -46,6 +47,8 @@ class Weather extends Widget
         else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
+        echo "testInternet_noconnect"
+        @city_now.textContent = _("No Network")
         @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->
@@ -60,7 +63,7 @@ class Weather extends Widget
 
     weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
-        img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
         temp_now_init = "00°"
 
         left_div = create_element("div", "left_div", @element)
@@ -144,8 +147,8 @@ class Weather extends Widget
             )
 
     weather_more_build: ->
-        img_now_url_init = @img_url_first + "yahoo_api/48/" + "11" + "n.png"
-        img_more_url_init = @img_url_first + "yahoo_api/24/" + "11" + "n.png"
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
+        img_more_url_init = @img_url_first + "yahoo_api/24/" + "26" + "n.png"
         week_init = _("Sun")
         temp_init = "00~00℃"
 
@@ -343,7 +346,6 @@ class Weather extends Widget
 
 
     weathergui_refresh: =>
-        echo "weathergui_refresh"
         @lost_focus()
         cityid = localStorage.getItem("cityid_storage")
         if cityid < 100
@@ -357,10 +359,13 @@ class Weather extends Widget
 
 
     weathergui_refresh_by_localStorage : =>
+        echo "weathergui_refresh_by_localStorage"
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
-        echo weather_data_now
-        echo weather_data_more
+        if not weather_data_now? then return
+        if not weather_data_more? then return
+        # echo weather_data_now
+        # echo weather_data_more
         yahooservice = new YahooService()
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
