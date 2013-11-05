@@ -251,10 +251,11 @@ class Weather extends Widget
         switch evt.keyCode
             when 13   # enter
                 evt.preventDefault()
-                woeid_data = localStorage.getObject("woeid_data")
                 i = 0
+                woeid_data = localStorage.getObject("woeid_data")
                 woeid_choose = woeid_data[i].id
                 localStorage.setItem("cityid",woeid_data[i].id)
+                @weathergui_refresh_Interval()
 
                 for tmp in common_dists
                     if not tmp? then continue
@@ -266,7 +267,6 @@ class Weather extends Widget
                 if common_dists.length > 5 then common_dists.splice(0,1)
                 localStorage.setObject("common_dists",common_dists)
                 
-                @weathergui_refresh_Interval()
             when 27   # esc
                 evt.preventDefault()
                 @lost_focus()
@@ -300,10 +300,11 @@ class Weather extends Widget
         @search_input.focus()
         @search_result_select.options[0].selected = "selected"
         @search_result_select.options[0].addEventListener("click",=>
-            woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
+            woeid_data = localStorage.getObject("woeid_data")
             woeid_choose = woeid_data[i].id
             localStorage.setItem("cityid",woeid_choose)
+            @weathergui_refresh_Interval()
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -314,15 +315,14 @@ class Weather extends Widget
             common_dists.push(arr)
             if common_dists.length > 5 then common_dists.splice(0,1)
             localStorage.setObject("common_dists",common_dists)
-            
-            @weathergui_refresh_Interval()
         )
 
         @search_result_select.addEventListener("change", =>
-            woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
+            woeid_data = localStorage.getObject("woeid_data")
             woeid_choose = woeid_data[i].id
             localStorage.setItem("cityid",woeid_choose)
+            @weathergui_refresh_Interval()
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -333,8 +333,6 @@ class Weather extends Widget
             common_dists.push(arr)
             if common_dists.length > 5 then common_dists.splice(0,1)
             localStorage.setObject("common_dists",common_dists)
-            
-            @weathergui_refresh_Interval()
         )
 
     weathergui_refresh_Interval: =>

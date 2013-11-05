@@ -39,7 +39,7 @@ class ClientCityId
         ajax(url_clientcity_json,true, (xhr)=>
             # try
                 eval(xhr.responseText)
-                echo remote_ip_info
+                # echo remote_ip_info
                 
                 if remote_ip_info.ret == 1
                     localStorage.setItem("client_ipstart",remote_ip_info.start)
