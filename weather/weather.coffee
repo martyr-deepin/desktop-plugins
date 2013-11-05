@@ -48,7 +48,7 @@ class Weather extends Widget
 
     testInternet_noconnect:=>
         echo "testInternet_noconnect"
-        @city_now.textContent = _("No Network")
+        @city_now.textContent = _("No network connection")
         @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->
@@ -364,15 +364,16 @@ class Weather extends Widget
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
         if not weather_data_more? then return
-        # echo weather_data_now
-        # echo weather_data_more
-        yahooservice = new YahooService()
+        echo weather_data_now
+        echo weather_data_more
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
         @city_now.textContent = weather_data_now.city_name
         code  = weather_data_now.code
         if code is "3200" then code = weather_data_more[0].code
+        yahooservice = new YahooService()
         text = yahooservice.yahoo_img_code_to_en(code)
+        echo text
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
         @weather_now_pic.title = text
         #new ToolTip(@weather_now_pic,text)

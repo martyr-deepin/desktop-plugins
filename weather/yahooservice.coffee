@@ -28,15 +28,14 @@ class YahooService
         
     get_woeid_by_place_name:(place_name,callback)->
         lang = window.navigator.language
-        lc = lang_to_lc(lang)
+        lc = @lang_to_lc(lang)
         echo lc
         #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
-            try
-                # ...
+            # try
                 xml_str = xhr.responseText
                 localStorage.setItem("yahoo_woeid_xml_str",xml_str)
                 woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
@@ -59,9 +58,8 @@ class YahooService
                  
                 localStorage.setObject("woeid_data",woeid_data)
                 callback?()
-            catch e
-                # ...
-                echo "get_woeid_by_place_name xhr.responseText error!"
+            # catch e
+                # echo "get_woeid_by_place_name xhr.responseText error!"
         )
 
     get_weather_data_by_woeid:(woeid,callback)->
@@ -73,8 +71,7 @@ class YahooService
         yahoo_weather_data_more = new Array()
         array_clear(yahoo_weather_data_more)
         ajax(xml_str,true,(xhr)=>
-            #try
-                # ...
+            # try
                 xmlDoc =  xhr.responseXML
                 title = xmlDoc.getElementsByTagName("item")[0].getElementsByTagName("title")[0].childNodes[0].nodeValue
                 if title is "City not found"
@@ -116,9 +113,8 @@ class YahooService
                 
                 localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
                 callback?()
-            #catch e
-                # ...
-                echo "get_weather_data_by_woeid xhr.responseText error!"
+            # catch e
+                # echo "get_weather_data_by_woeid xhr.responseText error!"
         )
 
     lang_to_lc:(lang) ->
@@ -132,11 +128,11 @@ class YahooService
        f = c * 9 / 5 + 32
        return f
     
-   temperature_f_to_c:(f)->
+    temperature_f_to_c:(f)->
        c = (f - 32) * 5 / 9
        return c
 
-    day_en_zh: (day) ->
+    day_en_zh:(day) ->
         switch(day)
             when "Sun" then return _("Sun")
             when "Mon" then return _("Mon")
@@ -163,7 +159,7 @@ class YahooService
             when "Dec" then return "12"
             else echo "no this month:" + month
 
-    yahoo_img_code_to_en: (code) ->
+    yahoo_img_code_to_en:(code) ->
         switch(code)
             when "0" then  return _("tornado")
             when "1" then  return _("tropical storm")
@@ -216,7 +212,7 @@ class YahooService
             else return _("3200 not available")
 
 
-    yahoo_img_code_to_zh: (code) ->
+    yahoo_img_code_to_zh:(code) ->
         #small_img_url = "http://l.yimg.com/a/i/us/we/52/11.gif"
         #big_img_url = "http://l.yimg.com/a/i/us/nws/weather/gr/11n.png"
         switch(code)

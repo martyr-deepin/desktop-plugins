@@ -24,7 +24,7 @@ class ClientCityId
 
     Get_client_cityid: (callback)->
         ajax(@url_clientcity_json,true, (xhr)=>
-            try
+            # try
                 client_cityjsonstr = xhr.responseText
                 remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
                 if remote_ip_info.ret == 1
@@ -54,7 +54,7 @@ class ClientCityId
                 else
                     echo "Get_client_cityid can't find the matched location right json by ip"
                     return 0
-            catch e
-                echo "Get_client_cityid error"
+            # catch e
+                # echo "Get_client_cityid xhr.responseText error！"
         )
 
