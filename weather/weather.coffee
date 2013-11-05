@@ -276,14 +276,15 @@ class Weather extends Widget
             when 27   # esc
                 evt.preventDefault()
                 @lost_focus()
-            when 47   # /
-                evt.preventDefault()
+            else
+                if  not (97 <= evt.keyCode <= 122 or 48 <= evt.keyCode <= 57)
+                    echo "input error!"
+                    evt.preventDefault()
         return
     
     search_input_keyup: (evt) =>
         evt.stopPropagation()
         place_name = @search_input.value
-        
         yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name,@search_result_build.bind(@))
   
@@ -291,7 +292,12 @@ class Weather extends Widget
         # echo "search_result_build"
         woeid_data = localStorage.getObject("woeid_data")
         if not woeid_data? then return
+
+
         remove_element(@search_result) if @search_result
+        length = woeid_data.length
+        if length < 1 then return
+
         @search_result = create_element("div","search_result",@search)
         @search_result_select = create_element("select","search_result_select",@search_result)
         clearOptions(@search_result_select,0)
@@ -299,9 +305,7 @@ class Weather extends Widget
             show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
-        if @search_result_select.options.length < 1 then return
-        #for option in @search_result_select.opitions
-            #option.style.width = "162px"
+        # echo @search_result_select.options[0]
         setMaxSize(@search_result_select,woeid_data.length)
         @search_input.focus()
         @search_result_select.options[0].selected = "selected"
