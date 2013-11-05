@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 09:53+0800\n"
+"POT-Creation-Date: 2013-11-05 09:56+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,16 +86,6 @@ msgstr "星期五"
 #: weather/yahooservice.coffee:119 weather/yahooservice.coffee:143
 msgid "Sat"
 msgstr "星期六"
-
-#: weather/weather.coffee:208
-msgid ""
-" sorry, \n"
-" China Meteorological Administration \n"
-" don't provide the live weather data for this city."
-msgstr ""
-" 抱歉, \n"
-" 中国气象局 \n"
-" 没有提供此城市的实时天气数据。"
 
 #: weather/yahooservice.coffee:125 weather/yahooservice.coffee:140
 #: weather/yahooservice.coffee:164
