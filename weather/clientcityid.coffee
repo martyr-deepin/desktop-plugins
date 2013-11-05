@@ -38,8 +38,6 @@ class ClientCityId
         url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
         ajax(url_clientcity_json,true, (xhr)=>
             # try
-                # client_cityjsonstr = xhr.responseText
-                # remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
                 eval(xhr.responseText)
                 echo remote_ip_info
                 
@@ -54,9 +52,9 @@ class ClientCityId
                         if not woeid_data? then return
                         cityid_client = woeid_data[0].id
                         echo "cityid_client:#{cityid_client},cityname_client:#{woeid_data[0].k};"
-                        localStorage.setItem("cityid_client_storage",cityid_client)
-                        localStorage.setItem("cityid_storage",cityid_client)
-                        localStorage.setItem("cityname_client_storage",woeid_data[0].k)
+                        localStorage.setItem("cityid_client",cityid_client)
+                        localStorage.setItem("cityid",cityid_client)
+                        localStorage.setItem("cityname_client",woeid_data[0].k)
 
                         common_dists = localStorage.getObject("common_dists")
                         for tmp in common_dists
