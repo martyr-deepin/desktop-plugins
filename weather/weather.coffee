@@ -102,8 +102,8 @@ class Weather extends Widget
         city.addEventListener("click", =>
             remove_element(@search) if @search
             @more_weather_menu.style.display = "none"
-            @city_more_build()
             if @more_city_menu.style.display == "none"
+                @city_more_build()
                 
                 @more_city_menu.style.display = "block"
                 height = @more_city_menu.clientHeight
@@ -111,8 +111,10 @@ class Weather extends Widget
                 bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
                 @more_city_menu.style.left = 160
                 if bottom_distance < height
-                    @more_city_menu.style.top = -145
+                    @more_city_menu.style.top = null
+                    @more_city_menu.style.bottom = 55
                 else
+                    @more_city_menu.style.bottom = null
                     @more_city_menu.style.top = 60
                 @more_city_menu.style.display = "block"
 
@@ -131,9 +133,11 @@ class Weather extends Widget
                 @more_weather_menu.style.display = "none"
                 bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
                 if bottom_distance < height
-                    @more_weather_menu.style.top = -160
+                    @more_weather_menu.style.top = null
+                    @more_weather_menu.style.bottom = 70
                     @more_weather_menu.style.borderRadius = "6px 6px 0 0"
                 else
+                    @more_weather_menu.style.bottom = null
                     @more_weather_menu.style.top = 91
                     @more_weather_menu.style.borderRadius = "0 0 6px 6px"
                 @more_weather_menu.style.display = "block"
