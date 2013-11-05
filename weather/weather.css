@@ -227,6 +227,11 @@
 .search_result{
     width:162px;
 }
-.search_result.opitions{
+.search_result_select:nth-child(even){
     width:162px;
+    overflow: hidden;
+}
+.search_result_select:nth-child(odd){
+    width:162px;
+    overflow: hidden;
 }
