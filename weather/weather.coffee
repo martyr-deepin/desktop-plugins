@@ -181,13 +181,15 @@ class Weather extends Widget
         common_dists = localStorage.getObject("common_dists")
         i = 0
         common_city = []
+        tooltip = []
         common_city_text = []
         minus = []
         for dist,i in common_dists
             if not dist? then continue
             common_city[i] = create_element("div","common_city",@more_city_tmp)
+            remove_element(tooltip[i]) if tooltip[i]
+            tooltip[i] = new ToolTip(common_city[i],dist.name,common_city[i])
             common_city[i].value = dist.name
-            common_city[i].title = dist.name
 
             common_city_text[i] = create_element("div","common_city_text",common_city[i])
             common_city_text[i].innerText = dist.name
