@@ -293,7 +293,6 @@ class Weather extends Widget
         woeid_data = localStorage.getObject("woeid_data")
         if not woeid_data? then return
 
-
         remove_element(@search_result) if @search_result
         length = woeid_data.length
         if length < 1 then return
@@ -305,9 +304,13 @@ class Weather extends Widget
             show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
             @search_result_select.options.add(new Option(show_result_text, data.index))
 
-        # echo @search_result_select.options[0]
-        setMaxSize(@search_result_select,woeid_data.length)
+        if 0 <= length <= 1
+            setMaxSize(@search_result_select,woeid_data.length + 1)
+        else
+            setMaxSize(@search_result_select,woeid_data.length)
+
         @search_input.focus()
+        
         @search_result_select.options[0].selected = "selected"
         @search_result_select.options[0].addEventListener("click",=>
             i = @search_result_select.selectedIndex
