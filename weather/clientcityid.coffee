@@ -20,7 +20,20 @@
 
 class ClientCityId
     constructor: ->
+        @geoposition()
         @url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
+
+    geoposition:->
+        geo = window.navigator.geolocation
+        echo geo
+        pos = geo.getCurrentPosition(@getPositionSuccess)
+        
+        
+    getPositionSuccess:(position)->
+        echo position
+        lat = position.coords.latitude
+        long = position.coords.langitude
+        echo lat + "," + lang
 
     Get_client_cityid: (callback)->
         ajax(@url_clientcity_json,true, (xhr)=>

@@ -119,8 +119,8 @@ class YahooService
 
     lang_to_lc:(lang) ->
         switch(lang)
-            when "zh-tw" then return "zh-Hans"
-            when "zh-cn" then return "zh-Hant"
+            when "zh-tw" then return "zh-Hant"
+            when "zh-cn" then return "zh-Hans"
             when "en-us" then return "en"
             else return "en"
 
