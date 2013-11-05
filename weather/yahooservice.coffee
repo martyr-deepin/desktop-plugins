@@ -29,9 +29,9 @@ class YahooService
     get_woeid_by_place_name:(place_name,callback)->
         lang = window.navigator.language
         lc = @lang_to_lc(lang)
-        echo lc
-        #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
-        woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
+        echo "lc:---#{lc}---"
+        woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
+        #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
