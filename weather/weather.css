@@ -123,6 +123,10 @@
     margin-left: 7px;
     font-weight: bolder;
 }
+.pic{
+    width: 24px;
+    height: 24px;
+}
 .pic:lang(zh){
     margin-left: 17px;
     margin-bottom: 5px;
