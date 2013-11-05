@@ -48,7 +48,7 @@ class Weather extends Widget
 
     testInternet_noconnect:=>
         echo "testInternet_noconnect"
-        @city_now.textContent = _("No network connection")
+        @city_now.textContent = _("No network")
         @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 09:56+0800\n"
+"POT-Creation-Date: 2013-11-05 17:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,13 +35,13 @@ msgstr "县"
 #: weather.coffee:94 weather.coffee:91 weather/weather.coffee:91
 #: weather/weather.coffee:88 weather/yahooservice.coffee:88
 #: weather/weather.coffee:73 weather/yahooservice.coffee:95
-#: weather/weather.coffee:83
+#: weather/weather.coffee:83 weather/weather.coffee:84
 msgid "choose city"
 msgstr "请选择城市"
 
 #: weather.coffee:97 weather.coffee:94 weather/weather.coffee:94
 #: weather/weather.coffee:91 weather/weather.coffee:76
-#: weather/weather.coffee:86
+#: weather/weather.coffee:86 weather/weather.coffee:87
 msgid "loading"
 msgstr "加载中"
 
@@ -50,6 +50,7 @@ msgstr "加载中"
 #: weather/utils.coffee:58 weather/yahooservice.coffee:113
 #: weather/weather.coffee:134 weather/weather.coffee:145
 #: weather/yahooservice.coffee:137 weather/weather.coffee:152
+#: weather/weather.coffee:157
 msgid "Sun"
 msgstr "星期日"
 
@@ -327,3 +328,7 @@ msgstr "无"
 #: weather/weather.coffee:51
 msgid "No network connection"
 msgstr "无网络连接"
+
+#: weather/weather.coffee:51
+msgid "No network"
+msgstr "无网络"

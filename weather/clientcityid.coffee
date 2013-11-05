@@ -20,7 +20,7 @@
 
 class ClientCityId
     constructor: ->
-        @geoposition()
+        #@geoposition()
 
     geoposition:->
         geo = window.navigator.geolocation
