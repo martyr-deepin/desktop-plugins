@@ -36,10 +36,10 @@ class Weather extends Widget
 
     testInternet_connect:=>
         echo "testInternet_connect ok"
-        cityid = localStorage.getItem("cityid_storage") if localStorage.getItem("cityid_storage")
+        cityid = localStorage.getItem("cityid") if localStorage.getItem("cityid")
         if cityid < 1000
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
 
         if !cityid
             Clientcityid = new ClientCityId()
@@ -197,7 +197,7 @@ class Weather extends Widget
             common_city_text[i].addEventListener("click",->
                 that.more_city_menu.style.display = "none"
                 id =  this.value
-                localStorage.setItem("cityid_storage",JSON.parse(this.value))
+                localStorage.setItem("cityid",JSON.parse(this.value))
                 that.weathergui_refresh_Interval()
                 that = null
                 )
@@ -254,7 +254,7 @@ class Weather extends Widget
                 woeid_data = localStorage.getObject("woeid_data")
                 i = 0
                 woeid_choose = woeid_data[i].id
-                localStorage.setItem("cityid_storage",woeid_data[i].id)
+                localStorage.setItem("cityid",woeid_data[i].id)
 
                 for tmp in common_dists
                     if not tmp? then continue
@@ -303,7 +303,7 @@ class Weather extends Widget
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
             woeid_choose = woeid_data[i].id
-            localStorage.setItem("cityid_storage",woeid_choose)
+            localStorage.setItem("cityid",woeid_choose)
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -322,7 +322,7 @@ class Weather extends Widget
             woeid_data = localStorage.getObject("woeid_data")
             i = @search_result_select.selectedIndex
             woeid_choose = woeid_data[i].id
-            localStorage.setItem("cityid_storage",woeid_choose)
+            localStorage.setItem("cityid",woeid_choose)
 
             for tmp in common_dists
                 if not tmp? then continue
@@ -348,10 +348,10 @@ class Weather extends Widget
 
     weathergui_refresh: =>
         @lost_focus()
-        cityid = localStorage.getItem("cityid_storage")
+        cityid = localStorage.getItem("cityid")
         if cityid < 100
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
         if cityid
             yahooservice = new YahooService()
             yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))

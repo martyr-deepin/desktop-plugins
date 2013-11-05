@@ -34,31 +34,19 @@ class ClientCityId
         long = position.coords.langitude
         echo lat + "," + lang
 
-
-    Get_client_cityip: (callback)=>
-        url_clientip_str = "http://int.dpool.sina.com.cn/iplookup/iplookup.php"
-        ajax(url_clientip_str, (xhr)=>
-            try
-                localStorage.setItem("client_ipstr_storage",xhr.responseText)
-                @client_ipstr = localStorage.getItem("client_ipstr_storage")
-                if @client_ipstr[0] == '1'
-                    ip = @client_ipstr.slice(2,12)
-                    echo "ip start :" + ip
-                    localStorage.setItem("client_ipstart_storage",ip)
-                    callback()
-                else 
-                    echo "Get_client_cityip  can't get the right client ip"
-            catch e
-                echo "Get_client_cityip xhr.responseText error!"
-        )
-
     Get_client_cityid: (callback)=>
         url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
         ajax(url_clientcity_json,true, (xhr)=>
             # try
-                client_cityjsonstr = xhr.responseText
-                remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
+                # client_cityjsonstr = xhr.responseText
+                # remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
+                eval(xhr.responseText)
+                echo remote_ip_info
+                
                 if remote_ip_info.ret == 1
+                    localStorage.setItem("client_ipstart",remote_ip_info.start)
+                    localStorage.setItem("client_ipend",remote_ip_info.end)
+
                     yahoo = new YahooService()
                     cityname_client = remote_ip_info.city
                     yahoo.get_woeid_by_place_name(cityname_client,=>
