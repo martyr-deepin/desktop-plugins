@@ -20,35 +20,58 @@
 
 class ClientCityId
     constructor: ->
-        @url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
+        #@geoposition()
 
-    Get_client_cityid: (callback)->
-        ajax(@url_clientcity_json,true, (xhr)=>
-            try
-                client_cityjsonstr = xhr.responseText
-                remote_ip_info = JSON.parse(client_cityjsonstr.slice(21,client_cityjsonstr.length))
-                # echo "remote_ip_info.ret:" + remote_ip_info.ret
-                # echo "remote_ip_info.city:" + remote_ip_info.city
+    geoposition:->
+        geo = window.navigator.geolocation
+        echo geo
+        pos = geo.getCurrentPosition(@getPositionSuccess)
+        
+        
+    getPositionSuccess:(position)->
+        echo position
+        lat = position.coords.latitude
+        long = position.coords.langitude
+        echo lat + "," + lang
+
+    Get_client_cityid: (callback)=>
+        url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
+        ajax(url_clientcity_json,true, (xhr)=>
+            # try
+                eval(xhr.responseText)
+                # echo remote_ip_info
+                
                 if remote_ip_info.ret == 1
-                    for provin of allname.data
-                        if allname.data[provin].prov == remote_ip_info.province
-                            for ci of allname.data[provin].city
-                                if allname.data[provin].city[ci].cityname == remote_ip_info.city
-                                    cityname_client = remote_ip_info.city
-                                    localStorage.setItem("cityname_client_storage",cityname_client)
+                    localStorage.setItem("client_ipstart",remote_ip_info.start)
+                    localStorage.setItem("client_ipend",remote_ip_info.end)
 
-                                    cityid_client = allname.data[provin].city[ci].code
-                                    # echo "cityid_client:"+ cityid_client
-                                    common_dists[0].name = cityname_client
-                                    common_dists[0].id = cityid_client
-                                    localStorage.setObject("common_dists_storage",common_dists)
-                                    localStorage.setItem("cityid_storage",cityid_client)
-                                    callback()
+                    yahoo = new YahooService()
+                    cityname_client = remote_ip_info.city
+                    yahoo.get_woeid_by_place_name(cityname_client,=>
+                        woeid_data = localStorage.getObject("woeid_data")
+                        if not woeid_data? then return
+                        cityid_client = woeid_data[0].id
+                        echo "cityid_client:#{cityid_client},cityname_client:#{woeid_data[0].k};"
+                        localStorage.setItem("cityid_client",cityid_client)
+                        localStorage.setItem("cityid",cityid_client)
+                        localStorage.setItem("cityname_client",woeid_data[0].k)
 
+                        common_dists = localStorage.getObject("common_dists")
+                        for tmp in common_dists
+                            if not tmp? then continue
+                            if woeid_choose == tmp.id then return
+                        arr = {name:woeid_data[0].k,id:woeid_data[0].id}
+                        common_dists.push(arr)
+                        if common_dists.length > 5 then common_dists.splice(0,1)
+                        localStorage.setObject("common_dists",common_dists)
+                        
+                        callback()
+
+                    )
                 else
                     echo "Get_client_cityid can't find the matched location right json by ip"
                     return 0
-            catch e
-                echo "Get_client_cityid error"
+            # catch e
+                # echo "Get_client_cityid xhr.responseText error！"
         )
 

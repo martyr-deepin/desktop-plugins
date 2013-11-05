@@ -2,12 +2,12 @@ name = weather
 # com_dir = ../../..//common/js
 COM_DIR ?= /usr/share/dde/resources/common/js
 
-COM_COFFEE = $(COM_DIR)/animation.coffee $(COM_DIR)/utils.coffee $(COM_DIR)/module.coffee $(COM_DIR)/selector.coffee $(COM_DIR)/utils.coffee $(COM_DIR)/widget.coffee
+COM_COFFEE = $(COM_DIR)/animation.coffee $(COM_DIR)/utils.coffee $(COM_DIR)/module.coffee $(COM_DIR)/selector.coffee $(COM_DIR)/widget.coffee $(COM_DIR)/tooltip.coffee
 
 all: compile generate_mo
 
 
-compile: $(COM_COFFEE) yahooservice.coffee data.coffee weatherdata.coffee citymoremenu.coffee clientcityid.coffee weather.coffee
+compile: $(COM_COFFEE) utils.coffee yahooservice.coffee clientcityid.coffee weatherdata.coffee weather.coffee
 	coffee -cj weather.js $^
 
 generate_mo:

@@ -4,6 +4,7 @@
     display: none;
     top:0px;
     left:0px;
+    z-index:5000;
 }
 
 .CityMoreMenu{
@@ -28,6 +29,8 @@
     text-align:center;
 }
 .weather_now_pic{
+    width: 48px;
+    height: 48px;
 }
 
 .right_div{
@@ -47,9 +50,9 @@
 }
 .temperature_now_number{
 }
-.temperature_now_number:after{
+/*.temperature_now_number:after{
     content: "°";
-}
+}*/
 
 .city_and_date{
     display: -webkit-box;
@@ -82,6 +85,7 @@
 }
 
 
+
 .more_weather_menu{
     position:absolute;
     left: 83px;
@@ -97,13 +101,14 @@
     font-weight: bold;
     text-shadow: 0 0 2px #808080;
 }
-.more_weather_menu>div:hover{
+.weather_more_tmp>div:hover{
     background-color: #24b8ff;
 }
 .weather_data {
     height: 35px;
     line-height: 35px;
 }
+
 .weather_data:nth-child(odd) {
     background-color:rgba(255,255,255,0.35);
     display:-webkit-box; 
@@ -119,8 +124,10 @@
     font-weight: bolder;
 }
 .pic:lang(zh){
-    margin-left: 10px;
+    margin-left: 17px;
     margin-bottom: 5px;
+    width: 24px;
+    height: 24px;
 }
 .temperature:lang(zh){
     position: absolute;
@@ -133,10 +140,98 @@
 }
 .pic:lang(en){
     position: absolute;
-    left: 50px;
+    left: 57px;
     margin-top: 5px;
+    width: 24px;
+    height: 24px;
 }
 .temperature:lang(en){
     position: absolute;
     right: 7px;
+}
+
+
+
+.more_city_menu{
+    position: absolute;
+    z-index:5001;
+    display:none;
+    width: 100px;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
+    overflow: hidden;
+    border:1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.75);
+}
+.more_city_tmp{
+}
+.common_city{
+    height: 30px;
+    line-height: 30px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-pack:end;
+}
+.common_city:hover > .minus{
+    background-color: #24b8ff;
+    opacity: 1.0;
+}
+.common_city:hover > .common_city_text{
+    background-color: #24b8ff;
+}
+.common_city_text{
+    text-align: left;
+    width:80px;
+    text-indent:6px;
+}
+.minus{
+    text-align:center;
+    width: 20px;
+    font-size: 25px;
+    opacity: 0.0;
+    display: block;
+}
+.common_city:hover > .minus:hover{
+    background:#999;
+    color: #fff;
+}
+.add_common_city{
+    height: 30px;
+    line-height: 30px;
+}
+.plus{
+    font-size: 25px;
+    text-align:center;
+}
+
+.add_common_city:hover{
+    background-color: #24b8ff;
+}
+
+
+.search{
+    position: absolute;
+    opacity:0.5;
+    left: 83px;
+    /*top set in coffee*/
+    width: 162px;
+    border:1px solid rgba(255,255,255,0.6);
+    overflow: hidden;
+    z-index: 5001;
+    display: none;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.2);
+}
+
+.search_input{
+    width:162px;
+}
+.search_result{
+    width:162px;
+}
+.search_result_select:nth-child(even){
+    width:162px;
+    overflow: hidden;
+}
+.search_result_select:nth-child(odd){
+    width:162px;
+    overflow: hidden;
 }

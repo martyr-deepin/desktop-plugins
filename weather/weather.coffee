@@ -21,73 +21,55 @@ _ = (s) ->
     DCore.dgettext('weather', s)
 
 class Weather extends Widget
-    ZINDEX_MENU = 5001
-    ZINDEX_GLOBAL_DESKTOP = 5000
-    ZINDEX_DOWNEST = 0
+    common_dists = new Array()
+    testInternet_url = "http://weather.yahooapis.com/forecastrss?w=2151330&u=c"
 
-    BOTTOM_DISTANCE_MINI = 215
-
-    TOP_MORE_WEATHER_MENU1 = 91
-    TOP_MORE_WEATHER_MENU2 = -191
-
-    LEFT_COMMON_CITY_MENU1 = 160
-    TOP_COMMON_CITY_MENU1 = 57
-    LEFT_COMMON_CITY_MENU2 = 160
-    BOTTOM_COMMON_CITY_MENU2 = -35
-
-    LEFT_MORE_CITY_MENU1 = 10
-    TOP_MORE_CITY_MENU1 = 90
-    LEFT_MORE_CITY_MENU2 = 10
-    BOTTOM_MORE_CITY_MENU2 = -22
-
-    SELECT_SIZE = 13
-
-    testInternet_url = "http://www.weather.com.cn/data/sk/101010100.html"
-    YAHOO = false
     constructor: ->
         super(null)
-        @weather_style_build()
-        @more_weather_build()
-        ajax(testInternet_url,true,@testInternet_connect(),@testInternet_noconnect)
+        dist = localStorage.getObject("common_dists")
+        if not dist? then localStorage.setObject("common_dists",common_dists)
 
-        if YAHOO
-            place_name = "wuhan"
-            yahooservice = new YahooService() 
-            update = ->
-                echo "update"
-            callback = ->
-                woeid = localStorage.getObject("woeid")
-                yahooservice.get_weather_data_by_woeid(woeid,update.bind(@))
-            yahooservice.get_woeid_by_place_name(place_name,callback.bind(@))
-            
+        @weather_now_build()
+        @weather_more_build()
+
+        ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
-        cityid = localStorage.getObject("cityid_storage") if localStorage.getObject("cityid_storage")
+        echo "testInternet_connect ok"
+        cityid = localStorage.getItem("cityid") if localStorage.getItem("cityid")
         if cityid < 1000
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
 
         if !cityid
             Clientcityid = new ClientCityId()
-            Clientcityid.Get_client_cityid(@weathergui_update.bind(@))
-        else @weathergui_update()
+            Clientcityid.Get_client_cityid(@weathergui_refresh_Interval.bind(@))
+        else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
-        weather_data_now = localStorage.getObject("weatherdata_now_storage")
-        @update_weathernow(weather_data_now) if weather_data_now
-        weather_data_more = localStorage.getObject("weatherdata_more_storage")
-        @update_weathermore(weather_data_more) if weather_data_more
+        echo "testInternet_noconnect"
+        @city_now.textContent = _("No network")
+        @weathergui_refresh_by_localStorage()
 
     do_buildmenu:->
         []
-    weather_style_build: ->
+    
+    lost_focus:->
+        @more_weather_menu.style.display = "none" if @more_weather_menu
+        @more_city_menu.style.display = "none" if @more_city_menu
+        @global_desktop.style.display = "none" if @global_desktop
+        remove_element(@more_city_tmp) if @more_city_tmp
+        remove_element(@search) if @search
+
+    weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
-        img_now_url_init = @img_url_first + "48/T" + "0\u6674" + ".png"
-        temp_now_init = "00"
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
+        temp_now_init = "00°"
 
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
 
+        #new ToolTip(@weather_now_pic,text)
         right_div = create_element("div","right_div",@element)
         temperature_now = create_element("div", "temperature_now", right_div)
         @temperature_now_minus = create_element("div", "temperature_now_minus", temperature_now)
@@ -103,171 +85,338 @@ class Weather extends Widget
         @date = create_element("div", "date", city_and_date)
         @date.textContent =  _("loading") + ".........."
 
-        @more_city_menu = new CityMoreMenu(ZINDEX_MENU)
-        @element.appendChild(@more_city_menu.element)
+        remove_element(@more_weather_menu) if @more_weather_menu
+        @more_weather_menu = create_element("div", "more_weather_menu", @element)
+        @more_weather_menu.style.display = "none"
+        
+        remove_element(@more_city_menu) if @more_city_menu
+        @more_city_menu = create_element("div","more_city_menu",@element)
+        @more_city_menu.style.display = "none"
 
         @global_desktop = create_element("div","global_desktop",@element)
+        @global_desktop.style.display = "none"
         @global_desktop.style.height = window.screen.height
         @global_desktop.style.width = window.screen.width
-        @global_desktop.style.zIndex = ZINDEX_GLOBAL_DESKTOP
 
         city.addEventListener("click", =>
+            remove_element(@search) if @search
             @more_weather_menu.style.display = "none"
+            if @more_city_menu.style.display == "none"
+                @city_more_build()
+                
+                @more_city_menu.style.display = "block"
+                height = @more_city_menu.clientHeight
+                @more_city_menu.style.display = "none"
+                bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+                @more_city_menu.style.left = 160
+                if bottom_distance < height
+                    @more_city_menu.style.top = null
+                    @more_city_menu.style.bottom = 55
+                else
+                    @more_city_menu.style.bottom = null
+                    @more_city_menu.style.top = 60
+                @more_city_menu.style.display = "block"
 
-            if @more_city_menu.display_check() == "none"
                 @global_desktop.style.display = "block"
             else
+                @more_city_menu.style.display = "none"
                 @global_desktop.style.display = "none"
-
-            bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-            @more_city_menu.common_city_build(bottom_distance,LEFT_COMMON_CITY_MENU1,TOP_COMMON_CITY_MENU1,LEFT_COMMON_CITY_MENU2,BOTTOM_COMMON_CITY_MENU2,@weathergui_update.bind(@))
-            @more_city_menu.more_city_build(SELECT_SIZE,bottom_distance,LEFT_MORE_CITY_MENU1,TOP_MORE_CITY_MENU1,LEFT_MORE_CITY_MENU2,BOTTOM_MORE_CITY_MENU2,@weathergui_update.bind(@))
             )
         @date.addEventListener("click", =>
-            @more_city_menu.display_none()
+            @more_city_menu.style.display = "none"
 
             if @more_weather_menu.style.display == "none"
-                @global_desktop.style.display = "block"
+                
+                @more_weather_menu.style.display = "block"
+                height = @more_weather_menu.clientHeight
+                @more_weather_menu.style.display = "none"
                 bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-                @set_menu_position(@more_weather_menu,bottom_distance,TOP_MORE_WEATHER_MENU1,TOP_MORE_WEATHER_MENU2,"block")
+                if bottom_distance < height
+                    @more_weather_menu.style.top = null
+                    @more_weather_menu.style.bottom = 70
+                    @more_weather_menu.style.borderRadius = "6px 6px 0 0"
+                else
+                    @more_weather_menu.style.bottom = null
+                    @more_weather_menu.style.top = 91
+                    @more_weather_menu.style.borderRadius = "0 0 6px 6px"
+                @more_weather_menu.style.display = "block"
+
+                @global_desktop.style.display = "block"
             else
                 @global_desktop.style.display = "none"
                 @more_weather_menu.style.display = "none"
             )
         @global_desktop.addEventListener("click",=>
-            @more_weather_menu.style.display = "none"
-            @more_city_menu.display_none()
-            @global_desktop.style.display = "none"
+            @lost_focus()
             )
 
-    set_menu_position:(obj,bottom_distance,y1,y2,show = "block")->
-        obj.style.display = "block"
-        height = obj.clientHeight
-        obj.style.display = "none"
-        if bottom_distance < height
-            obj.style.top = y2
-            obj.style.borderRadius = "6px 6px 0 0"
-        else
-            obj.style.top = y1
-            obj.style.borderRadius = "0 0 6px 6px"
-        obj.style.display = show
-
-    more_weather_build: ->
-
-        img_now_url_init = @img_url_first + "48/T" + "0\u6674" + ".png"
-        img_more_url_init = @img_url_first + "24/T" + "0\u6674" + ".png"
+    weather_more_build: ->
+        img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
+        img_more_url_init = @img_url_first + "yahoo_api/24/" + "26" + "n.png"
         week_init = _("Sun")
-        temp_init = "00℃~00℃"
+        temp_init = "00~00℃"
 
-        @more_weather_menu = create_element("div", "more_weather_menu", @element)
-        @more_weather_menu.style.display = "none"
-
+        remove_element(@weather_more_tmp) if @weather_more_tmp
+        @weather_more_tmp = create_element("div","weather_more_tmp",@more_weather_menu)
         @weather_data = []
+        @tooltip = []
         @week = []
         @pic = []
         @temperature = []
-        for i in [0...6]
-            @weather_data[i] = create_element("div", "weather_data", @more_weather_menu)
+        for i in [0...5]
+            @weather_data[i] = create_element("div", "weather_data", @weather_more_tmp)
+            @tooltip[i] = new ToolTip(@weather_data[i],"")
             @week[i] = create_element("a", "week", @weather_data[i])
             @week[i].textContent = week_init
             @pic[i] = create_img("pic", img_more_url_init, @weather_data[i])
             @temperature[i] = create_element("a", "temperature", @weather_data[i])
             @temperature[i].textContent = temp_init
+    
+    city_more_build:->
+        remove_element(@search) if @search
 
-    lost_focus:->
-        @more_weather_menu.style.display = "none"
-        @more_city_menu.display_none()
-        @global_desktop.style.display = "none"
+        remove_element(@more_city_tmp) if @more_city_tmp
+        @more_city_tmp = create_element("div","more_city_tmp",@more_city_menu)
+        common_dists = localStorage.getObject("common_dists")
+        i = 0
+        common_city = []
+        tooltip = []
+        common_city_text = []
+        minus = []
+        for dist,i in common_dists
+            if not dist? then continue
+            common_city[i] = create_element("div","common_city",@more_city_tmp)
+            remove_element(tooltip[i]) if tooltip[i]
+            tooltip[i] = new ToolTip(common_city[i],dist.name,common_city[i])
+            common_city[i].value = dist.name
 
-    weathergui_update: =>
-            @global_desktop.style.display = "none"
+            common_city_text[i] = create_element("div","common_city_text",common_city[i])
+            common_city_text[i].innerText = dist.name
+            common_city_text[i].value = dist.id
 
-            cityid = localStorage.getObject("cityid_storage")
-            @weathergui_refresh(cityid)
+            minus[i] = create_element("div","minus",common_city[i])
+            minus[i].innerText = "-"
+            minus[i].value = dist.id
+
+            that = @
+            common_city_text[i].addEventListener("click",->
+                that.more_city_menu.style.display = "none"
+                id =  this.value
+                localStorage.setItem("cityid",JSON.parse(this.value))
+                that.weathergui_refresh_Interval()
+                that = null
+                )
+
+            minus[i].addEventListener("click",->
+                name = this.parentElement.value
+                id = this.value
+                remove_element(this.parentElement)
+                for tmp ,i in common_dists
+                    if not tmp? then continue
+                    if id == tmp.id
+                        common_dists.splice(i,1)
+                        localStorage.setObject("common_dists",common_dists)
+                        break
+                )
+
+        @add_common_city = create_element("div","add_common_city",@more_city_tmp)
+        plus =  create_element("div","plus",@add_common_city)
+        plus.innerText = "+"
+        @add_common_city.addEventListener("click",=>
+            @more_city_menu.style.display = "none"
+            @search_city_build()
+        )
+
+
+    search_city_build:->
+        remove_element(@search) if @search
+        @search = create_element("div","search",@element)
+        @search_input = create_element("input","search_input",@search)
+        @search_input.type = "text"
+        @search_input.addEventListener("keypress", @search_input_keypress)
+        @search_input.addEventListener("keyup", @search_input_keyup)
+
+        @global_desktop.style.display = "block"
+        # more_weather_menu height = 175
+        height = 200
+        @search.style.display = "none"
+        bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
+      
+        if bottom_distance < height
+            @search.style.top = -10
+            @search.style.borderRadius = "6px 6px 0 0"
+        else
+            @search.style.top = 91
+            @search.style.borderRadius = "0 0 6px 6px"
+        @search.style.display = "block"
+        @search_input.focus()
+
+    search_input_keypress: (evt) =>
+        evt.stopPropagation()
+        switch evt.keyCode
+            when 13   # enter
+                evt.preventDefault()
+                i = 0
+                woeid_data = localStorage.getObject("woeid_data")
+                woeid_choose = woeid_data[i].id
+                localStorage.setItem("cityid",woeid_data[i].id)
+                @weathergui_refresh_Interval()
+
+                for tmp in common_dists
+                    if not tmp? then continue
+                    if woeid_choose == tmp.id then return
+                arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+                common_dists.push(arr)
+                echo woeid_data[i].index + "choosed:"
+                echo arr
+                if common_dists.length > 5 then common_dists.splice(0,1)
+                localStorage.setObject("common_dists",common_dists)
+                
+            when 27   # esc
+                evt.preventDefault()
+                @lost_focus()
+            else
+                if  not (97 <= evt.keyCode <= 122 or 48 <= evt.keyCode <= 57)
+                    echo "input error!"
+                    evt.preventDefault()
+        return
+    
+    search_input_keyup: (evt) =>
+        evt.stopPropagation()
+        place_name = @search_input.value
+        yahooservice = new YahooService()
+        yahooservice.get_woeid_by_place_name(place_name,@search_result_build.bind(@))
+  
+    search_result_build: () =>
+        # echo "search_result_build"
+        woeid_data = localStorage.getObject("woeid_data")
+        if not woeid_data? then return
+
+        remove_element(@search_result) if @search_result
+        length = woeid_data.length
+        if length < 1 then return
+
+        @search_result = create_element("div","search_result",@search)
+        @search_result_select = create_element("select","search_result_select",@search_result)
+        clearOptions(@search_result_select,0)
+        for data in woeid_data
+            show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
+            @search_result_select.options.add(new Option(show_result_text, data.index))
+
+        if 0 <= length <= 1
+            setMaxSize(@search_result_select,woeid_data.length + 1)
+        else
+            setMaxSize(@search_result_select,woeid_data.length)
+
+        @search_input.focus()
+        
+        @search_result_select.options[0].selected = "selected"
+        @search_result_select.options[0].addEventListener("click",=>
+            i = @search_result_select.selectedIndex
+            woeid_data = localStorage.getObject("woeid_data")
+            woeid_choose = woeid_data[i].id
+            localStorage.setItem("cityid",woeid_choose)
+            @weathergui_refresh_Interval()
+
+            for tmp in common_dists
+                if not tmp? then continue
+                if woeid_choose == tmp.id then return
+            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+            echo woeid_data[i].index + "choosed:"
+            echo arr
+            common_dists.push(arr)
+            if common_dists.length > 5 then common_dists.splice(0,1)
+            localStorage.setObject("common_dists",common_dists)
+        )
+
+        @search_result_select.addEventListener("change", =>
+            i = @search_result_select.selectedIndex
+            woeid_data = localStorage.getObject("woeid_data")
+            woeid_choose = woeid_data[i].id
+            localStorage.setItem("cityid",woeid_choose)
+            @weathergui_refresh_Interval()
+
+            for tmp in common_dists
+                if not tmp? then continue
+                if woeid_choose == tmp.id then return
+            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+            echo woeid_data[i].index + "choosed:"
+            echo arr
+            common_dists.push(arr)
+            if common_dists.length > 5 then common_dists.splice(0,1)
+            localStorage.setObject("common_dists",common_dists)
+        )
+
+    weathergui_refresh_Interval: =>
+            @weathergui_refresh()
             that = @
             clearInterval(auto_weathergui_refresh)
             auto_weathergui_refresh = setInterval(->
-                cityid = localStorage.getObject("cityid_storage")
-                that.weathergui_refresh(cityid)
+                that.weathergui_refresh()
             ,600000)# ten minites
 
-    weathergui_refresh: (cityid)->
-        echo "refresh"
-        callback_now = ->
-            weather_data_now = localStorage.getObject("weatherdata_now_storage")
-            @update_weathernow(weather_data_now)
-        callback_more = ->
-            weather_data_more = localStorage.getObject("weatherdata_more_storage")
-            @update_weathermore(weather_data_more)
-        if cityid < 1000
+
+    weathergui_refresh: =>
+        @lost_focus()
+        cityid = localStorage.getItem("cityid")
+        if cityid < 100
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
         if cityid
-            @weatherdata = new WeatherData(cityid)
-            @weatherdata.Get_weatherdata_now(callback_now.bind(@))
-            @weatherdata.Get_weatherdata_more(callback_more.bind(@))
+            yahooservice = new YahooService()
+            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
         else
             echo "cityid isnt ready"
 
-    update_weathernow: (weather_data_now)->
-        temp_now = weather_data_now.weatherinfo.temp
-        @time_update = weather_data_now.weatherinfo.time
-        @city_now.textContent = weather_data_now.weatherinfo.city
 
-        if temp_now == "\u6682\u65e0\u5b9e\u51b5"
-            temp_str = _(" sorry, \n China Meteorological Administration \n don't provide the live weather data for this city.")
-            @temperature_now_number.style.fontSize = 18
-            @temperature_now_number.textContent = _("None")
-            @temperature_now_number.title = temp_str
-            # new ToolTip(@temperature_now_number,temp_str)
+    weathergui_refresh_by_localStorage : =>
+        echo "weathergui_refresh_by_localStorage"
+        weather_data_now = localStorage.getObject("yahoo_weather_data_now")
+        weather_data_more = localStorage.getObject("yahoo_weather_data_more")
+        if not weather_data_now? then return
+        if not weather_data_more? then return
+        #echo weather_data_now
+        #echo weather_data_more
+        temp_now = weather_data_now.temp
+        temp_danwei = "°" + weather_data_now.temp_danwei
+        @city_now.textContent = weather_data_now.city_name
+        code  = weather_data_now.code
+        if code is "3200" then code = weather_data_more[0].code
+        yahooservice = new YahooService()
+        text = yahooservice.yahoo_img_code_to_en(code)
+        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
+        @weather_now_pic.title = text
+        str = weather_data_now.date
+        date_tmp = str.substring(0,str.indexOf("201") - 1)
+        day_tmp = date_tmp.substring(0,date_tmp.indexOf(","))
+        day = yahooservice.day_en_zh(day_tmp)
+        riqi = date_tmp.substring(date_tmp.indexOf(" ") + 1)
+        ri = riqi.substring(0,riqi.indexOf(" "))
+        month_tmp = riqi.substring(riqi.indexOf(" ") + 1)
+        month = yahooservice.month_en_num(month_tmp)
+        year = "2013"
+        date_text = year + "." + month + "." + ri + " " + day
+        # echo date_text
+        @date.textContent = date_text
+        echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
+
+        @temperature_now_number.style.fontSize = 36
+        if temp_now < -10
+            @temperature_now_minus.style.opacity = 0.8
+            @temperature_now_number.textContent = -temp_now + "°"
         else
-            @temperature_now_number.style.fontSize = 36
-            if temp_now < -10
-                @temperature_now_minus.style.opacity = 0.8
-                @temperature_now_number.textContent = -temp_now
-            else
-                @temperature_now_minus.style.opacity = 0
-                @temperature_now_number.style.opacity = 1.0
-                @temperature_now_number.textContent = temp_now
+            @temperature_now_minus.style.opacity = 0
+            @temperature_now_number.style.opacity = 1.0
+            @temperature_now_number.textContent = temp_now + "°"
 
-    update_weathermore: (weather_data_more)->
-        @week_n = @weatherdata.weather_more_week()
-        @img_front = @weatherdata.weather_more_img_front()
-        @img_behind = @weatherdata.weather_more_img_behind()
-        week_show = [_("Sun"), _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat")]
-        str_data = weather_data_more.weatherinfo.date_y
-        @date.textContent = str_data.substring(0,str_data.indexOf("\u5e74")) + "." + str_data.substring(str_data.indexOf("\u5e74")+1,str_data.indexOf("\u6708"))+ "." + str_data.substring(str_data.indexOf("\u6708") + 1,str_data.indexOf("\u65e5")) + " " + week_show[@week_n%7]
-        @weather_now_pic.src = @img_url_first + "48/T" + weather_data_more.weatherinfo.img_single + weather_data_more.weatherinfo.img_title_single + ".png"
-
-        @weather_now_pic.title = weather_data_more.weatherinfo['weather' + 1]
-        # new ToolTip(@weather_now_pic,weather_data_more.weatherinfo['weather' + 1])
-
-        for i in [0...6]
-            j = i + 1
-            @weather_data[i].title = weather_data_more.weatherinfo['weather' + j]
-            # new ToolTip(@weather_data[i],weather_data_more.weatherinfo['weather' + j])
-            @week[i].textContent = week_show[(@week_n + i) % 7]
-            @pic[i].src = @weather_more_pic_src(j)
-            @temperature[i].textContent = weather_data_more.weatherinfo['temp' + j]
-
-    weather_more_pic_src:(i) ->
-        i = i*2 - 1
-        src = null
-        time = new Date()
-        hours_now = time.getHours()
-
-        if @img_front[i+1] == "99"
-            @img_front[i+1] = @img_front[i]
-        if hours_now < 12
-            src = @img_url_first + "24/T" + @img_front[i] + @img_behind[i] + ".png"
-        else src = @img_url_first + "24/T" + @img_front[i+1] + @img_behind[i+1] + ".png"
-        return src
-
-
-
+        if @weather_data is undefined then return
+        for data , i in weather_data_more
+            if not @weather_data[i] then continue
+            @tooltip[i].text = yahooservice.yahoo_img_code_to_en(data.code)
+            @week[i].textContent = yahooservice.day_en_zh(data.day)
+            @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
+            @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
 plugin = PluginManager.get_plugin("weather")
 plugin.inject_css("weather")
-plugin.inject_css("citymoremenu")
-
 plugin.wrap_element(new Weather(plugin.id).element)

@@ -29,11 +29,11 @@ class WeatherData
     Get_weatherdata_now:(callback,cityid = @cityid)->
         if cityid < 1000
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
         if cityid
             ajax(@url_nowweather_str,true,(xhr)=>
                 try
-                    localStorage.setItem("weatherdata_now_storage",xhr.responseText)
+                    localStorage.setItem("weatherdata_now",xhr.responseText)
                     callback()
                 catch e
                     echo "weatherdata_now xhr.responseText isnt JSON "
@@ -41,18 +41,18 @@ class WeatherData
     Get_weatherdata_more:(callback,cityid = @cityid)->
         if cityid < 1000
             cityid = 0
-            localStorage.setItem("cityid_storage",cityid)
+            localStorage.setItem("cityid",cityid)
         if cityid
             ajax(@url_moreweather_str,true,(xhr)=>
                 try
-                    localStorage.setItem("weatherdata_more_storage",xhr.responseText)
+                    localStorage.setItem("weatherdata_more",xhr.responseText)
                     callback()
                 catch e
                     echo "weatherdata_more xhr.responseText isnt JSON "
             )
 
     weather_more_img_front:->
-        weather_data_more = localStorage.getObject("weatherdata_more_storage")
+        weather_data_more = localStorage.getObject("weatherdata_more")
         img_front = [
             weather_data_more.weatherinfo.img_single,
             weather_data_more.weatherinfo.img1,
@@ -70,7 +70,7 @@ class WeatherData
         ]
         return img_front
     weather_more_img_behind:->
-        weather_data_more = localStorage.getObject("weatherdata_more_storage")
+        weather_data_more = localStorage.getObject("weatherdata_more")
         img_behind = [
             weather_data_more.weatherinfo.img_title_single,
             weather_data_more.weatherinfo.img_title1,
@@ -90,7 +90,7 @@ class WeatherData
     weather_more_week:->
         i_week = 0
         week_name = ["\u661f\u671f\u65e5", "\u661f\u671f\u4e00", "\u661f\u671f\u4e8c", "\u661f\u671f\u4e09","\u661f\u671f\u56db", "\u661f\u671f\u4e94", "\u661f\u671f\u516d"]
-        weather_data_more = localStorage.getObject("weatherdata_more_storage")
+        weather_data_more = localStorage.getObject("weatherdata_more")
         while i_week < week_name.length
             break if weather_data_more.weatherinfo.week == week_name[i_week]
             i_week++
