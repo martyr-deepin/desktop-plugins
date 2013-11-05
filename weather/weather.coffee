@@ -69,6 +69,7 @@ class Weather extends Widget
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
 
+        #new ToolTip(@weather_now_pic,text)
         right_div = create_element("div","right_div",@element)
         temperature_now = create_element("div", "temperature_now", right_div)
         @temperature_now_minus = create_element("div", "temperature_now_minus", temperature_now)
@@ -364,8 +365,8 @@ class Weather extends Widget
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
         if not weather_data_more? then return
-        echo weather_data_now
-        echo weather_data_more
+        #echo weather_data_now
+        #echo weather_data_more
         temp_now = weather_data_now.temp
         temp_danwei = "°" + weather_data_now.temp_danwei
         @city_now.textContent = weather_data_now.city_name
@@ -373,10 +374,8 @@ class Weather extends Widget
         if code is "3200" then code = weather_data_more[0].code
         yahooservice = new YahooService()
         text = yahooservice.yahoo_img_code_to_en(code)
-        echo text
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
         @weather_now_pic.title = text
-        #new ToolTip(@weather_now_pic,text)
         str = weather_data_now.date
         date_tmp = str.substring(0,str.indexOf("201") - 1)
         day_tmp = date_tmp.substring(0,date_tmp.indexOf(","))
