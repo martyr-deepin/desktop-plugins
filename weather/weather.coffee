@@ -149,6 +149,9 @@ class Weather extends Widget
         @global_desktop.addEventListener("click",=>
             @lost_focus()
             )
+        @global_desktop.addEventListener("contextmenu",=>
+            @lost_focus()
+            )
 
     weather_more_build: ->
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
