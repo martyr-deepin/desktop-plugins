@@ -22,7 +22,7 @@ _ = (s) ->
 
 class Weather extends Widget
     common_dists = new Array()
-    testInternet_url = "http://weather.yahooapis.com/forecastrss?w=2151330&u=c"
+    testInternet_url = "http://www.baidu.com"
 
     constructor: ->
         super(null)
@@ -316,15 +316,16 @@ class Weather extends Widget
                 i = @search_result_select.selectedIndex
                 @select_woeid_then_refresh(i)
             )
-            if 48 <= @keyCode <= 57
-                i = evt.keyCode - 48
-                echo i
-                @select_woeid_then_refresh(i)
+            if 48 <= @keyCode <= 57 then @select_woeid_then_refresh(evt.keyCode - 48)
         )
   
 
     select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
+        echo i
+        if i >= woeid_data.length
+            echo "i: #{i} >= woeid_data.length: #{woeid_data.length},then return"
+            return
         woeid_choose = woeid_data[i].id
         localStorage.setItem("cityid",woeid_choose)
         @weathergui_refresh_Interval()
