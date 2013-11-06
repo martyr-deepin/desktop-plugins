@@ -28,7 +28,6 @@ class Weather extends Widget
         super(null)
         dist = localStorage.getObject("common_dists")
         if not dist? then localStorage.setObject("common_dists",common_dists)
-
         @weather_now_build()
         @weather_more_build()
 
@@ -54,6 +53,10 @@ class Weather extends Widget
     do_buildmenu:->
         []
     
+    do_blur:=>
+        echo "do_blur"
+        @lost_focus()
+
     lost_focus:->
         @more_weather_menu.style.display = "none" if @more_weather_menu
         @more_city_menu.style.display = "none" if @more_city_menu
