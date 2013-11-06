@@ -239,6 +239,7 @@ class Weather extends Widget
         @search = create_element("div","search",@element)
         @search_input = create_element("input","search_input",@search)
         @search_input.type = "text"
+        @search_input.addEventListener("keydown", @search_input_keydown)
         @search_input.addEventListener("keypress", @search_input_keypress)
         @search_input.addEventListener("keyup", @search_input_keyup)
 
@@ -257,101 +258,87 @@ class Weather extends Widget
         @search.style.display = "block"
         @search_input.focus()
 
+
     search_input_keypress: (evt) =>
+        #echo "keypress:#{evt.keyCode}"
         evt.stopPropagation()
         switch evt.keyCode
             when 13   # enter
                 evt.preventDefault()
                 i = 0
-                woeid_data = localStorage.getObject("woeid_data")
-                woeid_choose = woeid_data[i].id
-                localStorage.setItem("cityid",woeid_data[i].id)
-                @weathergui_refresh_Interval()
-
-                for tmp in common_dists
-                    if not tmp? then continue
-                    if woeid_choose == tmp.id then return
-                arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-                common_dists.push(arr)
-                echo woeid_data[i].index + "choosed:"
-                echo arr
-                if common_dists.length > 5 then common_dists.splice(0,1)
-                localStorage.setObject("common_dists",common_dists)
-                
+                @select_woeid_then_refresh(i)
             when 27   # esc
                 evt.preventDefault()
                 @lost_focus()
             else
-                if  not (97 <= evt.keyCode <= 122 or 48 <= evt.keyCode <= 57)
+                if 48 <= evt.keyCode <= 57
+                    evt.preventDefault()
+                else if  not (97 <= evt.keyCode <= 122)
                     echo "input error!"
                     evt.preventDefault()
         return
     
     search_input_keyup: (evt) =>
+        @keyCode = evt.keyCode
+        #echo "keyup:#{evt.keyCode}"
         evt.stopPropagation()
         place_name = @search_input.value
         yahooservice = new YahooService()
-        yahooservice.get_woeid_by_place_name(place_name,@search_result_build.bind(@))
+        yahooservice.get_woeid_by_place_name(place_name, ()=>
+            echo "search_result_build"
+            woeid_data = localStorage.getObject("woeid_data")
+            if not woeid_data? then return
+
+            remove_element(@search_result) if @search_result
+            length = woeid_data.length
+            if length < 1 then return
+
+            @search_result = create_element("div","search_result",@search)
+            @search_result_select = create_element("select","search_result_select",@search_result)
+            clearOptions(@search_result_select,0)
+            for data in woeid_data
+                show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
+                @search_result_select.options.add(new Option(show_result_text, data.index))
+
+            if 0 <= length <= 1
+                setMaxSize(@search_result_select,woeid_data.length + 1)
+            else
+                setMaxSize(@search_result_select,woeid_data.length)
+
+            @search_input.focus()
+
+            @search_result_select.options[0].selected = "selected"
+            @search_result_select.options[0].addEventListener("click",=>
+                i = @search_result_select.selectedIndex
+                @select_woeid_then_refresh(i)
+            )
+            @search_result_select.addEventListener("change", =>
+                i = @search_result_select.selectedIndex
+                @select_woeid_then_refresh(i)
+            )
+            if 48 <= @keyCode <= 57
+                i = evt.keyCode - 48
+                echo i
+                @select_woeid_then_refresh(i)
+        )
   
-    search_result_build: () =>
-        # echo "search_result_build"
+
+    select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
-        if not woeid_data? then return
+        woeid_choose = woeid_data[i].id
+        localStorage.setItem("cityid",woeid_choose)
+        @weathergui_refresh_Interval()
 
-        remove_element(@search_result) if @search_result
-        length = woeid_data.length
-        if length < 1 then return
+        for tmp in common_dists
+            if not tmp? then continue
+            if woeid_choose == tmp.id then return
+        arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+        echo "woeid_data[#{woeid_data[i].index} is choosed:"
+        echo arr
+        common_dists.push(arr)
+        if common_dists.length > 5 then common_dists.splice(0,1)
+        localStorage.setObject("common_dists",common_dists)
 
-        @search_result = create_element("div","search_result",@search)
-        @search_result_select = create_element("select","search_result_select",@search_result)
-        clearOptions(@search_result_select,0)
-        for data in woeid_data
-            show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
-            @search_result_select.options.add(new Option(show_result_text, data.index))
-
-        if 0 <= length <= 1
-            setMaxSize(@search_result_select,woeid_data.length + 1)
-        else
-            setMaxSize(@search_result_select,woeid_data.length)
-
-        @search_input.focus()
-        
-        @search_result_select.options[0].selected = "selected"
-        @search_result_select.options[0].addEventListener("click",=>
-            i = @search_result_select.selectedIndex
-            woeid_data = localStorage.getObject("woeid_data")
-            woeid_choose = woeid_data[i].id
-            localStorage.setItem("cityid",woeid_choose)
-            @weathergui_refresh_Interval()
-
-            for tmp in common_dists
-                if not tmp? then continue
-                if woeid_choose == tmp.id then return
-            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-            echo woeid_data[i].index + "choosed:"
-            echo arr
-            common_dists.push(arr)
-            if common_dists.length > 5 then common_dists.splice(0,1)
-            localStorage.setObject("common_dists",common_dists)
-        )
-
-        @search_result_select.addEventListener("change", =>
-            i = @search_result_select.selectedIndex
-            woeid_data = localStorage.getObject("woeid_data")
-            woeid_choose = woeid_data[i].id
-            localStorage.setItem("cityid",woeid_choose)
-            @weathergui_refresh_Interval()
-
-            for tmp in common_dists
-                if not tmp? then continue
-                if woeid_choose == tmp.id then return
-            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-            echo woeid_data[i].index + "choosed:"
-            echo arr
-            common_dists.push(arr)
-            if common_dists.length > 5 then common_dists.splice(0,1)
-            localStorage.setObject("common_dists",common_dists)
-        )
 
     weathergui_refresh_Interval: =>
             @weathergui_refresh()
