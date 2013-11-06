@@ -300,10 +300,10 @@ class Weather extends Widget
                 show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
                 @search_result_select.options.add(new Option(show_result_text, data.index))
 
-            # if 0 <= length <= 1
-            #     setMaxSize(@search_result_select,woeid_data.length + 1)
-            # else
-            #     setMaxSize(@search_result_select,woeid_data.length)
+            if 0 <= length <= 1
+                setMaxSize(@search_result_select,woeid_data.length + 1)
+            else
+                setMaxSize(@search_result_select,woeid_data.length)
 
             @search_input.focus()
 
