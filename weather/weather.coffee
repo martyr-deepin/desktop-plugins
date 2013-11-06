@@ -300,10 +300,10 @@ class Weather extends Widget
                 show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
                 @search_result_select.options.add(new Option(show_result_text, data.index))
 
-            if 0 <= length <= 1
-                setMaxSize(@search_result_select,woeid_data.length + 1)
-            else
-                setMaxSize(@search_result_select,woeid_data.length)
+            # if 0 <= length <= 1
+            #     setMaxSize(@search_result_select,woeid_data.length + 1)
+            # else
+            #     setMaxSize(@search_result_select,woeid_data.length)
 
             @search_input.focus()
 
@@ -333,7 +333,7 @@ class Weather extends Widget
             if not tmp? then continue
             if woeid_choose == tmp.id then return
         arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-        echo "woeid_data[#{woeid_data[i].index} is choosed:"
+        echo "woeid_data[#{woeid_data[i].index}] is choosed:"
         echo arr
         common_dists.push(arr)
         if common_dists.length > 5 then common_dists.splice(0,1)
