@@ -285,7 +285,7 @@ class Weather extends Widget
         place_name = @search_input.value
         yahooservice = new YahooService()
         yahooservice.get_woeid_by_place_name(place_name, ()=>
-            echo "search_result_build"
+            #echo "search_result_build"
             woeid_data = localStorage.getObject("woeid_data")
             if not woeid_data? then return
 
