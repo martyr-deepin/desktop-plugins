@@ -260,7 +260,7 @@ class Weather extends Widget
 
 
     search_input_keypress: (evt) =>
-        #echo "keypress:#{evt.keyCode}"
+        echo "keypress:#{evt.keyCode}"
         evt.stopPropagation()
         switch evt.keyCode
             when 13   # enter
@@ -273,14 +273,14 @@ class Weather extends Widget
             else
                 if 48 <= evt.keyCode <= 57
                     evt.preventDefault()
+                    @select_woeid_then_refresh(evt.keyCode - 48)
                 else if  not (97 <= evt.keyCode <= 122)
                     echo "input error!"
                     evt.preventDefault()
         return
     
     search_input_keyup: (evt) =>
-        @keyCode = evt.keyCode
-        #echo "keyup:#{evt.keyCode}"
+        echo "keyup:#{evt.keyCode}"
         evt.stopPropagation()
         place_name = @search_input.value
         yahooservice = new YahooService()
@@ -316,7 +316,6 @@ class Weather extends Widget
                 i = @search_result_select.selectedIndex
                 @select_woeid_then_refresh(i)
             )
-            if 48 <= @keyCode <= 57 then @select_woeid_then_refresh(evt.keyCode - 48)
         )
   
 
