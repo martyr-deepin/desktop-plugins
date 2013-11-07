@@ -72,7 +72,6 @@ class Weather extends Widget
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
 
-        #new ToolTip(@weather_now_pic,text)
         right_div = create_element("div","right_div",@element)
         temperature_now = create_element("div", "temperature_now", right_div)
         @temperature_now_minus = create_element("div", "temperature_now_minus", temperature_now)
@@ -193,7 +192,7 @@ class Weather extends Widget
             if not dist? then continue
             common_city[i] = create_element("div","common_city",@more_city_tmp)
             remove_element(tooltip[i]) if tooltip[i]
-            tooltip[i] = new ToolTip(common_city[i],dist.name,common_city[i])
+            tooltip[i] = new ToolTip(common_city[i],dist.name)
             common_city[i].value = dist.name
 
             common_city_text[i] = create_element("div","common_city_text",common_city[i])
