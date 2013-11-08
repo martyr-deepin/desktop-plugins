@@ -30,7 +30,16 @@ class Weather extends Widget
         if not dist? then localStorage.setObject("common_dists",common_dists)
         @weather_now_build()
         @weather_more_build()
-
+        
+        @testInternet()
+        that = @
+        clearInterval(auto_testInternet)
+        auto_testInternet = setInterval(->
+            that.testInternet()
+         ,600000)# ten minites 
+    
+        
+    testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
@@ -49,7 +58,7 @@ class Weather extends Widget
         echo "testInternet_noconnect"
         @city_now.textContent = _("No network")
         @weathergui_refresh_by_localStorage()
-
+    
     do_buildmenu:->
         []
     
@@ -341,11 +350,11 @@ class Weather extends Widget
 
     weathergui_refresh_Interval: =>
             @weathergui_refresh()
-            that = @
-            clearInterval(auto_weathergui_refresh)
-            auto_weathergui_refresh = setInterval(->
-                that.weathergui_refresh()
-            ,600000)# ten minites
+#            that = @
+            #clearInterval(auto_weathergui_refresh)
+            #auto_weathergui_refresh = setInterval(->
+                #that.weathergui_refresh()
+            #,600000)# ten minites
 
 
     weathergui_refresh: =>
