@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 17:08+0800\n"
+"POT-Creation-Date: 2013-12-06 15:53+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,318 +17,245 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: citymoremenu.coffee:168 citymoremenu.coffee:144
-#: weather/citymoremenu.coffee:144
-msgid "province"
-msgstr "省"
+#: weather/weather.coffee:59
+msgid "No network"
+msgstr "無網路"
 
-#: citymoremenu.coffee:169 citymoremenu.coffee:145
-#: weather/citymoremenu.coffee:145
-msgid "city"
-msgstr "市"
-
-#: citymoremenu.coffee:170 citymoremenu.coffee:146
-#: weather/citymoremenu.coffee:146
-msgid "county"
-msgstr "縣"
-
-#: weather.coffee:94 weather.coffee:91 weather/weather.coffee:91
-#: weather/weather.coffee:88 weather/yahooservice.coffee:88
-#: weather/weather.coffee:73 weather/yahooservice.coffee:95
-#: weather/weather.coffee:83 weather/weather.coffee:84
+#: weather/weather.coffee:94 weather/yahooservice.coffee:95
 msgid "choose city"
 msgstr "請選擇城市"
 
-#: weather.coffee:97 weather.coffee:94 weather/weather.coffee:94
-#: weather/weather.coffee:91 weather/weather.coffee:76
-#: weather/weather.coffee:86 weather/weather.coffee:87
+#: weather/weather.coffee:97
 msgid "loading"
 msgstr "載入中"
 
-#: weather.coffee:147 weather.coffee:217 weather.coffee:149
-#: weather/weather.coffee:149 weather/weather.coffee:226
-#: weather/utils.coffee:58 weather/yahooservice.coffee:113
-#: weather/weather.coffee:134 weather/weather.coffee:145
-#: weather/yahooservice.coffee:137 weather/weather.coffee:152
-#: weather/weather.coffee:157
+#: weather/weather.coffee:170 weather/yahooservice.coffee:137
 msgid "Sun"
 msgstr "星期日"
 
-#: weather.coffee:202 weather.coffee:203 weather/weather.coffee:210
-msgid "None"
-msgstr "暫無"
-
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:59
-#: weather/yahooservice.coffee:114 weather/yahooservice.coffee:138
+#: weather/yahooservice.coffee:138
 msgid "Mon"
 msgstr "星期一"
 
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:60
-#: weather/yahooservice.coffee:115 weather/yahooservice.coffee:139
+#: weather/yahooservice.coffee:139
 msgid "Tue"
 msgstr "星期二"
 
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:61
-#: weather/yahooservice.coffee:116 weather/yahooservice.coffee:140
+#: weather/yahooservice.coffee:140
 msgid "Wed"
 msgstr "星期三"
 
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:62
-#: weather/yahooservice.coffee:117 weather/yahooservice.coffee:141
+#: weather/yahooservice.coffee:141
 msgid "Thu"
 msgstr "星期四"
 
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:63
-#: weather/yahooservice.coffee:118 weather/yahooservice.coffee:142
+#: weather/yahooservice.coffee:142
 msgid "Fri"
 msgstr "星期五"
 
-#: weather.coffee:217 weather/weather.coffee:226 weather/utils.coffee:64
-#: weather/yahooservice.coffee:119 weather/yahooservice.coffee:143
+#: weather/yahooservice.coffee:143
 msgid "Sat"
 msgstr "星期六"
 
-#: weather/yahooservice.coffee:125 weather/yahooservice.coffee:140
 #: weather/yahooservice.coffee:164
 msgid "tornado"
 msgstr "龍捲風"
 
-#: weather/yahooservice.coffee:126 weather/yahooservice.coffee:141
 #: weather/yahooservice.coffee:165
 msgid "tropical storm"
 msgstr "熱帶風暴"
 
-#: weather/yahooservice.coffee:127 weather/yahooservice.coffee:142
 #: weather/yahooservice.coffee:166
 msgid "hurricane"
 msgstr "颶風"
 
-#: weather/yahooservice.coffee:128 weather/yahooservice.coffee:143
 #: weather/yahooservice.coffee:167
 msgid "severe thunderstorms"
 msgstr "強雷暴"
 
-#: weather/yahooservice.coffee:129 weather/yahooservice.coffee:144
 #: weather/yahooservice.coffee:168
 msgid "thunderstorms"
 msgstr "雷暴"
 
-#: weather/yahooservice.coffee:130 weather/yahooservice.coffee:145
 #: weather/yahooservice.coffee:169
 msgid "mixed rain and snow"
 msgstr "雨夾雪"
 
-#: weather/yahooservice.coffee:131 weather/yahooservice.coffee:146
 #: weather/yahooservice.coffee:170
 msgid "mixed rain and sleet"
 msgstr "雨夾雨雪"
 
-#: weather/yahooservice.coffee:132 weather/yahooservice.coffee:147
 #: weather/yahooservice.coffee:171
 msgid "mixed snow and sleet"
 msgstr "雪夾雨雪"
 
-#: weather/yahooservice.coffee:133 weather/yahooservice.coffee:148
 #: weather/yahooservice.coffee:172
 msgid "freezing drizzle"
 msgstr "凍毛雨"
 
-#: weather/yahooservice.coffee:134 weather/yahooservice.coffee:149
 #: weather/yahooservice.coffee:173
 msgid "drizzle"
 msgstr "毛毛雨"
 
-#: weather/yahooservice.coffee:135 weather/yahooservice.coffee:150
 #: weather/yahooservice.coffee:174
 msgid "freezing rain"
 msgstr "凍雨"
 
-#: weather/yahooservice.coffee:136 weather/yahooservice.coffee:137
-#: weather/yahooservice.coffee:151 weather/yahooservice.coffee:152
 #: weather/yahooservice.coffee:175 weather/yahooservice.coffee:176
 msgid "showers"
 msgstr "陣雨"
 
-#: weather/yahooservice.coffee:138 weather/yahooservice.coffee:153
 #: weather/yahooservice.coffee:177
 msgid "snow flurries"
 msgstr "飄雪"
 
-#: weather/yahooservice.coffee:139 weather/yahooservice.coffee:154
 #: weather/yahooservice.coffee:178
 msgid "light snow showers"
 msgstr "小陣雪"
 
-#: weather/yahooservice.coffee:140 weather/yahooservice.coffee:155
 #: weather/yahooservice.coffee:179
 msgid "blowing snow"
 msgstr "高吹雪"
 
-#: weather/yahooservice.coffee:141 weather/yahooservice.coffee:156
 #: weather/yahooservice.coffee:180
 msgid "snow"
 msgstr "雪"
 
-#: weather/yahooservice.coffee:142 weather/yahooservice.coffee:157
 #: weather/yahooservice.coffee:181
 msgid "hail"
 msgstr "冰雹"
 
-#: weather/yahooservice.coffee:143 weather/yahooservice.coffee:158
 #: weather/yahooservice.coffee:182
 msgid "sleet"
 msgstr "雨雪"
 
-#: weather/yahooservice.coffee:144 weather/yahooservice.coffee:159
 #: weather/yahooservice.coffee:183
 msgid "dust"
 msgstr "浮塵"
 
-#: weather/yahooservice.coffee:145 weather/yahooservice.coffee:160
 #: weather/yahooservice.coffee:184
 msgid "foggy"
 msgstr "有霧"
 
-#: weather/yahooservice.coffee:146 weather/yahooservice.coffee:161
 #: weather/yahooservice.coffee:185
 msgid "haze"
 msgstr "霾"
 
-#: weather/yahooservice.coffee:147 weather/yahooservice.coffee:162
 #: weather/yahooservice.coffee:186
 msgid "smoky"
 msgstr "煙霧"
 
-#: weather/yahooservice.coffee:148 weather/yahooservice.coffee:163
 #: weather/yahooservice.coffee:187
 msgid "blustery"
 msgstr "大風"
 
-#: weather/yahooservice.coffee:149 weather/yahooservice.coffee:164
 #: weather/yahooservice.coffee:188
 msgid "windy"
 msgstr "多風"
 
-#: weather/yahooservice.coffee:150 weather/yahooservice.coffee:165
 #: weather/yahooservice.coffee:189
 msgid "cold"
 msgstr "寒冷"
 
-#: weather/yahooservice.coffee:151 weather/yahooservice.coffee:166
 #: weather/yahooservice.coffee:190
 msgid "cloudy"
 msgstr "多雲"
 
-#: weather/yahooservice.coffee:152 weather/yahooservice.coffee:167
 #: weather/yahooservice.coffee:191
 msgid "mostly cloudy (night)"
 msgstr "多雲時晴(夜)"
 
-#: weather/yahooservice.coffee:153 weather/yahooservice.coffee:168
 #: weather/yahooservice.coffee:192
 msgid "mostly cloudy (day)"
 msgstr "多雲時晴(日)"
 
-#: weather/yahooservice.coffee:154 weather/yahooservice.coffee:169
 #: weather/yahooservice.coffee:193
 msgid "partly cloudy (night)"
 msgstr "局部多雲(夜)"
 
-#: weather/yahooservice.coffee:155 weather/yahooservice.coffee:170
 #: weather/yahooservice.coffee:194
 msgid "partly cloudy (day)"
 msgstr "局部多雲(日)"
 
-#: weather/yahooservice.coffee:156 weather/yahooservice.coffee:171
 #: weather/yahooservice.coffee:195
 msgid "clear (night)"
 msgstr "晴朗(夜)"
 
-#: weather/yahooservice.coffee:157 weather/yahooservice.coffee:172
 #: weather/yahooservice.coffee:196
 msgid "sunny"
 msgstr "晴朗"
 
-#: weather/yahooservice.coffee:158 weather/yahooservice.coffee:173
 #: weather/yahooservice.coffee:197
 msgid "fair (night)"
 msgstr "晴(夜)"
 
-#: weather/yahooservice.coffee:159 weather/yahooservice.coffee:174
 #: weather/yahooservice.coffee:198
 msgid "fair (day)"
 msgstr "晴(日)"
 
-#: weather/yahooservice.coffee:160 weather/yahooservice.coffee:175
 #: weather/yahooservice.coffee:199
 msgid "mixed rain and hail"
 msgstr "雨夾冰雹"
 
-#: weather/yahooservice.coffee:161 weather/yahooservice.coffee:176
 #: weather/yahooservice.coffee:200
 msgid "hot"
 msgstr "炎熱"
 
-#: weather/yahooservice.coffee:162 weather/yahooservice.coffee:177
 #: weather/yahooservice.coffee:201
 msgid "isolated thunderstorms"
 msgstr "局部雷暴"
 
-#: weather/yahooservice.coffee:163 weather/yahooservice.coffee:178
 #: weather/yahooservice.coffee:202
 msgid "scattered thunderstorms"
 msgstr "零星雷暴"
 
-#: weather/yahooservice.coffee:164 weather/yahooservice.coffee:179
 #: weather/yahooservice.coffee:203
 msgid "scattered thunderstorm"
 msgstr "零星雷暴"
 
-#: weather/yahooservice.coffee:165 weather/yahooservice.coffee:180
 #: weather/yahooservice.coffee:204
 msgid "scattered showers"
 msgstr "零星陣雨"
 
-#: weather/yahooservice.coffee:166 weather/yahooservice.coffee:168
-#: weather/yahooservice.coffee:181 weather/yahooservice.coffee:183
 #: weather/yahooservice.coffee:205 weather/yahooservice.coffee:207
 msgid "heavy snow"
 msgstr "大雪"
 
-#: weather/yahooservice.coffee:167 weather/yahooservice.coffee:182
 #: weather/yahooservice.coffee:206
 msgid "scattered snow showers"
 msgstr "零星陣雪"
 
-#: weather/yahooservice.coffee:169 weather/yahooservice.coffee:184
 #: weather/yahooservice.coffee:208
 msgid "partly cloudy"
 msgstr "局部多雲"
 
-#: weather/yahooservice.coffee:170 weather/yahooservice.coffee:185
 #: weather/yahooservice.coffee:209
 msgid "thundershowers"
 msgstr "雷陣雨"
 
-#: weather/yahooservice.coffee:171 weather/yahooservice.coffee:186
 #: weather/yahooservice.coffee:210
 msgid "snow showers"
 msgstr "陣雪"
 
-#: weather/yahooservice.coffee:172 weather/yahooservice.coffee:187
 #: weather/yahooservice.coffee:211
 msgid "isolated thundershowers"
 msgstr "局部雷陣雨"
 
-#: weather/yahooservice.coffee:173 weather/yahooservice.coffee:188
 #: weather/yahooservice.coffee:212
 msgid "3200 not available"
 msgstr "無"
 
-#: weather/weather.coffee:51
-msgid "No network connection"
-msgstr "無網路連線"
+#~ msgid "province"
+#~ msgstr "省"
 
-#: weather/weather.coffee:51
-msgid "No network"
-msgstr "無網路"
+#~ msgid "city"
+#~ msgstr "市"
+
+#~ msgid "county"
+#~ msgstr "縣"
+
+#~ msgid "None"
+#~ msgstr "暫無"
+
+#~ msgid "No network connection"
+#~ msgstr "無網路連線"

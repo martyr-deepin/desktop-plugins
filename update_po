@@ -19,11 +19,20 @@ if __name__ == '__main__':
         sys.exit()
 
     for l in lang:
-        os.system("mkdir -p %s/locale/po/%s" % (plg_name, l))
-        name = plg_name
-        os.system("touch %s/locale/po/%s/%s.po" % (plg_name, l, name))
+        plg_po_dir = '%s/locale/po/%s' % (plg_name, l)
+        pot_path = "{0}/locale/{0}.pot".format(plg_name)
 
-        cmd= "xgettext --from-code=utf-8 -L python -j -o %s/locale/po/%s/%s.po %s"\
-                % (plg_name, l, name, " ".join(glob.glob("{}/*.coffee".format(
-                    plg_name))))
+        os.system("mkdir -p %s" % (plg_po_dir))
+        os.system("touch %s" % pot_path)
+
+        name = plg_name
+        po_path = '%s/%s.po' % (plg_po_dir, name)
+        os.system("touch %s" % po_path)
+
+        cmd= "xgettext --from-code=utf-8 -L python -j -o %s %s"\
+                % (pot_path, " ".join(glob.glob("{}/*.coffee".format(plg_name))))
         os.system(cmd)
+
+        os.system("msgmerge %s %s > %s/new_%s.po" % (po_path, pot_path, plg_po_dir, l))
+
+        os.system("mv %s/new_%s.po %s" % (plg_po_dir, l, po_path))
