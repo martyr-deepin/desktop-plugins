@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# kazzike <jeancarlosrivas@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Weather Desktop Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-06 15:53+0800\n"
+"PO-Revision-Date: 2013-12-10 14:08+0000\n"
+"Last-Translator: kazzike <jeancarlosrivas@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/weather-desktop-plugin/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: weather/weather.coffee:59
+msgid "No network"
+msgstr "Sin Red"
+
+#: weather/weather.coffee:94 weather/yahooservice.coffee:95
+msgid "choose city"
+msgstr "Escoja la Ciudad"
+
+#: weather/weather.coffee:97
+msgid "loading"
+msgstr "Cargando"
+
+#: weather/weather.coffee:170 weather/yahooservice.coffee:137
+msgid "Sun"
+msgstr "Dom"
+
+#: weather/yahooservice.coffee:138
+msgid "Mon"
+msgstr "Lun"
+
+#: weather/yahooservice.coffee:139
+msgid "Tue"
+msgstr "Mar"
+
+#: weather/yahooservice.coffee:140
+msgid "Wed"
+msgstr "Mier"
+
+#: weather/yahooservice.coffee:141
+msgid "Thu"
+msgstr "Jue"
+
+#: weather/yahooservice.coffee:142
+msgid "Fri"
+msgstr "Vie"
+
+#: weather/yahooservice.coffee:143
+msgid "Sat"
+msgstr "Sab"
+
+#: weather/yahooservice.coffee:164
+msgid "tornado"
+msgstr "Tornado"
+
+#: weather/yahooservice.coffee:165
+msgid "tropical storm"
+msgstr "Tormenta Tropical"
+
+#: weather/yahooservice.coffee:166
+msgid "hurricane"
+msgstr "Huracán"
+
+#: weather/yahooservice.coffee:167
+msgid "severe thunderstorms"
+msgstr "Tormenta Electricas Severas"
+
+#: weather/yahooservice.coffee:168
+msgid "thunderstorms"
+msgstr "Tormenta Electricas"
+
+#: weather/yahooservice.coffee:169
+msgid "mixed rain and snow"
+msgstr "Lluvia Mezclada con Nieve"
+
+#: weather/yahooservice.coffee:170
+msgid "mixed rain and sleet"
+msgstr "Lluvia Mezclada y Aguanieve"
+
+#: weather/yahooservice.coffee:171
+msgid "mixed snow and sleet"
+msgstr "Nieve Mezclada y Aguanieve"
+
+#: weather/yahooservice.coffee:172
+msgid "freezing drizzle"
+msgstr "Llovizna Helada"
+
+#: weather/yahooservice.coffee:173
+msgid "drizzle"
+msgstr "Llovizna"
+
+#: weather/yahooservice.coffee:174
+msgid "freezing rain"
+msgstr "Lluvia Helada"
+
+#: weather/yahooservice.coffee:175 weather/yahooservice.coffee:176
+msgid "showers"
+msgstr "Chubasco"
+
+#: weather/yahooservice.coffee:177
+msgid "snow flurries"
+msgstr "Copos de Nieve"
+
+#: weather/yahooservice.coffee:178
+msgid "light snow showers"
+msgstr "Lluvias Ligeras"
+
+#: weather/yahooservice.coffee:179
+msgid "blowing snow"
+msgstr "Soplando Nieve"
+
+#: weather/yahooservice.coffee:180
+msgid "snow"
+msgstr "Nieve"
+
+#: weather/yahooservice.coffee:181
+msgid "hail"
+msgstr "Granizo"
+
+#: weather/yahooservice.coffee:182
+msgid "sleet"
+msgstr "Aguanieve"
+
+#: weather/yahooservice.coffee:183
+msgid "dust"
+msgstr "Polvo"
+
+#: weather/yahooservice.coffee:184
+msgid "foggy"
+msgstr "Nebuloso"
+
+#: weather/yahooservice.coffee:185
+msgid "haze"
+msgstr "Neblina"
+
+#: weather/yahooservice.coffee:186
+msgid "smoky"
+msgstr "Humoso"
+
+#: weather/yahooservice.coffee:187
+msgid "blustery"
+msgstr "Tempestuoso"
+
+#: weather/yahooservice.coffee:188
+msgid "windy"
+msgstr "Ventoso"
+
+#: weather/yahooservice.coffee:189
+msgid "cold"
+msgstr "Frío"
+
+#: weather/yahooservice.coffee:190
+msgid "cloudy"
+msgstr "Nublado"
+
+#: weather/yahooservice.coffee:191
+msgid "mostly cloudy (night)"
+msgstr "Mayormente Nublado (Noche)"
+
+#: weather/yahooservice.coffee:192
+msgid "mostly cloudy (day)"
+msgstr "Mayormente Nublado (Día)"
+
+#: weather/yahooservice.coffee:193
+msgid "partly cloudy (night)"
+msgstr "Parcialmente Nublado (Noche)"
+
+#: weather/yahooservice.coffee:194
+msgid "partly cloudy (day)"
+msgstr "Parcialmente Nublado (Día)"
+
+#: weather/yahooservice.coffee:195
+msgid "clear (night)"
+msgstr "Despejado (Noche)"
+
+#: weather/yahooservice.coffee:196
+msgid "sunny"
+msgstr "Soleado"
+
+#: weather/yahooservice.coffee:197
+msgid "fair (night)"
+msgstr "Claro (Noche)"
+
+#: weather/yahooservice.coffee:198
+msgid "fair (day)"
+msgstr "Claro (Día)"
+
+#: weather/yahooservice.coffee:199
+msgid "mixed rain and hail"
+msgstr "Mezcla de Lluvia y Granizo"
+
+#: weather/yahooservice.coffee:200
+msgid "hot"
+msgstr "Caliente"
+
+#: weather/yahooservice.coffee:201
+msgid "isolated thunderstorms"
+msgstr "Tormentas Aisladas"
+
+#: weather/yahooservice.coffee:202
+msgid "scattered thunderstorms"
+msgstr "Tormentas Eléctricas Dispersas"
+
+#: weather/yahooservice.coffee:203
+msgid "scattered thunderstorm"
+msgstr "Tormenta Dispersa"
+
+#: weather/yahooservice.coffee:204
+msgid "scattered showers"
+msgstr "Chubascos Dispersos "
+
+#: weather/yahooservice.coffee:205 weather/yahooservice.coffee:207
+msgid "heavy snow"
+msgstr "Fuertes Nevadas "
+
+#: weather/yahooservice.coffee:206
+msgid "scattered snow showers"
+msgstr "Nieve Dispersa"
+
+#: weather/yahooservice.coffee:208
+msgid "partly cloudy"
+msgstr "Parcialmente Nublado"
+
+#: weather/yahooservice.coffee:209
+msgid "thundershowers"
+msgstr "Tormentoso"
+
+#: weather/yahooservice.coffee:210
+msgid "snow showers"
+msgstr "Nevado"
+
+#: weather/yahooservice.coffee:211
+msgid "isolated thundershowers"
+msgstr "Chubascos Aislados"
+
+#: weather/yahooservice.coffee:212
+msgid "3200 not available"
+msgstr "3200 No Esta Disponible"
