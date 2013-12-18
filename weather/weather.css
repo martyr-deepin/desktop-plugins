@@ -157,6 +157,40 @@
 }
 
 
+.week:lang(es){
+    margin-left: 7px;
+    width: 45px;
+}
+.pic:lang(es){
+    position: absolute;
+    left: 57px;
+    margin-top: 5px;
+    width: 24px;
+    height: 24px;
+}
+.temperature:lang(es){
+    position: absolute;
+    right: 7px;
+}
+
+
+.week:lang(pt){
+    margin-left: 7px;
+    width: 45px;
+}
+.pic:lang(pt){
+    position: absolute;
+    left: 57px;
+    margin-top: 5px;
+    width: 24px;
+    height: 24px;
+}
+.temperature:lang(pt){
+    position: absolute;
+    right: 7px;
+}
+
+
 
 .more_city_menu{
     position: absolute;
