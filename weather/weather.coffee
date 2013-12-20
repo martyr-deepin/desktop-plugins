@@ -58,14 +58,11 @@ class Weather extends Widget
         echo "testInternet_noconnect"
         @city_now.textContent = _("No network")
         @weathergui_refresh_by_localStorage()
-    
-    do_buildmenu:->
-        []
-    
+   
     do_blur:=>
         echo "do_blur"
         @lost_focus()
-
+    
     lost_focus:->
         @more_weather_menu.style.display = "none" if @more_weather_menu
         @more_city_menu.style.display = "none" if @more_city_menu
@@ -76,7 +73,7 @@ class Weather extends Widget
     weather_now_build: ->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
-        temp_now_init = "00°"
+        temp_now_init = "00"
 
         left_div = create_element("div", "left_div", @element)
         @weather_now_pic = create_img("weather_now_pic", img_now_url_init, left_div)
@@ -168,7 +165,7 @@ class Weather extends Widget
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
         img_more_url_init = @img_url_first + "yahoo_api/24/" + "26" + "n.png"
         week_init = _("Sun")
-        temp_init = "00~00℃"
+        temp_init = "00~00"
 
         remove_element(@weather_more_tmp) if @weather_more_tmp
         @weather_more_tmp = create_element("div","weather_more_tmp",@more_weather_menu)
@@ -379,7 +376,13 @@ class Weather extends Widget
         #echo weather_data_now
         #echo weather_data_more
         temp_now = weather_data_now.temp
-        temp_danwei = "°" + weather_data_now.temp_danwei
+        echo weather_data_now.temp_danwei
+        if weather_data_now.temp_danwei is "F"
+            temp_danwei = weather_data_now.temp_danwei
+            temp_now_danwei = weather_data_now.temp_danwei
+        else
+            temp_danwei = "°" + weather_data_now.temp_danwei
+            temp_now_danwei = "°"
         @city_now.textContent = weather_data_now.city_name
         code  = weather_data_now.code
         if code is "3200" then code = weather_data_more[0].code
@@ -404,11 +407,11 @@ class Weather extends Widget
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
-            @temperature_now_number.textContent = -temp_now + "°"
+            @temperature_now_number.textContent = -temp_now + temp_now_danwei
         else
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
-            @temperature_now_number.textContent = temp_now + "°"
+            @temperature_now_number.textContent = temp_now + temp_now_danwei
 
         if @weather_data is undefined then return
         for data , i in weather_data_more
@@ -417,6 +420,25 @@ class Weather extends Widget
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
+    
+    do_rightclick:(evt) ->
+        evt.stopPropagation()
+        menu = []
+        switch localStorage.getItem("temp_danwei")
+            when "c" then menu.push([1,_("Switch to Fahrenheit")])
+            when "f" then menu.push([1,_("Switch to Celsius")])
+            else localStorage.setItem("temp_danwei","c")
+        @element.contextMenu = build_menu(menu)
+     
+    do_itemselected:(evt) =>
+        DEG = localStorage.getItem("temp_danwei")
+        switch evt.id
+            when 1
+                if DEG is "f" then localStorage.setItem("temp_danwei","c")
+                else if DEG is "c" then localStorage.setItem("temp_danwei","f")
+                else localStorage.setItem("temp_danwei","c")
+                @weathergui_refresh_Interval()
+
 
 plugin = PluginManager.get_plugin("weather")
 plugin.inject_css("weather")

@@ -67,6 +67,10 @@ class YahooService
         if !woeid
             echo "woeid :" + woeid + ",return!"
             return
+        DEG = localStorage.getItem("temp_danwei")
+        if not DEG?
+            DEG = "c"
+            localStorage.setItem("temp_danwei",DEG)
         xml_str = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + DEG
         yahoo_weather_data_more = new Array()
         array_clear(yahoo_weather_data_more)
