@@ -51,7 +51,7 @@ class Weather extends Widget
 
         if !cityid
             Clientcityid = new ClientCityId()
-            Clientcityid.Get_client_cityid(@weathergui_refresh_Interval.bind(@))
+            Clientcityid.get_client_cityid(@weathergui_refresh_Interval.bind(@))
         else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
@@ -244,7 +244,7 @@ class Weather extends Widget
         @search = create_element("div","search",@element)
         @search_input = create_element("input","search_input",@search)
         @search_input.type = "text"
-        @search_input.addEventListener("keydown", @search_input_keydown)
+        #@search_input.addEventListener("keydown", @search_input_keydown)
         @search_input.addEventListener("keypress", @search_input_keypress)
         @search_input.addEventListener("keyup", @search_input_keyup)
 
@@ -376,7 +376,6 @@ class Weather extends Widget
         #echo weather_data_now
         #echo weather_data_more
         temp_now = weather_data_now.temp
-        echo weather_data_now.temp_danwei
         if weather_data_now.temp_danwei is "F"
             temp_danwei = weather_data_now.temp_danwei
             temp_now_danwei = weather_data_now.temp_danwei
@@ -400,7 +399,6 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        # echo date_text
         @date.textContent = date_text
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 

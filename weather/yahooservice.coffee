@@ -39,9 +39,14 @@ class YahooService
                 xml_str = xhr.responseText
                 localStorage.setItem("yahoo_woeid_xml_str",xml_str)
                 woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
-                if woeid_xml.q isnt place_name
+                try
+                    if woeid_xml.q isnt place_name
+                        echo "get_woeid_by_place_name xml_str  wrong!"
+                        return
+                catch e
                     echo "get_woeid_by_place_name xml_str  wrong!"
                     return
+
                 r = woeid_xml.r
                 for dk,index in r
                     value = new Array()

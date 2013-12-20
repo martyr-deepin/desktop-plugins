@@ -32,9 +32,9 @@ class ClientCityId
         echo position
         lat = position.coords.latitude
         long = position.coords.langitude
-        echo lat + "," + lang
+        echo lat + "," + long
 
-    Get_client_cityid: (callback)=>
+    get_client_cityid: (callback)=>
         url_clientcity_json = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip="
         ajax(url_clientcity_json,true, (xhr)=>
             # try
@@ -50,7 +50,11 @@ class ClientCityId
                     yahoo.get_woeid_by_place_name(cityname_client,=>
                         woeid_data = localStorage.getObject("woeid_data")
                         if not woeid_data? then return
-                        cityid_client = woeid_data[0].id
+                        try
+                            cityid_client = woeid_data[0].id
+                        catch e
+                            echo "woeid_data[0].id is error"
+                            return
                         echo "cityid_client:#{cityid_client},cityname_client:#{woeid_data[0].k};"
                         localStorage.setItem("cityid_client",cityid_client)
                         localStorage.setItem("cityid",cityid_client)
