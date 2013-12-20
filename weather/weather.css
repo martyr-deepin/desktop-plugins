@@ -50,14 +50,11 @@
 }
 .temperature_now_number{
 }
-/*.temperature_now_number:after{
-    content: "°";
-}*/
 
 .city_and_date{
     display: -webkit-box;
     -webkit-box-orient:vertical;
-    margin-left: 10px;
+    margin-left: 5px;
     text-align: left;
 }
 
@@ -84,6 +81,9 @@
     color: #FFF;
     font-weight: bolder;
     text-shadow: 0 0 2px #808080;
+    white-space:nowrap; 
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 
