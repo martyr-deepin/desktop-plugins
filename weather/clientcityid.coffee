@@ -25,11 +25,15 @@ class ClientCityId
         geo = window.navigator.geolocation
         echo geo
         if geo
-            pos = geo.getCurrentPosition(@getPositionSuccess)
+            pos = geo.getCurrentPosition(@getPositionSuccess,@geoErrorMan)
         else
-            echo "geolocation is not supported bt this browser!"
+            echo "geolocation is not supported by this browser!"
         
+    geoErrorMan:(error)->
+        echo error.message
+   
     getPositionSuccess:(position)->
+        echo "getPositionSuccess"
         echo position
         lat = position.coords.latitude
         long = position.coords.langitude

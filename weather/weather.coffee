@@ -43,6 +43,9 @@ class Weather extends Widget
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
     testInternet_connect:=>
+        clientcityid = null
+        clientcityid = new ClientCityId()
+        clientcityid.geoposition()
         echo "testInternet_connect ok"
         cityid = localStorage.getItem("cityid") if localStorage.getItem("cityid")
         if cityid < 1000
@@ -50,8 +53,6 @@ class Weather extends Widget
             localStorage.setItem("cityid",cityid)
 
         if !cityid
-            clientcityid = new ClientCityId()
-            #clientcityid.geoposition()
             clientcityid.get_client_cityid(@weathergui_refresh_Interval.bind(@))
         else @weathergui_refresh_Interval()
 
