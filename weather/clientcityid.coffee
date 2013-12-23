@@ -20,13 +20,14 @@
 
 class ClientCityId
     constructor: ->
-        #@geoposition()
 
     geoposition:->
         geo = window.navigator.geolocation
         echo geo
-        pos = geo.getCurrentPosition(@getPositionSuccess)
-        
+        if geo
+            pos = geo.getCurrentPosition(@getPositionSuccess)
+        else
+            echo "geolocation is not supported bt this browser!"
         
     getPositionSuccess:(position)->
         echo position

@@ -50,8 +50,9 @@ class Weather extends Widget
             localStorage.setItem("cityid",cityid)
 
         if !cityid
-            Clientcityid = new ClientCityId()
-            Clientcityid.get_client_cityid(@weathergui_refresh_Interval.bind(@))
+            clientcityid = new ClientCityId()
+            #clientcityid.geoposition()
+            clientcityid.get_client_cityid(@weathergui_refresh_Interval.bind(@))
         else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
