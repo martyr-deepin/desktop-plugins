@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-23 10:05+0800\n"
+"POT-Creation-Date: 2013-12-24 10:44+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: weather/weather.coffee:59
+#: weather/weather.coffee:59 weather/weather.coffee:61
 msgid "No network"
 msgstr ""
 
 #: weather/weather.coffee:94 weather/yahooservice.coffee:95
 #: weather/yahooservice.coffee:104 weather/weather.coffee:91
+#: weather/weather.coffee:93
 msgid "choose city"
 msgstr ""
 
 #: weather/weather.coffee:97 weather/weather.coffee:94
+#: weather/weather.coffee:96
 msgid "loading"
 msgstr ""
 
 #: weather/weather.coffee:170 weather/yahooservice.coffee:137
 #: weather/yahooservice.coffee:146 weather/weather.coffee:167
+#: weather/weather.coffee:169
 msgid "Sun"
 msgstr ""
 
@@ -249,10 +252,10 @@ msgstr ""
 msgid "3200 not available"
 msgstr ""
 
-#: weather/weather.coffee:426
+#: weather/weather.coffee:426 weather/weather.coffee:428
 msgid "Switch to Fahrenheit"
 msgstr ""
 
-#: weather/weather.coffee:427
+#: weather/weather.coffee:427 weather/weather.coffee:429
 msgid "Switch to Celsius"
 msgstr ""
