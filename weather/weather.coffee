@@ -385,13 +385,9 @@ class Weather extends Widget
         else
             temp_danwei = "°" + weather_data_now.temp_danwei
             temp_now_danwei = "°"
-        @city_now.textContent = weather_data_now.city_name
         code  = weather_data_now.code
         if code is "3200" then code = weather_data_more[0].code
         yahooservice = new YahooService()
-        text = yahooservice.yahoo_img_code_to_en(code)
-        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
-        @weather_now_pic.title = text
         str = weather_data_now.date
         date_tmp = str.substring(0,str.indexOf("201") - 1)
         day_tmp = date_tmp.substring(0,date_tmp.indexOf(","))
@@ -402,9 +398,11 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        @date.textContent = date_text
         echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
+        text = yahooservice.yahoo_img_code_to_en(code)
+        @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
+        @weather_now_pic.title = text
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
@@ -413,6 +411,8 @@ class Weather extends Widget
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
+        @city_now.textContent = weather_data_now.city_name
+        @date.textContent = date_text
 
         if @weather_data is undefined then return
         for data , i in weather_data_more
