@@ -28,6 +28,7 @@ class Weather extends Widget
         super(null)
         dist = localStorage.getObject("common_dists")
         if not dist? then localStorage.setObject("common_dists",common_dists)
+        
         @weather_now_build()
         @weather_more_build()
         
@@ -37,8 +38,8 @@ class Weather extends Widget
         auto_testInternet = setInterval(->
             that.testInternet()
          ,600000)# ten minites 
-    
         
+    
     testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
@@ -72,7 +73,7 @@ class Weather extends Widget
         remove_element(@more_city_tmp) if @more_city_tmp
         remove_element(@search) if @search
 
-    weather_now_build: ->
+    weather_now_build:->
         @img_url_first = "#{plugin.path}/img/"
         img_now_url_init = @img_url_first + "yahoo_api/48/" + "26" + "n.png"
         temp_now_init = "00"
