@@ -1,0 +1,14 @@
+[main]
+host = https://www.transifex.com
+
+[weather-desktop-plugin.weatherpot]
+file_filter = weather/locale/po/<lang>/weather.po
+source_file = weather/locale/weather.pot
+source_lang = en
+type = PO
+
+[clock-desktop-plugin.clockpot]
+file_filter = clock/locale/po/<lang>/clock.po
+source_file = clock/locale/clock.pot
+source_lang = en
+type = PO
