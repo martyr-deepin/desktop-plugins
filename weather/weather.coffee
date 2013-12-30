@@ -39,7 +39,12 @@ class Weather extends Widget
             that.testInternet()
          ,600000)# ten minites 
         
+         location = "wuhan"
+         #validateWeatherLocation(location,callback_val)
     
+    callback_val:=>
+        echo "callback_val"
+
     testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
 
