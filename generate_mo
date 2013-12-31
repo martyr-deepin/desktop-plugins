@@ -1,23 +1,53 @@
 #!/usr/bin/env python
 
-lang = ["zh_CN", "zh_TW","es","pt_BR"]
+from __future__ import print_function
+
+lang = [
+"ar",
+"cs",
+"de",
+"es",
+"es_CL",
+"es_PY",
+"fr",
+"hu",
+"id_ID",
+"nl",
+"nl_NL",
+"pl_PL",
+"pt_BR",
+"pt_PT",
+"ru",
+"sv_SE",
+"zh_CN",
+"zh_HK",
+"zh_TW",
+]
 
 import os
 import sys
 
 if __name__ == '__main__':
 
-    try:
-        plg_name = sys.argv[1]
-    except IndexError:
-        print "./generate_mo <plg_name>"
-        sys.exit()
+    plg_names = []
+    if len(sys.argv) == 1:
+        for i in iter(os.listdir('.')):
+            if os.path.isdir(i) and not i.startswith('.') and i != "common":
+                plg_names.append(i)
+    else:
+        plg_names = sys.argv[1:]
 
-    if not os.path.exists(plg_name):
-        print "{} is not existed".format(plg_name)
-        sys.exit()
+    for plg_name in plg_names:
+        if not os.path.exists(plg_name):
+            print("{} is not existed".format(plg_name))
+            sys.exit()
 
-    for l in lang:
-        os.system('mkdir -p %s/locale/mo/%s/LC_MESSAGES' % (plg_name, l))
-        name = plg_name
-        os.system('msgfmt {0}/locale/po/{1}/{2}.po -o {0}/locale/mo/{1}/LC_MESSAGES/{2}.mo'.format(plg_name, l, name))
+        for l in lang:
+            mo_dir = "{0}/locale/mo/{1}/LC_MESSAGES".format(plg_name, l)
+            os.system('mkdir -p {}'.format(mo_dir))
+            name = plg_name
+            po_path = "{0}/locale/po/{1}/{2}.po".format(plg_name, l, name)
+            if os.path.exists(po_path):
+                os.system('msgfmt {0} -o {1}/{2}.mo'.format(po_path, mo_dir, name))
+            else:
+                print("{0} not support {1}".format(name, l))

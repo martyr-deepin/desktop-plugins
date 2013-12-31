@@ -3,7 +3,7 @@ _ = (s) ->
 
 class Clock extends Widget
     backgroud = null
-    
+
     constructor: (@id)->
         super
         if localStorage.getItem("clock_backgroud")
@@ -11,12 +11,12 @@ class Clock extends Widget
         else
             backgroud = "clockface_circle.png"
             localStorage.setItem("clock_backgroud",backgroud)
-            
+
         @face = create_img("ClockFace", "#{plugin.path}/#{backgroud}", @element)
         @sec = create_img("HandleSec", "#{plugin.path}/sechand.png", @element)
         @min= create_img("HandleMin", "#{plugin.path}/minhand.png", @element)
         @hour = create_img("HandleHour", "#{plugin.path}/hourhand.png", @element)
-            
+
         @update_look()
         setInterval(=>
             @update_look()
@@ -31,15 +31,15 @@ class Clock extends Widget
         @sec.style.webkitTransform = srotate
         @min.style.webkitTransform = mrotate
         @hour.style.webkitTransform = hrotate
-    
-    do_rightclick:(evt) ->
-        evt.stopPropagation()
+
+    do_buildmenu: ->
         menu = []
         menu.push([1,_("Change appearance")])
-        @face.parentElement.contextMenu = build_menu(menu)
-    
-    do_itemselected:(evt) =>
-        switch evt.id
+        menu
+
+    on_itemselected:(evt) =>
+        id = parseInt(evt)
+        switch id
             when 1
                 if backgroud is "clockface_circle.png" then backgroud = "clockface_rect.png"
                 else if backgroud is "clockface_rect.png" then backgroud = "clockface_circle.png"

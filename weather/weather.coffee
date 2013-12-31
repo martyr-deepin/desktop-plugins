@@ -28,12 +28,11 @@ class Weather extends Widget
         super(null)
         dist = localStorage.getObject("common_dists")
         if not dist? then localStorage.setObject("common_dists",common_dists)
-        
+
         @weather_now_build()
         @weather_more_build()
-        
+
         @testInternet()
-        that = @
         clearInterval(auto_testInternet)
         auto_testInternet = setInterval(->
             that.testInternet()
@@ -44,9 +43,9 @@ class Weather extends Widget
     
     callback_val:=>
         echo "callback_val"
-
+    
     testInternet:=>
-        ajax(testInternet_url,true,@testInternet_connect.bind(@),@testInternet_noconnect.bind(@))
+        ajax(testInternet_url,true,@testInternet_connect,@testInternet_noconnect)
 
     testInternet_connect:=>
         clientcityid = null
@@ -59,18 +58,18 @@ class Weather extends Widget
             localStorage.setItem("cityid",cityid)
 
         if !cityid
-            clientcityid.get_client_cityid(@weathergui_refresh_Interval.bind(@))
+            clientcityid.get_client_cityid(@weathergui_refresh_Interval)
         else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
         echo "testInternet_noconnect"
         @city_now.textContent = _("No network")
         @weathergui_refresh_by_localStorage()
-   
+
     do_blur:=>
         echo "do_blur"
         @lost_focus()
-    
+
     lost_focus:->
         @more_weather_menu.style.display = "none" if @more_weather_menu
         @more_city_menu.style.display = "none" if @more_city_menu
@@ -104,7 +103,7 @@ class Weather extends Widget
         remove_element(@more_weather_menu) if @more_weather_menu
         @more_weather_menu = create_element("div", "more_weather_menu", @element)
         @more_weather_menu.style.display = "none"
-        
+
         remove_element(@more_city_menu) if @more_city_menu
         @more_city_menu = create_element("div","more_city_menu",@element)
         @more_city_menu.style.display = "none"
@@ -119,7 +118,7 @@ class Weather extends Widget
             @more_weather_menu.style.display = "none"
             if @more_city_menu.style.display == "none"
                 @city_more_build()
-                
+
                 @more_city_menu.style.display = "block"
                 height = @more_city_menu.clientHeight
                 @more_city_menu.style.display = "none"
@@ -142,7 +141,7 @@ class Weather extends Widget
             @more_city_menu.style.display = "none"
 
             if @more_weather_menu.style.display == "none"
-                
+
                 @more_weather_menu.style.display = "block"
                 height = @more_weather_menu.clientHeight
                 @more_weather_menu.style.display = "none"
@@ -190,7 +189,7 @@ class Weather extends Widget
             @pic[i] = create_img("pic", img_more_url_init, @weather_data[i])
             @temperature[i] = create_element("a", "temperature", @weather_data[i])
             @temperature[i].textContent = temp_init
-    
+
     city_more_build:->
         remove_element(@search) if @search
 
@@ -217,14 +216,12 @@ class Weather extends Widget
             minus[i].innerText = "-"
             minus[i].value = dist.id
 
-            that = @
-            common_city_text[i].addEventListener("click",->
-                that.more_city_menu.style.display = "none"
+            common_city_text[i].addEventListener("click",=>
+                @more_city_menu.style.display = "none"
                 id =  this.value
                 localStorage.setItem("cityid",JSON.parse(this.value))
-                that.weathergui_refresh_Interval()
-                that = null
-                )
+                @weathergui_refresh_Interval()
+            )
 
             minus[i].addEventListener("click",->
                 name = this.parentElement.value
@@ -261,7 +258,7 @@ class Weather extends Widget
         height = 200
         @search.style.display = "none"
         bottom_distance =  window.screen.availHeight - @element.getBoundingClientRect().bottom
-      
+
         if bottom_distance < height
             @search.style.top = -10
             @search.style.borderRadius = "6px 6px 0 0"
@@ -291,7 +288,7 @@ class Weather extends Widget
                     echo "input error!"
                     evt.preventDefault()
         return
-    
+
     search_input_keyup: (evt) =>
         echo "keyup:#{evt.keyCode}"
         evt.stopPropagation()
@@ -330,7 +327,7 @@ class Weather extends Widget
                 @select_woeid_then_refresh(i)
             )
         )
-  
+
 
     select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
@@ -355,10 +352,9 @@ class Weather extends Widget
 
     weathergui_refresh_Interval: =>
             @weathergui_refresh()
-#            that = @
             #clearInterval(auto_weathergui_refresh)
-            #auto_weathergui_refresh = setInterval(->
-                #that.weathergui_refresh()
+            #auto_weathergui_refresh = setInterval(=>
+                #@weathergui_refresh()
             #,600000)# ten minites
 
 
@@ -370,7 +366,7 @@ class Weather extends Widget
             localStorage.setItem("cityid",cityid)
         if cityid
             yahooservice = new YahooService()
-            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage.bind(@))
+            yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage)
         else
             echo "cityid isnt ready"
 
@@ -426,19 +422,19 @@ class Weather extends Widget
             @week[i].textContent = yahooservice.day_en_zh(data.day)
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
-    
-    do_rightclick:(evt) ->
-        evt.stopPropagation()
+
+    do_buildmenu: =>
         menu = []
         switch localStorage.getItem("temp_danwei")
             when "c" then menu.push([1,_("Switch to Fahrenheit")])
             when "f" then menu.push([1,_("Switch to Celsius")])
             else localStorage.setItem("temp_danwei","c")
-        @element.contextMenu = build_menu(menu)
-     
-    do_itemselected:(evt) =>
+        menu
+
+    on_itemselected:(evt) =>
         DEG = localStorage.getItem("temp_danwei")
-        switch evt.id
+        id = parseInt(evt)
+        switch id
             when 1
                 if DEG is "f" then localStorage.setItem("temp_danwei","c")
                 else if DEG is "c" then localStorage.setItem("temp_danwei","f")
