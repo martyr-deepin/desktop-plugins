@@ -29,11 +29,14 @@ import sys
 
 if __name__ == '__main__':
 
+    plg_names = []
     if len(sys.argv) == 1:
-        print("./generate_mo <plg_name> [plg_name, ...]")
-        sys.exit()
+        for i in iter(os.listdir('.')):
+            if os.path.isdir(i) and not i.startswith('.') and i != "common":
+                plg_names.append(i)
+    else:
+        plg_names = sys.argv[1:]
 
-    plg_names = sys.argv[1:]
     for plg_name in plg_names:
         if not os.path.exists(plg_name):
             print("{} is not existed".format(plg_name))
