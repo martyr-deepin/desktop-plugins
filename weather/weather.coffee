@@ -34,8 +34,8 @@ class Weather extends Widget
 
         @testInternet()
         clearInterval(auto_testInternet)
-        auto_testInternet = setInterval(->
-            that.testInternet()
+        auto_testInternet = setInterval(=>
+            @testInternet()
          ,600000)# ten minites 
         
          location = "wuhan"
