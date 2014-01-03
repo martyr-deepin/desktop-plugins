@@ -423,18 +423,18 @@ class Weather extends Widget
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
-    do_buildmenu: =>
+    do_rightclick:(evt) ->
+        evt.stopPropagation()
         menu = []
         switch localStorage.getItem("temp_danwei")
             when "c" then menu.push([1,_("Switch to Fahrenheit")])
             when "f" then menu.push([1,_("Switch to Celsius")])
             else localStorage.setItem("temp_danwei","c")
-        menu
-
-    on_itemselected:(evt) =>
+        @element.contextMenu = build_menu(menu)
+     
+    do_itemselected:(evt) =>
         DEG = localStorage.getItem("temp_danwei")
-        id = parseInt(evt)
-        switch id
+        switch evt.id
             when 1
                 if DEG is "f" then localStorage.setItem("temp_danwei","c")
                 else if DEG is "c" then localStorage.setItem("temp_danwei","f")

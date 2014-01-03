@@ -1,91 +1,27 @@
-DEEPIN_MENU_NAME = "com.deepin.menu"
-DEEPIN_MENU_PATH = "/com/deepin/menu"
-DEEPIN_MENU_INTERFACE = "com.deepin.menu.Menu"
-DEEPIN_MENU_MANAGER_INTERFACE = "com.deepin.menu.Manager"
-
-
-DEEPIN_MENU_TYPE =
-    NORMAL: 0
-    CHECKBOX: 1
-    RADIOBOX: 2
-
-
-DEEPIN_MENU_CORNER_DIRECTION =
-    UP: "up"
-    DOWN: "down"
-    LEFT: "left"
-    RIGHT: "right"
-
-
-class NormalMenu
-    constructor: (items...)->
-        @x = 0
-        @y = 0
-        @isDockMenu = false
-        @cornerDirection = DEEPIN_MENU_CORNER_DIRECTION.DOWN
-        if items.length == 1 and Array.isArray(items[0])
-            @menuJsonContent = new MenuContent(items[0])
-        else
-            @menuJsonContent = new MenuContent(items)
-
-    apply: (fn, items)->
-        MenuContent.prototype[fn].apply(@menuJsonContent, items)
-
-    append: (items...)->
-        @apply("append", items)
-
-    addSeparator: ->
-        @menuJsonContent.addSeparator()
-
-    toString: ->
-        "{\"x\": #{@x}, \"y\": #{@y}, \"isDockMenu\": #{@isDockMenu}, \"cornerDirection\": \"#{@cornerDirection}\", \"menuJsonContent\": \"#{@menuJsonContent.toString().addSlashes()}\"}"
-
-
-class MenuContent
-    constructor: (item...)->
-        @x = 0
-        @y = 0
-        @isDockMenu = false
-        @cornerDirection = DEEPIN_MENU_CORNER_DIRECTION.down
-        if item.length == 1
-            @menuJsonContent = new MenuContent(item[0])
-        else
-            @menuJsonContent = new MenuContent(item)
-
-    append: (item...)->
-        MenuContent::append.apply(@menuJsonContent, item)
-
-    addSeparator: ->
-        @menuJsonContent.addSeparator()
-
-    toString: ->
-        "{\"x\": #{@x}, \"y\": #{@y}, \"isDockMenu\": #{@isDockMenu}, \"cornerDirection\": \"#{@cornerDirection}\", \"menuJsonContent\": \"#{@menuJsonContent.toString().addSlashes()}\"}"
-
-
-class MenuContent
+###
+class Menu
     constructor: (item...)->
         @checkableMenu = false
         @singleCheck = false
         @items = []
         if item.length == 1 and Array.isArray(item[0])
-            MenuContent::append.apply(@, item[0])
+            Menu::append.apply(@, item[0])
         else
-            MenuContent::append.apply(@, item)
+            Menu::append.apply(@, item)
 
-    append: (items...)->
-        items.forEach((el) =>
-            @items.push(el)
-        )
+    append: (item...)->
+        for i in [0...item.length]
+            @items.push(item[i])
         @
 
     addSeparator: ->
-        @append(new MenuSeparator())
+        @append(new MenuSeparator)
 
     toString:->
         JSON.stringify(@)
 
 
-class CheckBoxMenu extends NormalMenu
+class CheckBoxMenu extends Menu
     constructor:->
         super
         @checkableMenu = true
@@ -98,19 +34,9 @@ class RadioBoxMenu extends CheckBoxMenu
 
 
 class MenuItem
-    constructor: (itemId, @itemText, subMenu=null)->
-        @itemId = "#{itemId}"
+    constructor: (@itemId, @itemText, @itemIcon='', @itemIconHover='', @isActive=true, @itemSubMenu=new Menu)->
         @isCheckable = false
         @checked = false
-        @itemIcon = ''
-        @itemIconHover = ''
-        @isActive = true
-        @itemIconInactive = ""
-        @showCheckmark = true
-        if subMenu == null
-            @itemSubMenu = new MenuContent
-        else
-            @itemSubMenu = subMenu.menu.menuJsonContent
 
     setIcon: (icon)->
         @itemIcon = icon
@@ -120,20 +46,12 @@ class MenuItem
         @itemIconHover = icon
         @
 
-    setInactiveIcon: (icon)->
-        @itemIconInactive = icon
-        @
-
     setSubMenu: (subMenu)->
-        @itemSubMenu = subMenu.menu.menuJsonContent
+        @itemSubMenu = subMenu
         @
 
     setActive: (isActive)->
         @isActive = isActive
-        @
-
-    setShowCheckmark: (showCheckmark)->
-        @showCheckmark = showCheckmark
         @
 
     toString: ->
@@ -142,7 +60,7 @@ class MenuItem
 
 class CheckBoxMenuItem extends MenuItem
     constructor: (itemId, itemText, checked=false, isActive=true)->
-        super(itemId, itemText)
+        super(itemId, itemText, '', '', isActive)
         @isCheckable = true
 
     setChecked: (checked)->
@@ -150,7 +68,7 @@ class CheckBoxMenuItem extends MenuItem
         @
 
 
-class RadioBoxMenuItem extends CheckBoxMenuItem
+RadioBoxMenuItem = CheckBoxMenuItem
 
 
 class MenuSeparator extends MenuItem
@@ -158,86 +76,95 @@ class MenuSeparator extends MenuItem
         super('', '')
 
 
-get_dbus = (type, dbus_name, dbus_path, dbus_interface)->
-    for dump in [0...10]
-        try
-            dbus = DCore.DBus["#{type.toLowerCase()}_object"](
-                dbus_name, dbus_path, dbus_interface
-            )
-            return dbus
-
-    throw "Get DBus \"#{dbus_name} #{dbus_path} #{dbus_interface}\" failed"
-
-
-class Menu
-    constructor: (@type, items...)->
-        switch @type
-            when DEEPIN_MENU_TYPE.NORMAL
-                @menu = new NormalMenu(items)
-            when DEEPIN_MENU_TYPE.CHECKBOX
-                @menu = new CheckBoxMenu(items)
-            when DEEPIN_MENU_TYPE.RADIOBOX
-                @menu = new RadioBoxMenu(items)
-            else
-                throw "Invalid DEEPIN_MENU_TYPE: #{@type}"
-        @_init_dbus()
-
-    apply: (fn, items)->
-        switch @menu.constructor.name
-            when "NormalMenu"
-                NormalMenu.prototype[fn].apply(@menu, items)
-            when "CheckBoxMenu"
-                CheckBoxMenu.prototype[fn].apply(@menu, items)
-            when "RadioBoxMenu"
-                RadioBoxMenu.prototype[fn].apply(@menu, items)
-        @
+class MenuHandler
+    constructor: (@menu)->
+        for dump in [0...10]
+            try
+                @dbus = DCore.DBus.session_object("com.deepin.menu", "/com/deepin/menu", "com.deepin.menu.Menu")
+                break
+            catch e
+                echo "constructor: #{e}"
+        if not @dbus?
+            throw "Connecting Menu DBUS failed"
 
     append: (items...)->
-        @apply("append", items)
+        switch @menu.constructor.name
+            when "Menu"
+                Menu::append.apply(@menu, items)
+            when "CheckBoxMenu"
+                CheckBoxMenu::append.apply(@menu, items)
+            when "RadioBoxMenuItem"
+                RadioBoxMenuItem::append.apply(@menu, items)
+        @
 
     addSeparator: ->
         @menu.addSeparator()
-        @
 
-    setDockMenuCornerDirection: (cornerDirection)->
-        @menu.cornerDirection = cornerDirection
-        @
-
-    addListener: (@callback)->
+    listenItemSelected: (callback)->
         try
-            @dbus.connect("ItemInvoked", @callback)
-            @
+            @dbus.connect("ItemInvoked", callback)
         catch e
             echo "listenItemSelected: #{e}"
 
-    _init_dbus: ->
-        manager = get_dbus(
-            "session",
-            DEEPIN_MENU_NAME,
-            DEEPIN_MENU_PATH,
-            DEEPIN_MENU_MANAGER_INTERFACE
-        )
+    showMenu: (x, y)->
+        @dbus.ShowMenu(x, y, JSON.stringify(@menu))
 
-        menu_dbus_path = manager.RegisterMenu_sync()
-        # echo "menu path is: #{menu_dbus_path}"
-        @dbus = get_dbus(
-            "session",
-            DEEPIN_MENU_NAME,
-            menu_dbus_path,
-            DEEPIN_MENU_INTERFACE)
-
-    showMenu: (x, y, ori=null)->
-        @menu.x = x
-        @menu.y = y
-        if ori != null
-            @menu.isDockMenu = true
-            @menu.cornerDirection = ori
-        # echo @menu
-        @dbus.ShowMenu("#{@menu}")
+    showDockMenu: (x, y, ori)->
+        @dbus.ShowDockMenu(x, y, JSON.stringify(@menu), ori)
 
     toString: ->
-        "#{@menu}"
+        JSON.stringify(@menu)
 
-    destroy: ->
-        try
-            @dbus.dis_connect("ItemInvoked", @callback)
+
+create_menu = (type, items...)->
+    switch type
+        when MENU_TYPE_NORMAL
+            new MenuHandler(new Menu(items))
+        when MENU_TYPE_CHECKBOX
+            new MenuHandler(new CheckBoxMenu(items))
+        when MENU_TYPE_RADIOBOX
+            new MenuHandler(new RadioBoxMenu(items))
+###
+
+class Menu
+    constructor: (items...)->
+        @items = []
+        if items.length == 1 and Array.isArray(items[0])
+            Menu::append.apply(@, items[0])
+        else
+            Menu::append.apply(@, items)
+
+    append: (items...)->
+        for i in [0...items.length]
+            @items.push(items[i].raw())
+        @
+
+    addSeparator: ->
+        @append(new MenuSeparator)
+
+    bind: (item)=>
+        item.element.contextMenu = build_menu(@items)
+
+
+class MenuItem
+    constructor: (id, text)->
+        if typeof id != 'number'
+            @item = [parseInt(id), text, true]
+        else
+            @item = [id, text, true]
+
+    setActive: (actived)->
+        @item[2] = actived
+        @
+
+    raw: ->
+        @item
+
+
+class MenuSeparator
+    constructor: ->
+    raw: ->
+        []
+
+create_menu = (type, items...) ->
+    new Menu(items)

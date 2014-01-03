@@ -102,12 +102,8 @@ class Widget extends Module
             if f_rclick
                 f_rclick(e)
             if f_menu
-                menu = f_menu()
-                menu.unshift(DEEPIN_MENU_TYPE.NORMAL)
-                build_menu(menu)
-                    ?.addListener(@on_itemselected)
-                    .showMenu(e.clientX, e.clientY)
-                e.preventDefault()
+                @element.contextMenu = build_menu(f_menu())
+                e.stopPropagation()
 
         )
 
