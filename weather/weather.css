@@ -121,16 +121,29 @@
     display:-webkit-box; 
 }
 
+.week{
+    margin-left: 7px;
+    width: 45px;
+}
+.pic{
+    position: absolute;
+    left: 57px;
+    margin-top: 5px;
+    width: 24px;
+    height: 24px;
+}
+.temperature{
+    position: absolute;
+    right: 7px;
+}
+
+
 .week:lang(zh){
     margin-left: 7px;
     font-weight: bolder;
 }
-.pic{
-    width: 24px;
-    height: 24px;
-}
 .pic:lang(zh){
-    margin-left: 17px;
+    margin-left: 7px;
     margin-bottom: 5px;
     width: 24px;
     height: 24px;
@@ -140,55 +153,6 @@
     right: 7px;
 }
 
-.week:lang(en){
-    margin-left: 7px;
-    width: 45px;
-}
-.pic:lang(en){
-    position: absolute;
-    left: 57px;
-    margin-top: 5px;
-    width: 24px;
-    height: 24px;
-}
-.temperature:lang(en){
-    position: absolute;
-    right: 7px;
-}
-
-
-.week:lang(es){
-    margin-left: 7px;
-    width: 45px;
-}
-.pic:lang(es){
-    position: absolute;
-    left: 57px;
-    margin-top: 5px;
-    width: 24px;
-    height: 24px;
-}
-.temperature:lang(es){
-    position: absolute;
-    right: 7px;
-}
-
-
-.week:lang(pt){
-    margin-left: 7px;
-    width: 45px;
-}
-.pic:lang(pt){
-    position: absolute;
-    left: 57px;
-    margin-top: 5px;
-    width: 24px;
-    height: 24px;
-}
-.temperature:lang(pt){
-    position: absolute;
-    right: 7px;
-}
 
 
 
