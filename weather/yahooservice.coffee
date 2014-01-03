@@ -25,7 +25,8 @@ class YahooService
     lc = 'zh-Hans'
     
     constructor: ->
-        
+        @get_woeid_by_whole_name("wuhan")
+
     get_woeid_by_place_name:(place_name,callback)->
         lang = window.navigator.language
         lc = @lang_to_lc(lang)
@@ -66,6 +67,39 @@ class YahooService
             # catch e
                 # echo "get_woeid_by_place_name xhr.responseText error!"
         )
+
+    get_woeid_by_whole_name:(place_name,callback)->
+        lang = window.navigator.language
+        lc = @lang_to_lc(lang)
+        # echo "lc:---#{lc}---"
+        woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&format=json"
+        woeid_data = new Array()
+        array_clear(woeid_data)
+        ajax(woeid_url,true,(xhr)=>
+            # try
+                xml_str = xhr.responseText
+                localStorage.setItem("yahoo_woeid_xml_str",xml_str)
+                woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
+                try
+                    if woeid_xml.places.count == 0
+                        echo "get_woeid_by_place_name xml_str  count == 0!"
+                        return
+                catch e
+                    echo "get_woeid_by_place_name xml_str  wrong!"
+                    return
+
+                woeid_data = woeid_xml.places.place
+                echo woeid_data
+                #arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
+                #woeid_data.push(arr)
+                localStorage.setObject("woeid_data",woeid_data)
+                callback?()
+            # catch e
+                # echo "get_woeid_by_place_name xhr.responseText error!"
+        )
+
+
+
 
     get_weather_data_by_woeid:(woeid,callback)->
         #echo "woeid:" + woeid
