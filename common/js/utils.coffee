@@ -185,7 +185,7 @@ inject_js = (src,parent = document.body) ->
     js_element.setAttribute("type","text/javascript")
     js_element.src = src
     #echo document.scripts
-    
+    return js_element 
 
 inject_css = (el,src)->
     css_element = create_element('link', null, el)

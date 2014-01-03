@@ -18,7 +18,12 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-#include_js("plugin/weather/weatherParser.js")
+include_js = (src) ->
+    js_el = inject_js(src,document.body)
+    swap_element(document.scripts[1],js_el)
+    echo document.scripts
+
+include_js("plugin/weather/weatherParser.js")
 
 clearOptions = (colls,first=0)->
     i = first
