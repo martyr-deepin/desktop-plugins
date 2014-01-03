@@ -154,12 +154,12 @@ function fetchWeatherData (callback, zip)
 }
 
 function getUID() {
-	if (window.widget) {
-		return widget.identifier;
-	} else {
-		//return (Math.random() * new Date().getTime()).toString();
-	    return "0000000000000004"
-    }
+	return "0000000000000004"
+   /* if (window.widget) {*/
+		//return widget.identifier;
+	//} else {
+        //return (Math.random() * new Date().getTime()).toString();
+    /*}*/
 }
 
 function constructError (string)
