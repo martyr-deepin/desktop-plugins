@@ -25,14 +25,14 @@ class YahooService
     lc = 'zh-Hans'
     
     constructor: ->
-        @get_woeid_by_whole_name("wuhan")
+        #@get_woeid_by_whole_name("wuhan")
+        #@get_woeid_by_place_name("newyork")
 
     get_woeid_by_place_name:(place_name,callback)->
         lang = window.navigator.language
         lc = @lang_to_lc(lang)
         # echo "lc:---#{lc}---"
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
-        #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
@@ -62,6 +62,7 @@ class YahooService
                     arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
                     woeid_data.push(arr)
                  
+                echo woeid_data
                 localStorage.setObject("woeid_data",woeid_data)
                 callback?()
             # catch e
@@ -75,6 +76,8 @@ class YahooService
         woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&format=json"
         woeid_data = new Array()
         array_clear(woeid_data)
+        woeid_data_whole = new Array()
+        array_clear(woeid_data_whole)
         ajax(woeid_url,true,(xhr)=>
             # try
                 xml_str = xhr.responseText
@@ -88,11 +91,12 @@ class YahooService
                     echo "get_woeid_by_place_name xml_str  wrong!"
                     return
 
-                woeid_data = woeid_xml.places.place
-                echo woeid_data
-                #arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
-                #woeid_data.push(arr)
-                localStorage.setObject("woeid_data",woeid_data)
+                woeid_data_whole = woeid_xml.places.place
+                #echo woeid_data_whole
+                for data,j in woeid_data_whole
+                    arr = {index:j,k:data.name,iso:lang,id:data.woeid,lon:"32.1605",lat:"-95.6692",s:data.admin1,c:data.country,pn:data.admin2}
+                    woeid_data.push(arr)
+                localStorage.setObject("woeid_data_whole_name",woeid_data)
                 callback?()
             # catch e
                 # echo "get_woeid_by_place_name xhr.responseText error!"

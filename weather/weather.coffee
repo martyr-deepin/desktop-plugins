@@ -294,40 +294,49 @@ class Weather extends Widget
         evt.stopPropagation()
         place_name = @search_input.value
         yahooservice = new YahooService()
-        yahooservice.get_woeid_by_place_name(place_name, ()=>
-            #echo "search_result_build"
-            woeid_data = localStorage.getObject("woeid_data")
-            if not woeid_data? then return
+        woeid_data = new Array()
+        if place_name.length >= 2
+            yahooservice.get_woeid_by_whole_name(place_name, ()=>
+                woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
+                echo "-------------------1"
+                echo woeid_data
+                yahooservice.get_woeid_by_place_name(place_name, ()=>
+                    #echo "search_result_build"
+                    woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
+                    if not woeid_data? then return
 
-            remove_element(@search_result) if @search_result
-            length = woeid_data.length
-            if length < 1 then return
+                    echo "-------------------2"
+                    echo woeid_data
 
-            @search_result = create_element("div","search_result",@search)
-            @search_result_select = create_element("select","search_result_select",@search_result)
-            clearOptions(@search_result_select,0)
-            for data in woeid_data
-                show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
-                @search_result_select.options.add(new Option(show_result_text, data.index))
+                    remove_element(@search_result) if @search_result
+                    length = woeid_data.length
+                    if length < 1 then return
 
-            if 0 <= length <= 1
-                setMaxSize(@search_result_select,woeid_data.length + 1)
-            else
-                setMaxSize(@search_result_select,woeid_data.length)
+                    @search_result = create_element("div","search_result",@search)
+                    @search_result_select = create_element("select","search_result_select",@search_result)
+                    clearOptions(@search_result_select,0)
+                    for data in woeid_data
+                        show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
+                        @search_result_select.options.add(new Option(show_result_text, data.index))
 
-            @search_input.focus()
+                    if 0 <= length <= 1
+                        setMaxSize(@search_result_select,woeid_data.length + 1)
+                    else
+                        setMaxSize(@search_result_select,woeid_data.length)
 
-            @search_result_select.options[0].selected = "selected"
-            @search_result_select.options[0].addEventListener("click",=>
-                i = @search_result_select.selectedIndex
-                @select_woeid_then_refresh(i)
+                    @search_input.focus()
+
+                    @search_result_select.options[0].selected = "selected"
+                    @search_result_select.options[0].addEventListener("click",=>
+                        i = @search_result_select.selectedIndex
+                        @select_woeid_then_refresh(i)
+                    )
+                    @search_result_select.addEventListener("change", =>
+                        i = @search_result_select.selectedIndex
+                        @select_woeid_then_refresh(i)
+                    )
+                )
             )
-            @search_result_select.addEventListener("change", =>
-                i = @search_result_select.selectedIndex
-                @select_woeid_then_refresh(i)
-            )
-        )
-
 
     select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
