@@ -25,13 +25,14 @@ class YahooService
     lc = 'zh-Hans'
     
     constructor: ->
-        
+        #@get_woeid_by_whole_name("wuhan")
+        #@get_woeid_by_place_name("newyork")
+
     get_woeid_by_place_name:(place_name,callback)->
         lang = window.navigator.language
         lc = @lang_to_lc(lang)
         # echo "lc:---#{lc}---"
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
-        #woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=zh-Hans&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
         ajax(woeid_url,true,(xhr)=>
@@ -67,6 +68,45 @@ class YahooService
                 # echo "get_woeid_by_place_name xhr.responseText error!"
         )
 
+    get_woeid_by_whole_name:(place_name,callback)->
+        #cityinfo_array = new Array()
+        #cityinfo_array = get_cityinfo_by_input(place_name)
+        #echo cityinfo_array
+        
+        lang = window.navigator.language
+        lc = @lang_to_lc(lang)
+        # echo "lc:---#{lc}---"
+        woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&format=json"
+        woeid_data = new Array()
+        array_clear(woeid_data)
+        woeid_data_whole = new Array()
+        array_clear(woeid_data_whole)
+        ajax(woeid_url,true,(xhr)=>
+            # try
+                xml_str = xhr.responseText
+                localStorage.setItem("yahoo_woeid_xml_str",xml_str)
+                woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
+                try
+                    if woeid_xml.places.count == 0
+                        echo "get_woeid_by_place_name xml_str  count == 0!"
+                        return
+                catch e
+                    echo "get_woeid_by_place_name xml_str  wrong!"
+                    return
+
+                woeid_data_whole = woeid_xml.places.place
+                for data,j in woeid_data_whole
+                    arr = {index:j,k:data.name,iso:lang,id:data.woeid,lon:"32.1605",lat:"-95.6692",s:data.admin1,c:data.country,pn:data.admin2}
+                    woeid_data.push(arr)
+                localStorage.setObject("woeid_data_whole_name",woeid_data)
+                callback?()
+            # catch e
+                # echo "get_woeid_by_place_name xhr.responseText error!"
+        )
+
+
+
+
     get_weather_data_by_woeid:(woeid,callback)->
         #echo "woeid:" + woeid
         if !woeid
@@ -101,10 +141,12 @@ class YahooService
                 temp_now = condition[0].getAttribute("temp")
                 date_now = condition[0].getAttribute("date")
                 common_dists = localStorage.getObject("common_dists")
-                city_name = _("choose city")
+                #city_name = _("choose city")
+                city_name = null
                 if not common_dists? then return
                 for tmp in common_dists
-                    if woeid == tmp.id
+                    if woeid is tmp.id.toString()
+                        echo "#{tmp.name}:#{woeid}"
                         city_name = tmp.name
                 
                 yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}

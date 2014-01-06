@@ -18,7 +18,12 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-#include_js("plugin/weather/weatherParser.js")
+include_js = (src) ->
+    js_el = inject_js(src,document.body)
+    swap_element(document.scripts[1],js_el)
+    echo document.scripts
+
+include_js("plugin/weather/weatherParser.js")
 
 clearOptions = (colls,first=0)->
     i = first
@@ -29,3 +34,12 @@ setMaxSize = (obj,val=@selectsize)->
 
 array_clear = (arr) ->
     arr.splice(0,arr.length)
+
+try
+    Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
+catch
+    echo "Dbus_citypinyin failed"
+get_cityinfo_by_input = (input)->
+    if input.length <= 2 then return
+    cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
+    return cityinfo_array

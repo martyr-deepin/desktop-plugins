@@ -196,6 +196,7 @@ class Weather extends Widget
         remove_element(@more_city_tmp) if @more_city_tmp
         @more_city_tmp = create_element("div","more_city_tmp",@more_city_menu)
         common_dists = localStorage.getObject("common_dists")
+        echo common_dists
         i = 0
         common_city = []
         tooltip = []
@@ -216,11 +217,14 @@ class Weather extends Widget
             minus[i].innerText = "-"
             minus[i].value = dist.id
 
-            common_city_text[i].addEventListener("click",=>
-                @more_city_menu.style.display = "none"
+            that = @
+            common_city_text[i].addEventListener("click",->
+                that.more_city_menu.style.display = "none"
                 id =  this.value
+                echo "this.value:#{id}"
                 localStorage.setItem("cityid",JSON.parse(this.value))
-                @weathergui_refresh_Interval()
+                that.weathergui_refresh_Interval()
+                that = null
             )
 
             minus[i].addEventListener("click",->
@@ -261,10 +265,10 @@ class Weather extends Widget
 
         if bottom_distance < height
             @search.style.top = -10
-            @search.style.borderRadius = "6px 6px 0 0"
+            #@search.style.borderRadius = "6px 6px 0 0"
         else
             @search.style.top = 91
-            @search.style.borderRadius = "0 0 6px 6px"
+            #@search.style.borderRadius = "0 0 6px 6px"
         @search.style.display = "block"
         @search_input.focus()
 
@@ -284,9 +288,9 @@ class Weather extends Widget
                 if 48 <= evt.keyCode <= 57
                     evt.preventDefault()
                     @select_woeid_then_refresh(evt.keyCode - 48)
-                else if  not (97 <= evt.keyCode <= 122)
-                    echo "input error!"
-                    evt.preventDefault()
+#                else if  not (97 <= evt.keyCode <= 122)
+                    #echo "input error!"
+                    #evt.preventDefault()
         return
 
     search_input_keyup: (evt) =>
@@ -294,50 +298,61 @@ class Weather extends Widget
         evt.stopPropagation()
         place_name = @search_input.value
         yahooservice = new YahooService()
-        yahooservice.get_woeid_by_place_name(place_name, ()=>
-            #echo "search_result_build"
-            woeid_data = localStorage.getObject("woeid_data")
-            if not woeid_data? then return
+        woeid_data = new Array()
+        array_clear(woeid_data)
+        if place_name.length >= 2
+            yahooservice.get_woeid_by_whole_name(place_name, ()=>
+                woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
+                yahooservice.get_woeid_by_place_name(place_name, ()=>
+                    #echo "search_result_build"
+                    woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
+                    if not woeid_data? then return
+                    for data,j in woeid_data
+                        data.index = j
+                    
+                    localStorage.setObject("woeid_data",woeid_data)
+                    echo "---------all woeid_data:-----------"
+                    echo woeid_data
+                    
+                    remove_element(@search_result) if @search_result
+                    length = woeid_data.length
+                    if length < 1 then return
 
-            remove_element(@search_result) if @search_result
-            length = woeid_data.length
-            if length < 1 then return
+                    @search_result = create_element("div","search_result",@search)
+                    @search_result_select = create_element("select","search_result_select",@search_result)
+                    clearOptions(@search_result_select,0)
+                    for data,j in woeid_data
+                        data.index = j
+                        show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
+                        @search_result_select.options.add(new Option(show_result_text, data.index))
 
-            @search_result = create_element("div","search_result",@search)
-            @search_result_select = create_element("select","search_result_select",@search_result)
-            clearOptions(@search_result_select,0)
-            for data in woeid_data
-                show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
-                @search_result_select.options.add(new Option(show_result_text, data.index))
+                    if 0 <= length <= 1
+                        setMaxSize(@search_result_select,woeid_data.length + 1)
+                    else
+                        setMaxSize(@search_result_select,woeid_data.length)
 
-            if 0 <= length <= 1
-                setMaxSize(@search_result_select,woeid_data.length + 1)
-            else
-                setMaxSize(@search_result_select,woeid_data.length)
+                    @search_input.focus()
 
-            @search_input.focus()
-
-            @search_result_select.options[0].selected = "selected"
-            @search_result_select.options[0].addEventListener("click",=>
-                i = @search_result_select.selectedIndex
-                @select_woeid_then_refresh(i)
+                    @search_result_select.options[0].selected = "selected"
+                    @search_result_select.options[0].addEventListener("click",=>
+                        i = @search_result_select.selectedIndex
+                        @select_woeid_then_refresh(i)
+                    )
+                    @search_result_select.addEventListener("change", =>
+                        i = @search_result_select.selectedIndex
+                        @select_woeid_then_refresh(i)
+                    )
+                )
             )
-            @search_result_select.addEventListener("change", =>
-                i = @search_result_select.selectedIndex
-                @select_woeid_then_refresh(i)
-            )
-        )
-
 
     select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
-        echo i
+        echo "select_woeid_then_refresh : #{i}"
         if i >= woeid_data.length
             echo "i: #{i} >= woeid_data.length: #{woeid_data.length},then return"
             return
         woeid_choose = woeid_data[i].id
         localStorage.setItem("cityid",woeid_choose)
-        @weathergui_refresh_Interval()
 
         for tmp in common_dists
             if not tmp? then continue
@@ -348,6 +363,8 @@ class Weather extends Widget
         common_dists.push(arr)
         if common_dists.length > 5 then common_dists.splice(0,1)
         localStorage.setObject("common_dists",common_dists)
+        
+        @weathergui_refresh_Interval()
 
 
     weathergui_refresh_Interval: =>
@@ -377,8 +394,8 @@ class Weather extends Widget
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
         if not weather_data_more? then return
-        #echo weather_data_now
-        #echo weather_data_more
+        echo weather_data_now
+        echo weather_data_more
         temp_now = weather_data_now.temp
         if weather_data_now.temp_danwei is "F"
             temp_danwei = weather_data_now.temp_danwei
@@ -399,11 +416,13 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
         text = yahooservice.yahoo_img_code_to_en(code)
+        echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
+        
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
-        @weather_now_pic.title = text
+        tooltip_weather_now = new ToolTip(@weather_now_pic,text)
+        #@weather_now_pic.title = text
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
@@ -412,7 +431,13 @@ class Weather extends Widget
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
-        @city_now.textContent = weather_data_now.city_name
+        
+        echo weather_data_now.city_name
+        if weather_data_now.city_name is null
+            @city_now.textContent = weather_data_now.city
+        else
+            @city_now.textContent = weather_data_now.city_name
+
         @date.textContent = date_text
 
         if @weather_data is undefined then return
@@ -423,18 +448,18 @@ class Weather extends Widget
             @pic[i].src = @img_url_first + "yahoo_api/24/" + data.code + "n.png"
             @temperature[i].textContent = data.low + " ~ " + data.high + temp_danwei
 
-    do_buildmenu: =>
+    do_rightclick:(evt) ->
+        evt.stopPropagation()
         menu = []
         switch localStorage.getItem("temp_danwei")
             when "c" then menu.push([1,_("Switch to Fahrenheit")])
             when "f" then menu.push([1,_("Switch to Celsius")])
             else localStorage.setItem("temp_danwei","c")
-        menu
-
-    on_itemselected:(evt) =>
+        @element.contextMenu = build_menu(menu)
+     
+    do_itemselected:(evt) =>
         DEG = localStorage.getItem("temp_danwei")
-        id = parseInt(evt)
-        switch id
+        switch evt.id
             when 1
                 if DEG is "f" then localStorage.setItem("temp_danwei","c")
                 else if DEG is "c" then localStorage.setItem("temp_danwei","f")
