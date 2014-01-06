@@ -420,7 +420,7 @@ class Weather extends Widget
         date_text = year + "." + month + "." + ri + " " + day
 
         text = yahooservice.yahoo_img_code_to_en(code)
-        echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
+        echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
         
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
         tooltip_weather_now = new ToolTip(@weather_now_pic,text)
@@ -434,7 +434,6 @@ class Weather extends Widget
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
         
-        echo weather_data_now.city_name
         if weather_data_now.city_name is null
             @city_now.textContent = weather_data_now.city
         else

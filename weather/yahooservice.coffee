@@ -28,8 +28,7 @@ class YahooService
     constructor: ->
         lang = window.navigator.language
         echo "lang:#{lang}"
-        @get_woeid_by_whole_name("wuhan")
-        #@get_woeid_by_place_name("newyork")
+        #@get_cityinfo_by_input("wuha")
 
     get_woeid_by_place_name:(place_name,callback)->
         lc = @lang_to_lc(lang)
@@ -71,10 +70,6 @@ class YahooService
         )
 
     get_woeid_by_whole_name:(place_name,callback)->
-        #cityinfo_array = new Array()
-        #cityinfo_array = get_cityinfo_by_input(place_name)
-        #echo cityinfo_array
-        
         woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&lang=#{lang}&format=json"
         woeid_data = new Array()
         array_clear(woeid_data)
@@ -169,6 +164,27 @@ class YahooService
             # catch e
                 # echo "get_weather_data_by_woeid xhr.responseText error!"
         )
+
+    get_cityinfo_by_input:(input)->
+        try
+            Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
+        catch
+            echo "Dbus_citypinyin failed"
+            return
+        
+        cityinfo_array = new Array()
+        if input.length <= 2 then return
+        cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
+
+        echo "--------------cityinfo_array--------"
+        echo cityinfo_array
+        echo cityinfo_array.length
+        #echo cityinfo_array[0]
+        for info,i in cityinfo_array
+            echo i
+            echo info
+
+
 
     lang_to_lc:(lang) ->
         switch(lang)
