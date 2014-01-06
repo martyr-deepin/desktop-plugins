@@ -214,9 +214,9 @@
 
 .search{
     position:absolute;
-    left: 83px;
+    left: 30px;
     /*top set in coffee*/
-    width: 162px;
+    width: 215px;
     border:1px solid rgba(255,255,255,0.6);
     overflow: hidden;
     z-index: 5001;
@@ -230,19 +230,19 @@
 }
 
 .search_input{
-    width:162px;
+    width:100%;
 }
 .search_result{
-    width:162px;
+    width:100%;
 }
 .search_result_select:nth-child(even){
     opacity:0.7;
-    width:162px;
+    width:100%;
     overflow: hidden;
 }
 
 .search_result_select:nth-child(odd){
     opacity:0.7;
-    width:162px;
+    width:100%;
     overflow: hidden;
 }
