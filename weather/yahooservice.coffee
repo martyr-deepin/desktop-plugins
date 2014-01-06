@@ -23,15 +23,17 @@ class YahooService
     APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
     lc = 'zh-Hans'
+    lang = 'zh-cn'
     
     constructor: ->
+        lang = window.navigator.language
+        echo "lang:#{lang}"
         @get_woeid_by_whole_name("wuhan")
         #@get_woeid_by_place_name("newyork")
 
     get_woeid_by_place_name:(place_name,callback)->
-        lang = window.navigator.language
         lc = @lang_to_lc(lang)
-        # echo "lc:---#{lc}---"
+        echo "lc:---#{lc}---"
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
@@ -73,7 +75,6 @@ class YahooService
         #cityinfo_array = get_cityinfo_by_input(place_name)
         #echo cityinfo_array
         
-        lang = window.navigator.language
         woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&lang=#{lang}&format=json"
         woeid_data = new Array()
         array_clear(woeid_data)
@@ -174,7 +175,7 @@ class YahooService
             when "zh-tw" then return "zh-Hant"
             when "zh-cn" then return "zh-Hans"
             when "en-us" then return "en"
-            else return "en"
+            else return lang
 
     temperature_c_to_f:(c)->
        f = c * 9 / 5 + 32
