@@ -425,6 +425,7 @@ class Weather extends Widget
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
+        
         @city_now.textContent = weather_data_now.city
         @date.textContent = date_text
 
