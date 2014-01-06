@@ -25,7 +25,7 @@ class YahooService
     lc = 'zh-Hans'
     
     constructor: ->
-        #@get_woeid_by_whole_name("wuhan")
+        @get_woeid_by_whole_name("wuhan")
         #@get_woeid_by_place_name("newyork")
 
     get_woeid_by_place_name:(place_name,callback)->
@@ -74,9 +74,7 @@ class YahooService
         #echo cityinfo_array
         
         lang = window.navigator.language
-        lc = @lang_to_lc(lang)
-        # echo "lc:---#{lc}---"
-        woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&format=json"
+        woeid_url = "http://where.yahooapis.com/v1/places.q('#{place_name}')?appid=#{APPID}&lang=#{lang}&format=json"
         woeid_data = new Array()
         array_clear(woeid_data)
         woeid_data_whole = new Array()
@@ -86,6 +84,7 @@ class YahooService
                 xml_str = xhr.responseText
                 localStorage.setItem("yahoo_woeid_xml_str",xml_str)
                 woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
+                echo woeid_xml
                 try
                     if woeid_xml.places.count == 0
                         echo "get_woeid_by_place_name xml_str  count == 0!"
@@ -95,6 +94,8 @@ class YahooService
                     return
 
                 woeid_data_whole = woeid_xml.places.place
+                echo "---------------woeid_data_whole:------------"
+                echo woeid_data_whole
                 for data,j in woeid_data_whole
                     arr = {index:j,k:data.name,iso:lang,id:data.woeid,lon:"32.1605",lat:"-95.6692",s:data.admin1,c:data.country,pn:data.admin2}
                     woeid_data.push(arr)
