@@ -265,10 +265,10 @@ class Weather extends Widget
 
         if bottom_distance < height
             @search.style.top = -10
-            @search.style.borderRadius = "6px 6px 0 0"
+            #@search.style.borderRadius = "6px 6px 0 0"
         else
             @search.style.top = 91
-            @search.style.borderRadius = "0 0 6px 6px"
+            #@search.style.borderRadius = "0 0 6px 6px"
         @search.style.display = "block"
         @search_input.focus()
 
