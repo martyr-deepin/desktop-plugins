@@ -34,3 +34,12 @@ setMaxSize = (obj,val=@selectsize)->
 
 array_clear = (arr) ->
     arr.splice(0,arr.length)
+
+try
+    Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
+catch
+    echo "Dbus_citypinyin failed"
+get_cityinfo_by_input = (input)->
+    if input.length <= 2 then return
+    cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
+    return cityinfo_array

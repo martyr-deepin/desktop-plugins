@@ -70,6 +70,10 @@ class YahooService
         )
 
     get_woeid_by_whole_name:(place_name,callback)->
+        #cityinfo_array = new Array()
+        #cityinfo_array = get_cityinfo_by_input(place_name)
+        #echo cityinfo_array
+        
         lang = window.navigator.language
         lc = @lang_to_lc(lang)
         # echo "lc:---#{lc}---"

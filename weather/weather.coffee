@@ -196,6 +196,7 @@ class Weather extends Widget
         remove_element(@more_city_tmp) if @more_city_tmp
         @more_city_tmp = create_element("div","more_city_tmp",@more_city_menu)
         common_dists = localStorage.getObject("common_dists")
+        echo common_dists
         i = 0
         common_city = []
         tooltip = []
@@ -216,11 +217,14 @@ class Weather extends Widget
             minus[i].innerText = "-"
             minus[i].value = dist.id
 
-            common_city_text[i].addEventListener("click",=>
-                @more_city_menu.style.display = "none"
+            that = @
+            common_city_text[i].addEventListener("click",->
+                that.more_city_menu.style.display = "none"
                 id =  this.value
+                echo "this.value:#{id}"
                 localStorage.setItem("cityid",JSON.parse(this.value))
-                @weathergui_refresh_Interval()
+                that.weathergui_refresh_Interval()
+                that = null
             )
 
             minus[i].addEventListener("click",->
@@ -284,9 +288,9 @@ class Weather extends Widget
                 if 48 <= evt.keyCode <= 57
                     evt.preventDefault()
                     @select_woeid_then_refresh(evt.keyCode - 48)
-                else if  not (97 <= evt.keyCode <= 122)
-                    echo "input error!"
-                    evt.preventDefault()
+#                else if  not (97 <= evt.keyCode <= 122)
+                    #echo "input error!"
+                    #evt.preventDefault()
         return
 
     search_input_keyup: (evt) =>
@@ -295,19 +299,15 @@ class Weather extends Widget
         place_name = @search_input.value
         yahooservice = new YahooService()
         woeid_data = new Array()
+        array_clear(woeid_data)
         if place_name.length >= 2
             yahooservice.get_woeid_by_whole_name(place_name, ()=>
                 woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
-                echo "-------------------1"
-                echo woeid_data
                 yahooservice.get_woeid_by_place_name(place_name, ()=>
                     #echo "search_result_build"
                     woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
                     if not woeid_data? then return
-
-                    echo "-------------------2"
-                    echo woeid_data
-
+                    
                     remove_element(@search_result) if @search_result
                     length = woeid_data.length
                     if length < 1 then return
@@ -339,7 +339,11 @@ class Weather extends Widget
             )
 
     select_woeid_then_refresh: (i)=>
-        woeid_data = localStorage.getObject("woeid_data")
+        woeid_data = new Array()
+        array_clear(woeid_data)
+        woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
+        woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
+        echo woeid_data
         echo i
         if i >= woeid_data.length
             echo "i: #{i} >= woeid_data.length: #{woeid_data.length},then return"
@@ -386,8 +390,8 @@ class Weather extends Widget
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
         if not weather_data_more? then return
-        #echo weather_data_now
-        #echo weather_data_more
+        echo weather_data_now
+        echo weather_data_more
         temp_now = weather_data_now.temp
         if weather_data_now.temp_danwei is "F"
             temp_danwei = weather_data_now.temp_danwei
@@ -408,7 +412,7 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        echo weather_data_now.city_name + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
+        echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
         text = yahooservice.yahoo_img_code_to_en(code)
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
@@ -421,7 +425,7 @@ class Weather extends Widget
             @temperature_now_minus.style.opacity = 0
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
-        @city_now.textContent = weather_data_now.city_name
+        @city_now.textContent = weather_data_now.city
         @date.textContent = date_text
 
         if @weather_data is undefined then return
