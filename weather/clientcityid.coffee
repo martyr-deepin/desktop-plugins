@@ -52,8 +52,8 @@ class ClientCityId
 
                     yahoo = new YahooService()
                     cityname_client = remote_ip_info.city
-                    yahoo.get_woeid_by_place_name(cityname_client,=>
-                        woeid_data = localStorage.getObject("woeid_data")
+                    yahoo.get_woeid_by_whole_name(cityname_client,=>
+                        woeid_data = localStorage.getObject("woeid_data_whole_name")
                         if not woeid_data? then return
                         try
                             cityid_client = woeid_data[0].id
