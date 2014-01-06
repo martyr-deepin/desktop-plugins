@@ -172,9 +172,16 @@ class YahooService
 
     lang_to_lc:(lang) ->
         switch(lang)
+            when "zh-hk" then return "zh-Hant"
             when "zh-tw" then return "zh-Hant"
             when "zh-cn" then return "zh-Hans"
             when "en-us" then return "en"
+            when "cs" then return "cs"
+            when "cs-cz" then return "cs"
+            when "es" then return "es"
+            when "es_CL" then return "es"
+            when "pt-pt" then return "pt"
+            when "pt-br" then return "pt"
             else return lang
 
     temperature_c_to_f:(c)->
