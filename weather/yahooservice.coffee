@@ -141,10 +141,12 @@ class YahooService
                 temp_now = condition[0].getAttribute("temp")
                 date_now = condition[0].getAttribute("date")
                 common_dists = localStorage.getObject("common_dists")
-                city_name = _("choose city")
+                #city_name = _("choose city")
+                city_name = null
                 if not common_dists? then return
                 for tmp in common_dists
-                    if woeid == tmp.id
+                    if woeid is tmp.id.toString()
+                        echo "#{tmp.name}:#{woeid}"
                         city_name = tmp.name
                 
                 yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}

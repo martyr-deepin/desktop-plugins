@@ -353,7 +353,6 @@ class Weather extends Widget
             return
         woeid_choose = woeid_data[i].id
         localStorage.setItem("cityid",woeid_choose)
-        @weathergui_refresh_Interval()
 
         for tmp in common_dists
             if not tmp? then continue
@@ -364,6 +363,8 @@ class Weather extends Widget
         common_dists.push(arr)
         if common_dists.length > 5 then common_dists.splice(0,1)
         localStorage.setObject("common_dists",common_dists)
+        
+        @weathergui_refresh_Interval()
 
 
     weathergui_refresh_Interval: =>
@@ -430,7 +431,12 @@ class Weather extends Widget
             @temperature_now_number.style.opacity = 1.0
             @temperature_now_number.textContent = temp_now + temp_now_danwei
         
-        @city_now.textContent = weather_data_now.city
+        echo weather_data_now.city_name
+        if weather_data_now.city_name is null
+            @city_now.textContent = weather_data_now.city
+        else
+            @city_now.textContent = weather_data_now.city_name
+
         @date.textContent = date_text
 
         if @weather_data is undefined then return
