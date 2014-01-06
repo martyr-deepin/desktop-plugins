@@ -19,12 +19,12 @@
 #along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 class YahooService
-    
+
     APPID = "dj0yJmk9QU10MlFDcUlsWEIxJmQ9WVdrOVdXbFlVbGxOTnpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lZA--"
     DEG = 'c'
     lc = 'zh-Hans'
     lang = 'zh-cn'
-    
+
     constructor: ->
         lang = window.navigator.language
         echo "lang:#{lang}"
@@ -59,10 +59,10 @@ class YahooService
                     t_arr = t.split("&")
                     for pt,i in t_arr
                         value.push(pt.slice(pt.indexOf("=") + 1))
-                    
+
                     arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
                     woeid_data.push(arr)
-                 
+
                 localStorage.setObject("woeid_data",woeid_data)
                 callback?()
             # catch e
@@ -145,7 +145,7 @@ class YahooService
                     if woeid is tmp.id.toString()
                         echo "#{tmp.name}:#{woeid}"
                         city_name = tmp.name
-                
+
                 yahoo_weather_data_now = {city:city,city_name:city_name,id:woeid,region:region,country:country,temp_danwei:temperature,text:text_now,code:code_now,temp:temp_now,date:date_now}
                 localStorage.setObject("yahoo_weather_data_now",yahoo_weather_data_now)
 
@@ -158,7 +158,7 @@ class YahooService
                     text = forecast[i].getAttribute("text")
                     code = forecast[i].getAttribute("code")
                     yahoo_weather_data_more.push({index:i,id:woeid,day:day,date:date,low:low,high:high,text:text,code:code})
-                
+
                 localStorage.setObject("yahoo_weather_data_more",yahoo_weather_data_more)
                 callback?()
             # catch e
@@ -171,7 +171,7 @@ class YahooService
         catch
             echo "Dbus_citypinyin failed"
             return
-        
+
         cityinfo_array = new Array()
         if input.length <= 2 then return
         cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
@@ -203,7 +203,7 @@ class YahooService
     temperature_c_to_f:(c)->
        f = c * 9 / 5 + 32
        return f
-    
+
     temperature_f_to_c:(f)->
        c = (f - 32) * 5 / 9
        return c
