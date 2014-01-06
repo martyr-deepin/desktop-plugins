@@ -356,7 +356,9 @@ class Weather extends Widget
 
         for tmp in common_dists
             if not tmp? then continue
-            if woeid_choose == tmp.id then return
+            if woeid_choose == tmp.id
+                @weathergui_refresh_Interval()
+                return
         arr = {name:woeid_data[i].k,id:woeid_data[i].id}
         echo "woeid_data[#{woeid_data[i].index}] is choosed:"
         echo arr
