@@ -247,3 +247,8 @@
     width:100%;
     overflow: hidden;
 }
+
+.ToolTip{
+    box-shadow:0 0 0 white;
+    border-radius:0px;
+}

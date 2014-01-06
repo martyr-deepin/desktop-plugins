@@ -421,7 +421,8 @@ class Weather extends Widget
         echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
         
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
-        @weather_now_pic.title = text
+        tooltip_weather_now = new ToolTip(@weather_now_pic,text)
+        #@weather_now_pic.title = text
         @temperature_now_number.style.fontSize = 36
         if temp_now < -10
             @temperature_now_minus.style.opacity = 0.8
