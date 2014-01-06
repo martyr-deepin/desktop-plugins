@@ -307,6 +307,12 @@ class Weather extends Widget
                     #echo "search_result_build"
                     woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
                     if not woeid_data? then return
+                    for data,j in woeid_data
+                        data.index = j
+                    
+                    localStorage.setObject("woeid_data",woeid_data)
+                    echo "---------all woeid_data:-----------"
+                    echo woeid_data
                     
                     remove_element(@search_result) if @search_result
                     length = woeid_data.length
@@ -315,7 +321,8 @@ class Weather extends Widget
                     @search_result = create_element("div","search_result",@search)
                     @search_result_select = create_element("select","search_result_select",@search_result)
                     clearOptions(@search_result_select,0)
-                    for data in woeid_data
+                    for data,j in woeid_data
+                        data.index = j
                         show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
                         @search_result_select.options.add(new Option(show_result_text, data.index))
 
@@ -339,12 +346,8 @@ class Weather extends Widget
             )
 
     select_woeid_then_refresh: (i)=>
-        woeid_data = new Array()
-        array_clear(woeid_data)
-        woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
-        woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
-        echo woeid_data
-        echo i
+        woeid_data = localStorage.getObject("woeid_data")
+        echo "select_woeid_then_refresh : #{i}"
         if i >= woeid_data.length
             echo "i: #{i} >= woeid_data.length: #{woeid_data.length},then return"
             return
@@ -412,9 +415,10 @@ class Weather extends Widget
         month = yahooservice.month_en_num(month_tmp)
         year = "2013"
         date_text = year + "." + month + "." + ri + " " + day
-        echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
 
         text = yahooservice.yahoo_img_code_to_en(code)
+        echo weather_data_now.city + ":" + weather_data_now.temp + temp_danwei + "," + text + ",code:" + weather_data_now.code
+        
         @weather_now_pic.src = @img_url_first + "yahoo_api/48/" + code + "n.png"
         @weather_now_pic.title = text
         @temperature_now_number.style.fontSize = 36

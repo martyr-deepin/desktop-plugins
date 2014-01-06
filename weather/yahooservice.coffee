@@ -62,7 +62,6 @@ class YahooService
                     arr = {index:index,k:k,iso:value[0],id:value[1],lon:value[2],lat:value[3],s:value[4],c:value[5],pn:value[6]}
                     woeid_data.push(arr)
                  
-                echo woeid_data
                 localStorage.setObject("woeid_data",woeid_data)
                 callback?()
             # catch e
@@ -96,7 +95,6 @@ class YahooService
                     return
 
                 woeid_data_whole = woeid_xml.places.place
-                #echo woeid_data_whole
                 for data,j in woeid_data_whole
                     arr = {index:j,k:data.name,iso:lang,id:data.woeid,lon:"32.1605",lat:"-95.6692",s:data.admin1,c:data.country,pn:data.admin2}
                     woeid_data.push(arr)
