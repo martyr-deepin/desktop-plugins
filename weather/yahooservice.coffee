@@ -27,7 +27,7 @@ class YahooService
 
     constructor: ->
         lang = window.navigator.language
-        echo "lang:#{lang}"
+        #echo "lang:#{lang}"
         #@get_cityinfo_by_input("wuha")
 
     get_woeid_by_place_name:(place_name,callback)->
@@ -80,7 +80,6 @@ class YahooService
                 xml_str = xhr.responseText
                 localStorage.setItem("yahoo_woeid_xml_str",xml_str)
                 woeid_xml = localStorage.getObject("yahoo_woeid_xml_str")
-                echo woeid_xml
                 try
                     if woeid_xml.places.count == 0
                         echo "get_woeid_by_place_name xml_str  count == 0!"
@@ -90,8 +89,6 @@ class YahooService
                     return
 
                 woeid_data_whole = woeid_xml.places.place
-                echo "---------------woeid_data_whole:------------"
-                echo woeid_data_whole
                 for data,j in woeid_data_whole
                     arr = {index:j,k:data.name,iso:lang,id:data.woeid,lon:"32.1605",lat:"-95.6692",s:data.admin1,c:data.country,pn:data.admin2}
                     woeid_data.push(arr)
@@ -165,25 +162,19 @@ class YahooService
                 # echo "get_weather_data_by_woeid xhr.responseText error!"
         )
 
-    get_cityinfo_by_input:(input)->
+    get_cityinfo_by_input:(input,callback)->
         try
             Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
         catch error
             echo "Dbus_citypinyin failed:#{error}"
             return
 
-        cityinfo_array = new Array()
         if input.length <= 2 then return
         cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
 
-        echo "--------------cityinfo_array--------"
-        echo cityinfo_array
-        echo cityinfo_array.length
-        #echo cityinfo_array[0]
         for info,i in cityinfo_array
-            echo i
-            echo info
-
+            cityname = info.substring(0,info.indexOf(","))
+            @get_woeid_by_whole_name(cityname,callback)
 
 
     lang_to_lc:(lang) ->

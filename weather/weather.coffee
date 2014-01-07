@@ -23,6 +23,7 @@ _ = (s) ->
 class Weather extends Widget
     common_dists = new Array()
     testInternet_url = "http://www.baidu.com"
+    yahooservice = null
 
     constructor: ->
         super(null)
@@ -32,6 +33,7 @@ class Weather extends Widget
         @weather_now_build()
         @weather_more_build()
 
+        yahooservice = new YahooService()
         @testInternet()
         clearInterval(auto_testInternet)
         auto_testInternet = setInterval(=>
@@ -297,11 +299,10 @@ class Weather extends Widget
         echo "keyup:#{evt.keyCode}"
         evt.stopPropagation()
         place_name = @search_input.value
-        yahooservice = new YahooService()
         woeid_data = new Array()
         array_clear(woeid_data)
         if place_name.length >= 2
-            yahooservice.get_woeid_by_whole_name(place_name, ()=>
+            yahooservice.get_cityinfo_by_input(place_name, ()=>
                 woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
                 yahooservice.get_woeid_by_place_name(place_name, ()=>
                     #echo "search_result_build"
@@ -311,8 +312,6 @@ class Weather extends Widget
                         data.index = j
                     
                     localStorage.setObject("woeid_data",woeid_data)
-                    echo "---------all woeid_data:-----------"
-                    echo woeid_data
                     
                     remove_element(@search_result) if @search_result
                     length = woeid_data.length
@@ -384,7 +383,6 @@ class Weather extends Widget
             cityid = 0
             localStorage.setItem("cityid",cityid)
         if cityid
-            yahooservice = new YahooService()
             yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage)
         else
             echo "cityid isnt ready"
@@ -407,7 +405,6 @@ class Weather extends Widget
             temp_now_danwei = "°"
         code  = weather_data_now.code
         if code is "3200" then code = weather_data_more[0].code
-        yahooservice = new YahooService()
         str = weather_data_now.date
         date_tmp = str.substring(0,str.indexOf("201") - 1)
         day_tmp = date_tmp.substring(0,date_tmp.indexOf(","))
