@@ -168,8 +168,8 @@ class YahooService
     get_cityinfo_by_input:(input)->
         try
             Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
-        catch
-            echo "Dbus_citypinyin failed"
+        catch error
+            echo "Dbus_citypinyin failed:#{error}"
             return
 
         cityinfo_array = new Array()
