@@ -40,7 +40,7 @@ class YahooService
 
     get_woeid_by_place_name:(place_name,callback)->
         lc = @lang_to_lc(lang)
-        echo "lc:---#{lc}---"
+        #echo "lc:---#{lc}---"
         woeid_url = "http://sugg.hk.search.yahoo.net/gossip-gl-location/?appid=weather&output=sd1&p2=cn,t,pt,z&lc=" + lc + "&command=" + place_name
         woeid_data = new Array()
         array_clear(woeid_data)
@@ -173,10 +173,15 @@ class YahooService
     get_cityinfo_by_input:(input,callback)->
         if input.length <= 2 then return
         if Dbus_citypinyin_connect
+            cityinfo_array = new Array()
+            array_clear(cityinfo_array)
             cityinfo_array = Dbus_citypinyin.GetValues_sync(input)
-            for info,i in cityinfo_array
-                cityname = info.substring(0,info.indexOf(","))
-                @get_woeid_by_whole_name(cityname,callback)
+            if cityinfo_array.length > 0
+                for info,i in cityinfo_array
+                    cityname = info.substring(0,info.indexOf(","))
+                    @get_woeid_by_whole_name(cityname,callback)
+            else
+                @get_woeid_by_whole_name(input,callback)
         else
             echo "Dbus_citypinyin connect failed"
             @get_woeid_by_whole_name(input,callback)
