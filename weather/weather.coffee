@@ -196,7 +196,7 @@ class Weather extends Widget
         remove_element(@more_city_tmp) if @more_city_tmp
         @more_city_tmp = create_element("div","more_city_tmp",@more_city_menu)
         common_dists = localStorage.getObject("common_dists")
-        echo common_dists
+        #echo common_dists
         i = 0
         common_city = []
         tooltip = []
@@ -396,8 +396,8 @@ class Weather extends Widget
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
         if not weather_data_more? then return
-        echo weather_data_now
-        echo weather_data_more
+        #echo weather_data_now
+        #echo weather_data_more
         temp_now = weather_data_now.temp
         if weather_data_now.temp_danwei is "F"
             temp_danwei = weather_data_now.temp_danwei
