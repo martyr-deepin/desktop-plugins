@@ -24,11 +24,19 @@ class YahooService
     DEG = 'c'
     lc = 'zh-Hans'
     lang = 'zh-cn'
-
+    Dbus_citypinyin = null
+    Dbus_citypinyin_connect = false
     constructor: ->
         lang = window.navigator.language
         #echo "lang:#{lang}"
         #@get_cityinfo_by_input("wuha")
+        try
+            Dbus_citypinyin = DCore.DBus.session("com.deepin.dde.api.CityPinyin")
+            Dbus_citypinyin_connect = true
+        catch error
+            echo "Dbus_citypinyin failed:#{error}"
+            Dbus_citypinyin_connect = false
+
 
     get_woeid_by_place_name:(place_name,callback)->
         lc = @lang_to_lc(lang)
@@ -163,18 +171,15 @@ class YahooService
         )
 
     get_cityinfo_by_input:(input,callback)->
-        try
-            Dbus_citypinyin = DCore.DBus.session("com.deepin.daemon.CityPinyin")
-        catch error
-            echo "Dbus_citypinyin failed:#{error}"
-            return
-
         if input.length <= 2 then return
-        cityinfo_array = Dbus_citypinyin.GetValuesByKey_sync(input)
-
-        for info,i in cityinfo_array
-            cityname = info.substring(0,info.indexOf(","))
-            @get_woeid_by_whole_name(cityname,callback)
+        if Dbus_citypinyin_connect
+            cityinfo_array = Dbus_citypinyin.GetValues_sync(input)
+            for info,i in cityinfo_array
+                cityname = info.substring(0,info.indexOf(","))
+                @get_woeid_by_whole_name(cityname,callback)
+        else
+            echo "Dbus_citypinyin connect failed"
+            @get_woeid_by_whole_name(input,callback)
 
 
     lang_to_lc:(lang) ->
