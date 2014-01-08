@@ -26,6 +26,8 @@ class YahooService
     lang = 'zh-cn'
     Dbus_citypinyin = null
     Dbus_citypinyin_connect = false
+    get_woeid_by_place_name_result = false
+
     constructor: ->
         lang = window.navigator.language
         #echo "lang:#{lang}"
@@ -52,11 +54,14 @@ class YahooService
                 try
                     if woeid_xml.q isnt place_name
                         echo "get_woeid_by_place_name xml_str  wrong!"
+                        get_woeid_by_place_name_result = false
                         return
                 catch e
                     echo "get_woeid_by_place_name xml_str  wrong!"
+                    get_woeid_by_place_name_result = false
                     return
 
+                get_woeid_by_place_name_result = true
                 r = woeid_xml.r
                 for dk,index in r
                     value = new Array()
@@ -185,6 +190,16 @@ class YahooService
         else
             echo "Dbus_citypinyin connect failed"
             @get_woeid_by_whole_name(input,callback)
+
+
+    get_cityinfo_by_check_yahoo_result:(place_name,callback)->
+        @get_woeid_by_place_name(place_name, ()=>
+            woeid_data = localStorage.getObject("woeid_data")
+            if get_woeid_by_place_name_result is false or not woeid_data?
+                @get_cityinfo_by_input(place_name,callback)
+            else if get_woeid_by_place_name_result is true && woeid_data
+                callback?()
+        )
 
 
     lang_to_lc:(lang) ->

@@ -38,14 +38,14 @@ class Weather extends Widget
         clearInterval(auto_testInternet)
         auto_testInternet = setInterval(=>
             @testInternet()
-         ,600000)# ten minites 
-        
+         ,600000)# ten minites
+
          location = "wuhan"
          #validateWeatherLocation(location,callback_val)
-    
+
     callback_val:=>
         echo "callback_val"
-    
+
     testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect,@testInternet_noconnect)
 
@@ -276,7 +276,7 @@ class Weather extends Widget
 
 
     search_input_keypress: (evt) =>
-        echo "keypress:#{evt.keyCode}"
+        # echo "keypress:#{evt.keyCode}"
         evt.stopPropagation()
         switch evt.keyCode
             when 13   # enter
@@ -295,7 +295,55 @@ class Weather extends Widget
                     #evt.preventDefault()
         return
 
+
     search_input_keyup: (evt) =>
+        # echo "keyup:#{evt.keyCode}"
+        evt.stopPropagation()
+        place_name = @search_input.value
+        woeid_data = new Array()
+        array_clear(woeid_data)
+
+        yahooservice.get_woeid_by_place_name(place_name, ()=>
+            #echo "search_result_build"
+            woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
+            if not woeid_data? then return
+            for data,j in woeid_data
+                data.index = j
+
+            localStorage.setObject("woeid_data",woeid_data)
+
+            remove_element(@search_result) if @search_result
+            length = woeid_data.length
+            if length < 1 then return
+
+            @search_result = create_element("div","search_result",@search)
+            @search_result_select = create_element("select","search_result_select",@search_result)
+            clearOptions(@search_result_select,0)
+            for data,j in woeid_data
+                data.index = j
+                show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
+                @search_result_select.options.add(new Option(show_result_text, data.index))
+
+            if 0 <= length <= 1
+                setMaxSize(@search_result_select,woeid_data.length + 1)
+            else
+                setMaxSize(@search_result_select,woeid_data.length)
+
+            @search_input.focus()
+
+            @search_result_select.options[0].selected = "selected"
+            @search_result_select.options[0].addEventListener("click",=>
+                i = @search_result_select.selectedIndex
+                @select_woeid_then_refresh(i)
+            )
+            @search_result_select.addEventListener("change", =>
+                i = @search_result_select.selectedIndex
+                @select_woeid_then_refresh(i)
+            )
+        )
+
+
+    search_input_keyup_backup: (evt) =>
         echo "keyup:#{evt.keyCode}"
         evt.stopPropagation()
         place_name = @search_input.value
@@ -310,9 +358,9 @@ class Weather extends Widget
                     if not woeid_data? then return
                     for data,j in woeid_data
                         data.index = j
-                    
+
                     localStorage.setObject("woeid_data",woeid_data)
-                    
+
                     remove_element(@search_result) if @search_result
                     length = woeid_data.length
                     if length < 1 then return

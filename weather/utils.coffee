@@ -23,7 +23,7 @@ include_js = (src) ->
     swap_element(document.scripts[1],js_el)
     echo document.scripts
 
-include_js("plugin/weather/weatherParser.js")
+#include_js("plugin/weather/weatherParser.js")
 
 clearOptions = (colls,first=0)->
     i = first
