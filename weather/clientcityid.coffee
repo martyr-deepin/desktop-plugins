@@ -66,15 +66,17 @@ class ClientCityId
                         localStorage.setItem("cityname_client",woeid_data[0].k)
 
                         common_dists = localStorage.getObject("common_dists")
+                        client_exist = false
                         for tmp in common_dists
                             if not tmp? then continue
-                            if woeid_choose == tmp.id then return
-                        arr = {name:woeid_data[0].k,id:woeid_data[0].id}
-                        common_dists.push(arr)
-                        if common_dists.length > 5 then common_dists.splice(0,1)
-                        localStorage.setObject("common_dists",common_dists)
+                            if cityid_client == tmp.id or tmp.name is cityname_client then client_exist = true
+                        if client_exist is false
+                            arr = {name:woeid_data[0].k,id:woeid_data[0].id}
+                            common_dists.push(arr)
+                            if common_dists.length > 5 then common_dists.splice(0,1)
+                            localStorage.setObject("common_dists",common_dists)
                         
-                        callback()
+                        callback?()
 
                     )
                 else

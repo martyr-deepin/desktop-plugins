@@ -48,14 +48,12 @@ class Weather extends Widget
     testInternet_connect:=>
         clientcityid = null
         clientcityid = new ClientCityId()
-        clientcityid.geoposition()
         echo "testInternet_connect ok"
-        cityid = localStorage.getItem("cityid") if localStorage.getItem("cityid")
-        if cityid < 1000
-            cityid = 0
-            localStorage.setItem("cityid",cityid)
-
-        if !cityid
+        cityid = localStorage.getItem("cityid")
+        common_dists = localStorage.getObject("common_dists")
+        
+        echo "cityid:#{cityid}"
+        if not cityid? or common_dists.length == 0
             clientcityid.get_client_cityid(@weathergui_refresh_Interval)
         else @weathergui_refresh_Interval()
 
@@ -346,18 +344,18 @@ class Weather extends Widget
         woeid_choose = woeid_data[i].id
         localStorage.setItem("cityid",woeid_choose)
 
+        woeid_choose_exist_in_common = false
         for tmp in common_dists
             if not tmp? then continue
             if woeid_choose == tmp.id or woeid_data[i].k is tmp.name
                 echo "#{woeid_data[i].k} is choosed"
-                @weathergui_refresh_Interval()
-                return
-
-        arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-        echo "woeid_data[#{woeid_data[i].index}] is choosed:#{arr.name},#{arr.id}"
-        common_dists.push(arr)
-        if common_dists.length > 5 then common_dists.splice(0,1)
-        localStorage.setObject("common_dists",common_dists)
+                woeid_choose_exist_in_common = true
+        if woeid_choose_exist_in_common is false
+            arr = {name:woeid_data[i].k,id:woeid_data[i].id}
+            echo "woeid_data[#{woeid_data[i].index}] is choosed:#{arr.name},#{arr.id}"
+            common_dists.push(arr)
+            if common_dists.length > 5 then common_dists.splice(0,1)
+            localStorage.setObject("common_dists",common_dists)
         @weathergui_refresh_Interval()
         
 
@@ -373,10 +371,7 @@ class Weather extends Widget
     weathergui_refresh: =>
         @lost_focus()
         cityid = localStorage.getItem("cityid")
-        if cityid < 100
-            cityid = 0
-            localStorage.setItem("cityid",cityid)
-        if cityid
+        if cityid?
             yahooservice.get_weather_data_by_woeid(cityid,@weathergui_refresh_by_localStorage)
         else
             echo "cityid isnt ready"
