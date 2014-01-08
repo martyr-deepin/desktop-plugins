@@ -40,21 +40,22 @@ class Weather extends Widget
             @testInternet()
          ,600000)# ten minites
 
-         location = "wuhan"
 
     testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect,@testInternet_noconnect)
 
     testInternet_connect:=>
-        clientcityid = null
-        clientcityid = new ClientCityId()
+        client = null
+        client = new ClientCityId()
         echo "testInternet_connect ok"
         cityid = localStorage.getItem("cityid")
         common_dists = localStorage.getObject("common_dists")
         
         echo "cityid:#{cityid}"
         if not cityid? or common_dists.length == 0
-            clientcityid.get_client_cityid(@weathergui_refresh_Interval)
+            client.get_client_cityid_from_freegeo(@weathergui_refresh_Interval)
+            #client.get_client_cityid_from_ipinfo(@weathergui_refresh_Interval)
+            #client.get_client_cityid_from_sinaapi(@weathergui_refresh_Interval)
         else @weathergui_refresh_Interval()
 
     testInternet_noconnect:=>
