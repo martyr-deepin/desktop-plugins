@@ -276,7 +276,7 @@ class Weather extends Widget
 
 
     search_input_keypress: (evt) =>
-        # echo "keypress:#{evt.keyCode}"
+        echo "keypress:#{evt.keyCode}"
         evt.stopPropagation()
         switch evt.keyCode
             when 13   # enter
@@ -289,7 +289,7 @@ class Weather extends Widget
             else
                 if 48 <= evt.keyCode <= 57
                     evt.preventDefault()
-                    @select_woeid_then_refresh(evt.keyCode - 48)
+                    if @search_input.value.length > 0 then @select_woeid_then_refresh(evt.keyCode - 48)
 #                else if  not (97 <= evt.keyCode <= 122)
                     #echo "input error!"
                     #evt.preventDefault()
@@ -303,7 +303,7 @@ class Weather extends Widget
         woeid_data = new Array()
         array_clear(woeid_data)
 
-        yahooservice.get_woeid_by_place_name(place_name, ()=>
+        yahooservice.get_cityinfo_by_check_yahoo_result(place_name, ()=>
             #echo "search_result_build"
             woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
             if not woeid_data? then return
