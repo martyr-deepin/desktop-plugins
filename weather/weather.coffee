@@ -41,10 +41,6 @@ class Weather extends Widget
          ,600000)# ten minites
 
          location = "wuhan"
-         #validateWeatherLocation(location,callback_val)
-
-    callback_val:=>
-        echo "callback_val"
 
     testInternet:=>
         ajax(testInternet_url,true,@testInternet_connect,@testInternet_noconnect)
@@ -69,7 +65,6 @@ class Weather extends Widget
         @weathergui_refresh_by_localStorage()
 
     do_blur:=>
-        echo "do_blur"
         @lost_focus()
 
     lost_focus:->
@@ -276,7 +271,7 @@ class Weather extends Widget
 
 
     search_input_keypress: (evt) =>
-        echo "keypress:#{evt.keyCode}"
+        #echo "keypress:#{evt.keyCode}"
         evt.stopPropagation()
         switch evt.keyCode
             when 13   # enter
@@ -343,58 +338,8 @@ class Weather extends Widget
         )
 
 
-    search_input_keyup_backup: (evt) =>
-        echo "keyup:#{evt.keyCode}"
-        evt.stopPropagation()
-        place_name = @search_input.value
-        woeid_data = new Array()
-        array_clear(woeid_data)
-        if place_name.length >= 2
-            yahooservice.get_cityinfo_by_input(place_name, ()=>
-                woeid_data = woeid_data.concat(localStorage.getObject("woeid_data_whole_name"))
-                yahooservice.get_woeid_by_place_name(place_name, ()=>
-                    #echo "search_result_build"
-                    woeid_data = woeid_data.concat(localStorage.getObject("woeid_data"))
-                    if not woeid_data? then return
-                    for data,j in woeid_data
-                        data.index = j
-
-                    localStorage.setObject("woeid_data",woeid_data)
-
-                    remove_element(@search_result) if @search_result
-                    length = woeid_data.length
-                    if length < 1 then return
-
-                    @search_result = create_element("div","search_result",@search)
-                    @search_result_select = create_element("select","search_result_select",@search_result)
-                    clearOptions(@search_result_select,0)
-                    for data,j in woeid_data
-                        data.index = j
-                        show_result_text =  data.index + ":" + data.k + "," + data.s + "," + data.c
-                        @search_result_select.options.add(new Option(show_result_text, data.index))
-
-                    if 0 <= length <= 1
-                        setMaxSize(@search_result_select,woeid_data.length + 1)
-                    else
-                        setMaxSize(@search_result_select,woeid_data.length)
-
-                    @search_input.focus()
-
-                    @search_result_select.options[0].selected = "selected"
-                    @search_result_select.options[0].addEventListener("click",=>
-                        i = @search_result_select.selectedIndex
-                        @select_woeid_then_refresh(i)
-                    )
-                    @search_result_select.addEventListener("change", =>
-                        i = @search_result_select.selectedIndex
-                        @select_woeid_then_refresh(i)
-                    )
-                )
-            )
-
     select_woeid_then_refresh: (i)=>
         woeid_data = localStorage.getObject("woeid_data")
-        echo "select_woeid_then_refresh : #{i}"
         if i >= woeid_data.length
             echo "i: #{i} >= woeid_data.length: #{woeid_data.length},then return"
             return
@@ -403,17 +348,18 @@ class Weather extends Widget
 
         for tmp in common_dists
             if not tmp? then continue
-            if woeid_choose == tmp.id
+            if woeid_choose == tmp.id or woeid_data[i].k is tmp.name
+                echo "#{woeid_data[i].k} is choosed"
                 @weathergui_refresh_Interval()
                 return
+
         arr = {name:woeid_data[i].k,id:woeid_data[i].id}
-        echo "woeid_data[#{woeid_data[i].index}] is choosed:"
-        echo arr
+        echo "woeid_data[#{woeid_data[i].index}] is choosed:#{arr.name},#{arr.id}"
         common_dists.push(arr)
         if common_dists.length > 5 then common_dists.splice(0,1)
         localStorage.setObject("common_dists",common_dists)
-        
         @weathergui_refresh_Interval()
+        
 
 
     weathergui_refresh_Interval: =>
@@ -437,7 +383,6 @@ class Weather extends Widget
 
 
     weathergui_refresh_by_localStorage : =>
-        echo "weathergui_refresh_by_localStorage"
         weather_data_now = localStorage.getObject("yahoo_weather_data_now")
         weather_data_more = localStorage.getObject("yahoo_weather_data_more")
         if not weather_data_now? then return
