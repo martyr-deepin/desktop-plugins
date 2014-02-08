@@ -402,7 +402,7 @@ class Weather extends Widget
         ri = riqi.substring(0,riqi.indexOf(" "))
         month_tmp = riqi.substring(riqi.indexOf(" ") + 1)
         month = yahooservice.month_en_num(month_tmp)
-        year = "2013"
+        year = new Date().getFullYear()
         date_text = year + "." + month + "." + ri + " " + day
 
         text = yahooservice.yahoo_img_code_to_en(code)
