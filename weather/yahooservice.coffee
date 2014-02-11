@@ -33,7 +33,7 @@ class YahooService
         #echo "lang:#{lang}"
         #@get_cityinfo_by_input("wuha")
         try
-            Dbus_citypinyin = DCore.DBus.session("com.deepin.dde.api.CityPinyin")
+            Dbus_citypinyin = DCore.DBus.session("com.deepin.api.CityPinyin")
             Dbus_citypinyin_connect = true
         catch error
             echo "Dbus_citypinyin failed:#{error}"
