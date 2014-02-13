@@ -33,7 +33,7 @@ class YahooService
         #echo "lang:#{lang}"
         #@get_cityinfo_by_input("wuha")
         try
-            Dbus_citypinyin = DCore.DBus.session("com.deepin.api.CityPinyin")
+            Dbus_citypinyin = DCore.DBus.session_object("com.deepin.api.Search","/com/deepin/api/Pinyin","com.deepin.api.Pinyin")
             Dbus_citypinyin_connect = true
         catch error
             echo "Dbus_citypinyin failed:#{error}"
@@ -180,7 +180,7 @@ class YahooService
         if Dbus_citypinyin_connect
             cityinfo_array = new Array()
             array_clear(cityinfo_array)
-            cityinfo_array = Dbus_citypinyin.GetValues_sync(input)
+            cityinfo_array = Dbus_citypinyin.PinyinFromKey_sync(input)
             if cityinfo_array.length > 0
                 for info,i in cityinfo_array
                     cityname = info.substring(0,info.indexOf(","))
