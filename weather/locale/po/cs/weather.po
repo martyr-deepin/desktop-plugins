@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # fri <pavelfric@seznam.cz>, 2013
 # fri <pavelfric@seznam.cz>, 2013
@@ -9,17 +9,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weather Desktop Plugin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-24 10:44+0800\n"
+"POT-Creation-Date: 2014-02-25 12:48+0800\n"
 "PO-Revision-Date: 2013-12-23 21:19+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/weather-desktop-plugin/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/weather-desktop-"
+"plugin/language/cs/)\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: weather/weather.coffee:59 weather/weather.coffee:61
+#: weather/weather.coffee:63
 msgid "No network"
 msgstr "Není dostupná síť"
 
@@ -36,228 +38,283 @@ msgstr "Nahrává se "
 
 #: weather/weather.coffee:170 weather/yahooservice.coffee:137
 #: weather/yahooservice.coffee:146 weather/weather.coffee:167
-#: weather/weather.coffee:169
+#: weather/weather.coffee:169 weather/yahooservice.coffee:229
 msgid "Sun"
 msgstr "Ne"
 
 #: weather/yahooservice.coffee:138 weather/yahooservice.coffee:147
+#: weather/yahooservice.coffee:230
 msgid "Mon"
 msgstr "Po"
 
 #: weather/yahooservice.coffee:139 weather/yahooservice.coffee:148
+#: weather/yahooservice.coffee:231
 msgid "Tue"
 msgstr "Út"
 
 #: weather/yahooservice.coffee:140 weather/yahooservice.coffee:149
+#: weather/yahooservice.coffee:232
 msgid "Wed"
 msgstr "St"
 
 #: weather/yahooservice.coffee:141 weather/yahooservice.coffee:150
+#: weather/yahooservice.coffee:233
 msgid "Thu"
 msgstr "Čt"
 
 #: weather/yahooservice.coffee:142 weather/yahooservice.coffee:151
+#: weather/yahooservice.coffee:234
 msgid "Fri"
 msgstr "Pá"
 
 #: weather/yahooservice.coffee:143 weather/yahooservice.coffee:152
+#: weather/yahooservice.coffee:235
 msgid "Sat"
 msgstr "So"
 
 #: weather/yahooservice.coffee:164 weather/yahooservice.coffee:173
+#: weather/yahooservice.coffee:256
 msgid "tornado"
 msgstr "Smršť"
 
 #: weather/yahooservice.coffee:165 weather/yahooservice.coffee:174
+#: weather/yahooservice.coffee:257
 msgid "tropical storm"
 msgstr "Tropická bouře"
 
 #: weather/yahooservice.coffee:166 weather/yahooservice.coffee:175
+#: weather/yahooservice.coffee:258
 msgid "hurricane"
 msgstr "Vichřice"
 
 #: weather/yahooservice.coffee:167 weather/yahooservice.coffee:176
+#: weather/yahooservice.coffee:259
 msgid "severe thunderstorms"
 msgstr "Silné bouřky"
 
 #: weather/yahooservice.coffee:168 weather/yahooservice.coffee:177
+#: weather/yahooservice.coffee:260
 msgid "thunderstorms"
 msgstr "Bouřky"
 
 #: weather/yahooservice.coffee:169 weather/yahooservice.coffee:178
+#: weather/yahooservice.coffee:261
 msgid "mixed rain and snow"
 msgstr "Smíšený déšť a sníh"
 
 #: weather/yahooservice.coffee:170 weather/yahooservice.coffee:179
+#: weather/yahooservice.coffee:262
 msgid "mixed rain and sleet"
 msgstr "Smíšený déšť a déšť se sněhem"
 
 #: weather/yahooservice.coffee:171 weather/yahooservice.coffee:180
+#: weather/yahooservice.coffee:263
 msgid "mixed snow and sleet"
 msgstr "Smíšený sníh a déšť se sněhem"
 
 #: weather/yahooservice.coffee:172 weather/yahooservice.coffee:181
+#: weather/yahooservice.coffee:264
 msgid "freezing drizzle"
 msgstr "Mrznoucí mrholení"
 
 #: weather/yahooservice.coffee:173 weather/yahooservice.coffee:182
+#: weather/yahooservice.coffee:265
 msgid "drizzle"
 msgstr "Mrholení"
 
 #: weather/yahooservice.coffee:174 weather/yahooservice.coffee:183
+#: weather/yahooservice.coffee:266
 msgid "freezing rain"
 msgstr "Mrznoucí déšť"
 
 #: weather/yahooservice.coffee:175 weather/yahooservice.coffee:176
 #: weather/yahooservice.coffee:184 weather/yahooservice.coffee:185
+#: weather/yahooservice.coffee:267 weather/yahooservice.coffee:268
 msgid "showers"
 msgstr "Přeháňky"
 
 #: weather/yahooservice.coffee:177 weather/yahooservice.coffee:186
+#: weather/yahooservice.coffee:269
 msgid "snow flurries"
 msgstr "Sněhové přeháňky"
 
 #: weather/yahooservice.coffee:178 weather/yahooservice.coffee:187
+#: weather/yahooservice.coffee:270
 msgid "light snow showers"
 msgstr "Lehké sněhové přeháňky"
 
 #: weather/yahooservice.coffee:179 weather/yahooservice.coffee:188
+#: weather/yahooservice.coffee:271
 msgid "blowing snow"
 msgstr "Poletující sníh"
 
 #: weather/yahooservice.coffee:180 weather/yahooservice.coffee:189
+#: weather/yahooservice.coffee:272
 msgid "snow"
 msgstr "Sníh"
 
 #: weather/yahooservice.coffee:181 weather/yahooservice.coffee:190
+#: weather/yahooservice.coffee:273
 msgid "hail"
 msgstr "Krupobití"
 
 #: weather/yahooservice.coffee:182 weather/yahooservice.coffee:191
+#: weather/yahooservice.coffee:274
 msgid "sleet"
 msgstr "Plískanice"
 
 #: weather/yahooservice.coffee:183 weather/yahooservice.coffee:192
+#: weather/yahooservice.coffee:275
 msgid "dust"
 msgstr "Prach"
 
 #: weather/yahooservice.coffee:184 weather/yahooservice.coffee:193
+#: weather/yahooservice.coffee:276
 msgid "foggy"
 msgstr "Mlhavo"
 
 #: weather/yahooservice.coffee:185 weather/yahooservice.coffee:194
+#: weather/yahooservice.coffee:277
 msgid "haze"
 msgstr "Opar"
 
 #: weather/yahooservice.coffee:186 weather/yahooservice.coffee:195
+#: weather/yahooservice.coffee:278
 msgid "smoky"
 msgstr "Kouř"
 
 #: weather/yahooservice.coffee:187 weather/yahooservice.coffee:196
+#: weather/yahooservice.coffee:279
 msgid "blustery"
 msgstr "Silný vítr"
 
 #: weather/yahooservice.coffee:188 weather/yahooservice.coffee:197
+#: weather/yahooservice.coffee:280
 msgid "windy"
 msgstr "Větrno"
 
 #: weather/yahooservice.coffee:189 weather/yahooservice.coffee:198
+#: weather/yahooservice.coffee:281
 msgid "cold"
 msgstr "Chladno"
 
 #: weather/yahooservice.coffee:190 weather/yahooservice.coffee:199
+#: weather/yahooservice.coffee:282
 msgid "cloudy"
 msgstr "Zamračeno"
 
 #: weather/yahooservice.coffee:191 weather/yahooservice.coffee:200
+#: weather/yahooservice.coffee:283
 msgid "mostly cloudy (night)"
 msgstr "Převážně jasno (noc)"
 
 #: weather/yahooservice.coffee:192 weather/yahooservice.coffee:201
+#: weather/yahooservice.coffee:284
 msgid "mostly cloudy (day)"
 msgstr "Převážně jasno (den)"
 
 #: weather/yahooservice.coffee:193 weather/yahooservice.coffee:202
+#: weather/yahooservice.coffee:285
 msgid "partly cloudy (night)"
 msgstr "Polojasno (noc)"
 
 #: weather/yahooservice.coffee:194 weather/yahooservice.coffee:203
+#: weather/yahooservice.coffee:286
 msgid "partly cloudy (day)"
 msgstr "Polojasno (den)"
 
 #: weather/yahooservice.coffee:195 weather/yahooservice.coffee:204
+#: weather/yahooservice.coffee:287
 msgid "clear (night)"
 msgstr "Jasno (noc)"
 
 #: weather/yahooservice.coffee:196 weather/yahooservice.coffee:205
+#: weather/yahooservice.coffee:288
 msgid "sunny"
 msgstr "Slunečno"
 
 #: weather/yahooservice.coffee:197 weather/yahooservice.coffee:206
+#: weather/yahooservice.coffee:289
 msgid "fair (night)"
 msgstr "Skoro jasno (noc)"
 
 #: weather/yahooservice.coffee:198 weather/yahooservice.coffee:207
+#: weather/yahooservice.coffee:290
 msgid "fair (day)"
 msgstr "Skoro jasno (den)"
 
 #: weather/yahooservice.coffee:199 weather/yahooservice.coffee:208
+#: weather/yahooservice.coffee:291
 msgid "mixed rain and hail"
 msgstr "Smíšený déšť a kroupy"
 
 #: weather/yahooservice.coffee:200 weather/yahooservice.coffee:209
+#: weather/yahooservice.coffee:292
 msgid "hot"
 msgstr "Horko"
 
 #: weather/yahooservice.coffee:201 weather/yahooservice.coffee:210
+#: weather/yahooservice.coffee:293
 msgid "isolated thunderstorms"
 msgstr "Ojedinělé bouřky"
 
 #: weather/yahooservice.coffee:202 weather/yahooservice.coffee:211
+#: weather/yahooservice.coffee:294
 msgid "scattered thunderstorms"
 msgstr "Rozptýlené bouřky"
 
 #: weather/yahooservice.coffee:203 weather/yahooservice.coffee:212
+#: weather/yahooservice.coffee:295
 msgid "scattered thunderstorm"
 msgstr "Rozptýlená bouře"
 
 #: weather/yahooservice.coffee:204 weather/yahooservice.coffee:213
+#: weather/yahooservice.coffee:296
 msgid "scattered showers"
 msgstr "Rozptýlené přeháňky"
 
 #: weather/yahooservice.coffee:205 weather/yahooservice.coffee:207
 #: weather/yahooservice.coffee:214 weather/yahooservice.coffee:216
+#: weather/yahooservice.coffee:297 weather/yahooservice.coffee:299
 msgid "heavy snow"
 msgstr "Silné sněžení"
 
 #: weather/yahooservice.coffee:206 weather/yahooservice.coffee:215
+#: weather/yahooservice.coffee:298
 msgid "scattered snow showers"
 msgstr "Rozptýlené sněhové přeháňky"
 
 #: weather/yahooservice.coffee:208 weather/yahooservice.coffee:217
+#: weather/yahooservice.coffee:300
 msgid "partly cloudy"
 msgstr "Polojasno"
 
 #: weather/yahooservice.coffee:209 weather/yahooservice.coffee:218
+#: weather/yahooservice.coffee:301
 msgid "thundershowers"
 msgstr "Přívalové přeháňky s hromobitím"
 
 #: weather/yahooservice.coffee:210 weather/yahooservice.coffee:219
+#: weather/yahooservice.coffee:302
 msgid "snow showers"
 msgstr "Sněhové přeháňky"
 
 #: weather/yahooservice.coffee:211 weather/yahooservice.coffee:220
+#: weather/yahooservice.coffee:303
 msgid "isolated thundershowers"
 msgstr "Ojedinělé přívalové přeháňky s hromobitím"
 
 #: weather/yahooservice.coffee:212 weather/yahooservice.coffee:221
+#: weather/yahooservice.coffee:304
 msgid "3200 not available"
 msgstr "3200 nedostupné"
 
 #: weather/weather.coffee:426 weather/weather.coffee:428
+#: weather/weather.coffee:442
 msgid "Switch to Fahrenheit"
 msgstr "Přepnout na stupně Fahrenheita"
 
 #: weather/weather.coffee:427 weather/weather.coffee:429
+#: weather/weather.coffee:443
 msgid "Switch to Celsius"
 msgstr "Přepnout na stupně Celsia"

@@ -3,21 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# kloki <klokimass@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Clock Desktop Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-25 12:49+0800\n"
-"PO-Revision-Date: 2013-12-26 01:17+0000\n"
-"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/"
-"clock-desktop-plugin/language/pt_PT/)\n"
-"Language: pt_PT\n"
+"PO-Revision-Date: 2014-02-20 14:50+0000\n"
+"Last-Translator: kloki <klokimass@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/clock-desktop-"
+"plugin/language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #: clock/clock.coffee:38
 msgid "Change appearance"
-msgstr ""
+msgstr "Spremeni videz"
