@@ -1,5 +1,5 @@
-#Copyright (c) 2011 ~ 2012 Deepin, Inc.
-#              2011 ~ 2012 bluth
+#Copyright (c) 2011 ~ 2014 Deepin, Inc.
+#              2011 ~ 2014 bluth
 #
 #encoding: utf-8
 #Author:      bluth <yuanchenglu@linuxdeepin.com>
