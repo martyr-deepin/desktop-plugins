@@ -31,6 +31,11 @@
     position: absolute;
 }
 
+@font-face {
+    font-family:'MavenProLight';
+    src:url('font/MavenProLight-300.otf') format('opentype');
+}
+
 .Weather {
     width: 276px;
     height: 70px;
@@ -39,6 +44,8 @@
     cursor:default;
     z-index: 0;
     display: -webkit-box;
+
+    font-family: MavenProLight;
 }
 
 .left_div{
