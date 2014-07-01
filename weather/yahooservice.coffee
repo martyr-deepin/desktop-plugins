@@ -26,20 +26,10 @@ class YahooService
     lc = 'zh-Hans'
     lang = 'zh-cn'
     Dbus_citypinyin = null
-    Dbus_citypinyin_connect = false
     get_woeid_by_place_name_result = false
 
     constructor: ->
         lang = window.navigator.language
-        #echo "lang:#{lang}"
-        #@get_cityinfo_by_input("wuha")
-        try
-            Dbus_citypinyin = DCore.DBus.session_object("com.deepin.api.Search","/com/deepin/api/Pinyin","com.deepin.api.Pinyin")
-            Dbus_citypinyin_connect = true
-        catch error
-            echo "Dbus_citypinyin failed:#{error}"
-            Dbus_citypinyin_connect = false
-
 
     get_woeid_by_place_name:(place_name,callback)->
         lc = @lang_to_lc(lang)
@@ -178,19 +168,7 @@ class YahooService
 
     get_cityinfo_by_input:(input,callback)->
         if input.length <= 2 then return
-        if Dbus_citypinyin_connect
-            cityinfo_array = new Array()
-            array_clear(cityinfo_array)
-            cityinfo_array = Dbus_citypinyin.PinyinFromKey_sync(input)
-            if cityinfo_array.length > 0
-                for info,i in cityinfo_array
-                    cityname = info.substring(0,info.indexOf(","))
-                    @get_woeid_by_whole_name(cityname,callback)
-            else
-                @get_woeid_by_whole_name(input,callback)
-        else
-            echo "Dbus_citypinyin connect failed"
-            @get_woeid_by_whole_name(input,callback)
+        @get_woeid_by_whole_name(input,callback)
 
 
     get_cityinfo_by_check_yahoo_result:(place_name,callback)->
